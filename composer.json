@@ -22,7 +22,8 @@
   "require": {
     "php": ">=5.4.0",
     "nette/di": "~2.3@dev",
-    "nette/application": "~2.3@dev"
+    "nette/application": "~2.3@dev",
+    "nette/utils": "~2.3@dev"
   },
   "require-dev": {
     "nette/application": "~2.3@dev",
