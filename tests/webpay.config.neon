@@ -1,0 +1,9 @@
+gpwebpay:
+	privateKey: %appDir%/../test.pem
+	privateKeyPassword: 1234567
+	publicKey: %appDir%/../test.cer
+	url: https://test.3dsecure.gpwebpay.com/unicredit/order.do
+	merchantNumber: 123456789
+
+extensions:
+	console: Kdyby\Console\DI\ConsoleExtension
