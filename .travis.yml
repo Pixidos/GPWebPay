@@ -11,7 +11,7 @@ matrix:
   allow_failures:
     - php: hhvm
 
-script: ./vendor/bin/tester -c ./tests/php.ini-unix ./tests/GPWebPayTests/
+script: ./vendor/bin/tester -c ./tests/php-unix.ini ./tests/GPWebPayTests/
 
 before_script:
   - composer self-update
