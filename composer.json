@@ -46,8 +46,7 @@
     "nette/utils": "~2.3@dev",
     "latte/latte": "~2.3@dev",
     "tracy/tracy": "~2.3@dev",
-    "nette/tester": "@dev",
-    "mockery/mockery": "^0.9.4"
+    "nette/tester": "@dev"
   },
   "autoload": {
     "psr-0": {
