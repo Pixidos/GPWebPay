@@ -5,6 +5,8 @@
 if (file_exists(__DIR__.'/../../../../vendor/autoload.php')) {
     // dependencies were installed via composer - this is the main project
     $classLoader = require __DIR__ . '/../../../../vendor/autoload.php';
+}elseif (file_exists(__DIR__.'/../vendor/autoload.php')){
+    $classLoader = require __DIR__ . '/../vendor/autoload.php';
 }elseif (file_exists(__DIR__.'/../../../autoload.php')){
     $classLoader = require __DIR__ . '/../../../autoload.php';
 } else {

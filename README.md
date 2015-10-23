@@ -1,2 +1,2 @@
 # GPWebPay
-GPWebPay as Nette Extension
+GPWebPay is a Nette Extension from 
