@@ -123,9 +123,14 @@ class Operation
     }
 
 
+    /**
+     * @return null | string
+     */
     public function getResponseUrl()
     {
-        return $this->responseUrl;
+        return ($this->responseUrl)
+            ? $this->responseUrl
+            : NULL;
     }
 
     /**
@@ -205,6 +210,16 @@ class Operation
         $this->merordernum = $merordernum;
 
         return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getMerOrderNum()
+    {
+        return ($this->merordernum)
+            ? $this->merordernum
+            : NULL;
     }
 
     /**
