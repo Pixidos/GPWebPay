@@ -30,11 +30,6 @@ class GPWebPayRequest
     private $url;
 
     /**
-     * @var  int $merOrderNumber
-     */
-    private $merOrderNumber;
-
-    /**
      * @var  int $merchantNumber
      */
     private $merchantNumber;
@@ -50,25 +45,27 @@ class GPWebPayRequest
     private $params;
 
     /**
-     * GPWebPayRequest constructor.
      * @param Operation $operation
      * @param $merchantNumber
-     * @param int $merOrderNumber
-     * @throws GPWebPayException
+     * @param $depositFlag
+     * @throws InvalidArgumentException
      */
-    public function __construct(Operation $operation, $merchantNumber, $depositFlag, $merOrderNumber = NULL)
+    public function __construct(Operation $operation, $merchantNumber, $depositFlag)
     {
         $this->operation = $operation;
         if(! $this->url = $operation->getResponseUrl())
             throw new InvalidArgumentException('Response URL in Operation must by set!');
 
-        $this->merOrderNumber = $merOrderNumber;
         $this->merchantNumber = $merchantNumber;
         $this->depositFlag = $depositFlag;
 
         $this->setParams();
+
     }
 
+    /**
+     * Sets params to array
+     */
     private function setParams()
     {
         $this->params['MERCHANTNUMBER'] = $this->merchantNumber;
@@ -77,15 +74,20 @@ class GPWebPayRequest
         $this->params['AMOUNT'] = $this->operation->getAmount();
         $this->params['CURRENCY'] = $this->operation->getCurrency();
         $this->params['DEPOSITFLAG'] = $this->depositFlag;
+        if($this->operation->getMerOrderNum())
+            $this->params['MERORDERNUM'] = $this->operation->getMerOrderNum();
         $this->params['URL'] = $this->url;
 
-        if ($this->merOrderNumber) {
-            $this->params['MERORDERNUM'] = $this->merOrderNumber;
-        }
+        if($this->operation->getDescription())
+        $this->params['DESCRIPTION'] = $this->operation->getDescription();
+        if($this->operation->getMd())
+        $this->params['MD'] = $this->operation->getMd();
+
     }
 
     /**
      * @param string $digest
+     * @internal
      */
     public function setDigest($digest)
     {

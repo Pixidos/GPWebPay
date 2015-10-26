@@ -38,16 +38,16 @@ class GPWebPayResponse
      * @param string $digest1
      */
     public function __construct($operation, $ordernumber, $merordernum, $md, $prcode, $srcode, $resulttext, $digest, $digest1) {
-        $this->params['operation'] = $operation;
-        $this->params['ordermumber'] = $ordernumber;
+        $this->params['OPERATION'] = $operation;
+        $this->params['ORDERNUMBER'] = $ordernumber;
         if ($merordernum !== NULL) {
-            $this->params['merordernum'] = $merordernum;
+            $this->params['MERORDERNUM'] = $merordernum;
         }
         if($md !== NULL)
-            $this->params['md'] = $md;
-        $this->params['prcode'] = (int)$prcode;
-        $this->params['srcode'] = (int)$srcode;
-        $this->params['resulttext'] = $resulttext;
+            $this->params['MD'] = $md;
+        $this->params['PRCODE'] = (int)$prcode;
+        $this->params['SRCODE'] = (int)$srcode;
+        $this->params['RESULTTEXT'] = $resulttext;
         $this->digest = $digest;
         $this->digest1 = $digest1;
     }
