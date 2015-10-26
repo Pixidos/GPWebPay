@@ -53,7 +53,6 @@ class GPWebPayProvider
      */
     public function createRequest(Operation $operation)
     {
-        \Tracy\Debugger::barDump($this->settings->getDepositFlag(), 'DPflag');
         $this->request = new GPWebPayRequest($operation, $this->settings->getMerchantNumber(), $this->settings->getDepositFlag());
         return $this;
     }
