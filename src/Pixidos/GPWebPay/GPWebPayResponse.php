@@ -68,7 +68,7 @@ class GPWebPayResponse
      * @return bool
      */
     public function hasError() {
-        return (bool)$this->params['prcode'] || (bool)$this->params['srcode'];
+        return (bool)$this->params['PRCODE'] || (bool)$this->params['SRCODE'];
     }
     /**
      * @return string
@@ -82,7 +82,7 @@ class GPWebPayResponse
      */
     public function getMerOrderNumber()
     {
-        return $this->params['merordernum'];
+        return $this->params['MERORDERNUM'];
     }
 
     /**
@@ -90,7 +90,7 @@ class GPWebPayResponse
      */
     public function getSrcode()
     {
-        return $this->params['srcode'];
+        return $this->params['SRCODE'];
     }
 
     /**
@@ -98,6 +98,11 @@ class GPWebPayResponse
      */
     public function getPrcode()
     {
-        return $this->params['prcode'];
+        return $this->params['PRCODE'];
+    }
+
+    public function getResultText()
+    {
+        return $this->params['RESULTTEXT'];
     }
 }
