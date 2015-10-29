@@ -60,6 +60,19 @@ class GPWebPayExtensionTest extends TestCase
         Assert::type('Pixidos\GPWebPay\GPWebPayRequest', $request);
     }
 
+    public function testVerifyRequest()
+    {
+        /** @var \Pixidos\GPWebPay\GPWebPayProvider $gpWebPayProvider */
+        $gpWebPayProvider = $this->container->getByType('Pixidos\GPWebPay\GPWebPayProvider');
+        $operation = new Operation(123456, 100, Operation::CZK);
+        $operation->setResponseUrl('http://test.com');
+        $request = $gpWebPayProvider->createRequest($operation)->getRequest();
+        Assert::type('Pixidos\GPWebPay\GPWebPayRequest', $request);
+        $signer = $gpWebPayProvider->getSigner();
+
+        $signer->verify($request->getParams(), $signer->sign($request->getParams()));
+    }
+
 
 }
 
