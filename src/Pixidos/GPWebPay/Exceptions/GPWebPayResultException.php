@@ -25,6 +25,10 @@ class GPWebPayResultException extends GPWebPayException
      * @var int $srcode
      */
     private $srcode;
+    /**
+     * @var string $resulttext
+     */
+    private $resulttext;
 
     /**
      * @param string $message
@@ -33,11 +37,12 @@ class GPWebPayResultException extends GPWebPayException
      * @param int $code
      * @param \Exception $previous
      */
-    public function __construct($message, $prcode, $srcode, $code = NULL, \Exception $previous = NULL)
+    public function __construct($message, $prcode, $srcode, $resulttext = null, $code = NULL, \Exception $previous = NULL)
     {
         parent::__construct($message, $code, $previous);
         $this->prcode = $prcode;
         $this->srcode = $srcode;
+        $this->resulttext = $resulttext;
     }
 
     public function getPrcode()
@@ -48,6 +53,14 @@ class GPWebPayResultException extends GPWebPayException
     public function getSrcode()
     {
         return $this->srcode;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getResultText()
+    {
+        return $this->resulttext;
     }
 
 }

@@ -65,6 +65,14 @@ class GPWebPayProvider
         return $this->request;
     }
 
+    /**
+     * @return GPWebPaySigner
+     */
+    public function getSigner()
+    {
+        return $this->signer;
+    }
+
     public function getRequestUrl()
     {
         $params = $this->request->getParams();
@@ -111,7 +119,7 @@ class GPWebPayProvider
         }
         // verify PRCODE and SRCODE
         if (false !== $response->hasError()) {
-            throw new GPWebPayResultException("Response has an error.", $response->getPrcode(), $response->getSrcode());
+            throw new GPWebPayResultException("Response has an error.", $response->getPrcode(), $response->getSrcode(), $response->getResultText());
         }
 
         return true;
