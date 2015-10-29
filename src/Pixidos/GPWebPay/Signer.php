@@ -11,12 +11,12 @@ namespace Pixidos\GPWebPay;
 use Pixidos\GPWebPay\Exceptions\SignerException;
 
 /**
- * Class GPWebPaySigner
+ * Class Signer
  * @package Pixidos\GPWebPay
  * @author Ondra Votava <ondra.votava@pixidos.com>
  */
 
-class GPWebPaySigner
+class Signer
 {
 
     /** @var string */

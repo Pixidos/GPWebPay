@@ -13,9 +13,9 @@ use Nette\ComponentModel\IContainer;
 
 use Pixidos\GPWebPay\Exceptions\GPWebPayException;
 use Pixidos\GPWebPay\Operation;
-use Pixidos\GPWebPay\GPWebPayProvider;
-use Pixidos\GPWebPay\GPWebPayResponse;
-use Pixidos\GPWebPay\GPWebPayRequest;
+use Pixidos\GPWebPay\Provider;
+use Pixidos\GPWebPay\Response;
+use Pixidos\GPWebPay\Request;
 
 
 /**
@@ -23,8 +23,8 @@ use Pixidos\GPWebPay\GPWebPayRequest;
  * @package Pixidos\GPWebPay\Components
  * @author Ondra Votava <ondra.votava@pixidos.com>
  *
- * @method onCheckout(GPWebPayControl $control, GPWebPayRequest $request)
- * @method onSuccess(GPWebPayControl $control, GPWebPayResponse $response)
+ * @method onCheckout(GPWebPayControl $control, Request $request)
+ * @method onSuccess(GPWebPayControl $control, Response $response)
  * @method onError(GPWebPayControl $control, GPWebPayException $exception)
  */
 class GPWebPayControl extends UI\Control
@@ -34,7 +34,7 @@ class GPWebPayControl extends UI\Control
      */
     public $onCheckout = array();
     /**
-     * @var array of callbacks, signature: function(GPWebPayControl $control, GPWebPayResponse $response)
+     * @var array of callbacks, signature: function(GPWebPayControl $control, Response $response)
      */
     public $onSuccess = array();
     /**
@@ -46,7 +46,7 @@ class GPWebPayControl extends UI\Control
      */
     private $operation;
     /**
-     * @var  GPWebPayProvider $provider
+     * @var  Provider $provider
      */
     private $provider;
     /**
@@ -56,11 +56,11 @@ class GPWebPayControl extends UI\Control
 
     /**
      * @param Operation $operation
-     * @param GPWebPayProvider $provider
+     * @param Provider $provider
      * @param IContainer|null $control
      * @param string $name
      */
-    public function __construct(Operation $operation, GPWebPayProvider $provider, IContainer $control = null, $name = null)
+    public function __construct(Operation $operation, Provider $provider, IContainer $control = null, $name = null)
     {
         parent::__construct($control, $name);
 
@@ -95,7 +95,7 @@ class GPWebPayControl extends UI\Control
         $params = $this->getPresenter()->getParameters();
 
         try {
-            /** @var GPWebPayResponse $response */
+            /** @var Response $response */
             $response = $this->provider->createResponse($params);
             $this->provider->verifyPaymentResponse($response);
         } catch (GPWebPayException $e) {

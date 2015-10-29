@@ -8,7 +8,7 @@
 
 namespace Pixidos\GPWebPay\Components;
 
-use Pixidos\GPWebPay\GPWebPayProvider;
+use Pixidos\GPWebPay\Provider;
 use Pixidos\GPWebPay\Operation;
 
 /**
@@ -21,15 +21,15 @@ class GPWebPayControlFactory
 {
 
     /**
-     * @var  GPWebPayProvider $provider
+     * @var  Provider $provider
      */
     private $provider;
 
     /**
      * GPWebPayControlFactory constructor.
-     * @param GPWebPayProvider $provider
+     * @param Provider $provider
      */
-    public function __construct(GPWebPayProvider $provider)
+    public function __construct(Provider $provider)
     {
         $this->provider = $provider;
     }

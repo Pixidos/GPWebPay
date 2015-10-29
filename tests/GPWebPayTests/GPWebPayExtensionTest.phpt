@@ -42,7 +42,7 @@ class GPWebPayExtensionTest extends TestCase
     public function testExtensionCreated()
     {
         $container = $this->container;
-        $gpWebPaySettings = $container->getByType('Pixidos\GPWebPay\GPWebPaySettings');
+        $gpWebPaySettings = $container->getByType('Pixidos\GPWebPay\Settings');
 
         Assert::notEqual(null, $gpWebPaySettings);
 
@@ -51,27 +51,15 @@ class GPWebPayExtensionTest extends TestCase
     public function testCreateGPWebPayResponse()
     {
         /**
-         * @var \Pixidos\GPWebPay\GPWebPayProvider $gpWebPayProvider
+         * @var \Pixidos\GPWebPay\Provider $gpWebPayProvider
          */
-        $gpWebPayProvider = $this->container->getByType('Pixidos\GPWebPay\GPWebPayProvider');
+        $gpWebPayProvider = $this->container->getByType('Pixidos\GPWebPay\Provider');
         $operation = new Operation(123456, 100, Operation::CZK);
         $operation->setResponseUrl('http://test.com');
         $request = $gpWebPayProvider->createRequest($operation)->getRequest();
-        Assert::type('Pixidos\GPWebPay\GPWebPayRequest', $request);
+        Assert::type('Pixidos\GPWebPay\Request', $request);
     }
 
-    public function testVerifyRequest()
-    {
-        /** @var \Pixidos\GPWebPay\GPWebPayProvider $gpWebPayProvider */
-        $gpWebPayProvider = $this->container->getByType('Pixidos\GPWebPay\GPWebPayProvider');
-        $operation = new Operation(123456, 100, Operation::CZK);
-        $operation->setResponseUrl('http://test.com');
-        $request = $gpWebPayProvider->createRequest($operation)->getRequest();
-        Assert::type('Pixidos\GPWebPay\GPWebPayRequest', $request);
-        $signer = $gpWebPayProvider->getSigner();
-
-        $signer->verify($request->getParams(), $signer->sign($request->getParams()));
-    }
 
 
 }

@@ -35,8 +35,8 @@ gpwebpay:
 
 ```php
 use Pixidos\GPWebPay\Exceptions\GPWebPayException;
-use Pixidos\GPWebPay\GPWebPayRequest;
-use Pixidos\GPWebPay\GPWebPayResponse;
+use Pixidos\GPWebPay\Request;
+use Pixidos\GPWebPay\Response;
 use Pixidos\GPWebPay\Operation;
 
 class MyPresenter extends Nette\Application\UI\Presenter
@@ -62,7 +62,7 @@ class MyPresenter extends Nette\Application\UI\Presenter
         $control = $this->gpWebPayFactory->create($operation);
         
         # Run before redirect to webpay gateway
-        $control->onCheckout[] = function (GPWebPayControl $control, GPWebPayRequest $request){
+        $control->onCheckout[] = function (GPWebPayControl $control, Request $request){
         
             //...
            
@@ -70,7 +70,7 @@ class MyPresenter extends Nette\Application\UI\Presenter
         
 
         # On success response 
-        $control->onSuccess[] = function(GPWebPayControl $control, GPWebPayResponse $response) {
+        $control->onSuccess[] = function(GPWebPayControl $control, Response $response) {
 
             //....
             

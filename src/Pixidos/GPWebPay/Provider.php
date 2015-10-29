@@ -13,37 +13,37 @@ use Pixidos\GPWebPay\Exceptions\SignerException;
 use Pixidos\GPWebPay\Exceptions\GPWebPayException;
 
 /**
- * Class GPWebPayProvider
+ * Class Provider
  * @package Pixidos\GPWebPay
  * @author Ondra Votava <ondra.votava@pixidos.com>
  */
 
-class GPWebPayProvider
+class Provider
 {
 
     /**
-     * @var GPWebPaySettings $settings
+     * @var Settings $settings
      */
     private $settings;
 
     /**
-     * @var  GPWebPayRequest $request
+     * @var  Request $request
      */
     private $request;
 
     /**
-     * @var  GPWebPaySigner $signer
+     * @var  Signer $signer
      */
     private $signer;
 
     /**
-     * GPWebPayProvider constructor.
-     * @param GPWebPaySettings $settings
+     * Provider constructor.
+     * @param Settings $settings
      */
-    public function __construct(GPWebPaySettings $settings)
+    public function __construct(Settings $settings)
     {
         $this->settings = $settings;
-        $this->signer = new GPWebPaySigner($settings->getPrivateKey(), $settings->getPrivateKeyPassword(), $settings->getPublicKey());
+        $this->signer = new Signer($settings->getPrivateKey(), $settings->getPrivateKeyPassword(), $settings->getPublicKey());
     }
 
 
@@ -53,12 +53,12 @@ class GPWebPayProvider
      */
     public function createRequest(Operation $operation)
     {
-        $this->request = new GPWebPayRequest($operation, $this->settings->getMerchantNumber(), $this->settings->getDepositFlag());
+        $this->request = new Request($operation, $this->settings->getMerchantNumber(), $this->settings->getDepositFlag());
         return $this;
     }
 
     /**
-     * @return GPWebPayRequest
+     * @return Request
      */
     public function getRequest()
     {
@@ -66,7 +66,7 @@ class GPWebPayProvider
     }
 
     /**
-     * @return GPWebPaySigner
+     * @return Signer
      */
     public function getSigner()
     {
@@ -77,14 +77,13 @@ class GPWebPayProvider
     {
         $params = $this->request->getParams();
         $this->request->setDigest($this->signer->sign($params));
-        \Tracy\Debugger::barDump($this->request->getParams(), 'Params');
         $paymentUrl = $this->settings->getUrl() . '?' . http_build_query($this->request->getParams());
 
         return $paymentUrl;
     }
 
     /**
-     * @return GPWebPayResponse
+     * @return Response
      */
     public function createResponse($params )
     {
@@ -98,16 +97,16 @@ class GPWebPayProvider
         $digest = isset ($params ['DIGEST']) ? $params ['DIGEST'] : '';
         $digest1 = isset ($params ['DIGEST1']) ? $params ['DIGEST1'] : '';
 
-        return new GPWebPayResponse($operation, $ordernumber, $merordernum, $md, $prcode, $srcode, $resulttext, $digest, $digest1);
+        return new Response($operation, $ordernumber, $merordernum, $md, $prcode, $srcode, $resulttext, $digest, $digest1);
     }
 
     /**
-     * @param GPWebPayResponse $response
+     * @param Response $response
      * @return bool
      * @throws GPWebPayException
      * @throws GPWebPayResultException
      */
-    public function verifyPaymentResponse(GPWebPayResponse $response) {
+    public function verifyPaymentResponse(Response $response) {
         // verify digest & digest1
         try {
             $responseParams = $response->getParams();

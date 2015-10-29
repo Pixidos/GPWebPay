@@ -9,12 +9,12 @@
 namespace Pixidos\GPWebPay;
 
 /**
- * Class GPWebPayResponse
+ * Class Response
  * @package Pixidos\GPWebPay
  * @author Ondra Votava <ondra.votava@pixidos.com>
  */
 
-class GPWebPayResponse
+class Response
 {
 
     /**

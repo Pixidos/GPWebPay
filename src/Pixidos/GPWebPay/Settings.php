@@ -9,12 +9,12 @@
 namespace Pixidos\GPWebPay;
 
 /**
- * Class GPWebPaySettings
+ * Class Settings
  * @package Pixidos\GPWebPay
  * @author Ondra Votava <ondra.votava@pixidos.com>
  */
 
-class GPWebPaySettings
+class Settings
 {
     /** @var string */
     private $privateKey;
@@ -40,7 +40,7 @@ class GPWebPaySettings
     private $depositFlag;
 
     /**
-     * GPWebPaySettings constructor.
+     * Settings constructor.
      * @param string $privateKey
      * @param string $privateKeyPassword
      * @param string $publicKey

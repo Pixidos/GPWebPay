@@ -34,7 +34,7 @@ class GPWebPayExtension extends Nette\DI\CompilerExtension
         $builder = $this->getContainerBuilder();
 
         $builder->addDefinition($this->prefix('settings'))
-            ->setClass('Pixidos\GPWebPay\GPWebPaySettings', array(
+            ->setClass('Pixidos\GPWebPay\Settings', array(
                 "privateKey" => $config["privateKey"],
                 "privateKeyPassword" => $config['privateKeyPassword'],
                 'publicKey' => $config['publicKey'],
@@ -44,7 +44,7 @@ class GPWebPayExtension extends Nette\DI\CompilerExtension
             ));
 
         $builder->addDefinition($this->prefix('provider'))
-            ->setClass('Pixidos\GPWebPay\GPWebPayProvider', array($this->prefix('@settings')));
+            ->setClass('Pixidos\GPWebPay\Provider', array($this->prefix('@settings')));
 
         $builder->addDefinition($this->prefix('controlFactory'))
             ->setClass('Pixidos\GPWebPay\Components\GPWebPayControlFactory', array($this->prefix('@provider')));

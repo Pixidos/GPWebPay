@@ -11,12 +11,12 @@ use Pixidos\GPWebPay\Exceptions\GPWebPayException;
 use Pixidos\GPWebPay\Exceptions\InvalidArgumentException;
 
 /**
- * Class GPWebPayRequest
+ * Class Request
  * @package Pixidos\GPWebPay
  * @author Ondra Votava <ondra.votava@pixidos.com>
  */
 
-class GPWebPayRequest
+class Request
 {
 
     /**
