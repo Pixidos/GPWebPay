@@ -81,9 +81,11 @@ class GPWebPaySigner
         $digest = base64_encode($digest);
         return $digest;
     }
+
     /**
      * @param array $params
-     * @param string $digest
+     * @param $digest
+     * @return int
      * @throws SignerException
      */
     public function verify(array $params, $digest) {
@@ -93,6 +95,7 @@ class GPWebPaySigner
         if ($ok !== 1) {
             throw new SignerException("Digest is not correct!");
         }
+        return $ok;
     }
     /**
      * @return resource
