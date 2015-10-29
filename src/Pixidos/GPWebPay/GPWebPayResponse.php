@@ -82,7 +82,21 @@ class GPWebPayResponse
      */
     public function getMerOrderNumber()
     {
-        return $this->params['MERORDERNUM'];
+        if(isset($this->params['MERORDERNUM']))
+            return $this->params['MERORDERNUM'];
+        else{
+            return NULL;
+        }
+
+
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrderNumber()
+    {
+        return $this->params['ORDERNUMBER'];
     }
 
     /**
