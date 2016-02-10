@@ -39,6 +39,8 @@ class Settings
      */
     private $depositFlag;
 
+    private $defaultGatewayKey;
+
     /**
      * Settings constructor.
      * @param string $privateKey
@@ -47,15 +49,42 @@ class Settings
      * @param string $url
      * @param string $merchantNumber
      * @param int $depositFlag
+     * @param string $gatewayKey
      */
-    public function __construct($privateKey, $privateKeyPassword, $publicKey, $url, $merchantNumber, $depositFlag)
+    public function __construct($privateKey,
+                                $privateKeyPassword,
+                                $publicKey,
+                                $url,
+                                $merchantNumber,
+                                $depositFlag,
+                                $gatewayKey)
     {
+        if(! is_array($privateKey)){
+            $key = $privateKey;
+            $privateKey = [];
+            $privateKey[$gatewayKey] = $key;
+        }
         $this->privateKey = $privateKey;
+
+        if(! is_array($privateKeyPassword)){
+            $pwd = $privateKeyPassword;
+            $privateKeyPassword = [];
+            $privateKeyPassword[$gatewayKey] = $pwd;
+        }
         $this->privateKeyPassword = $privateKeyPassword;
+
         $this->publicKey = $publicKey;
         $this->url = $url;
+
+        if(! is_array($merchantNumber)){
+            $merchant = $merchantNumber;
+            $merchantNumber = [];
+            $merchantNumber[$gatewayKey] = $merchant;
+        }
+
         $this->merchantNumber = $merchantNumber;
         $this->depositFlag = $depositFlag;
+        $this->defaultGatewayKey = $gatewayKey;
     }
 
 
@@ -68,19 +97,27 @@ class Settings
     }
 
     /**
+     * @param null $gatewayKey
      * @return string
      */
-    public function getMerchantNumber()
+    public function getMerchantNumber($gatewayKey = NULL)
     {
-        return $this->merchantNumber;
+        if(is_null($gatewayKey)){
+            $gatewayKey = $this->getDefaultGatewayKey(); //czk is config default
+        }
+        return $this->merchantNumber[$gatewayKey];
     }
 
     /**
+     * @param null $gatewayKey
      * @return string
      */
-    public function getPrivateKey()
+    public function getPrivateKey($gatewayKey = NULL)
     {
-        return $this->privateKey;
+        if(is_null($gatewayKey)){
+            $gatewayKey = $this->getDefaultGatewayKey(); //czk is config default
+        }
+        return $this->privateKey[$gatewayKey];
     }
 
     /**
@@ -92,11 +129,15 @@ class Settings
     }
 
     /**
+     * @param null $gatewayKey
      * @return string
      */
-    public function getPrivateKeyPassword()
+    public function getPrivateKeyPassword($gatewayKey = NULL)
     {
-        return $this->privateKeyPassword;
+        if(is_null($gatewayKey)){
+            $gatewayKey = $this->getDefaultGatewayKey(); //czk is config default
+        }
+        return $this->privateKeyPassword[$gatewayKey];
     }
 
     /**
@@ -105,6 +146,11 @@ class Settings
     public function getDepositFlag()
     {
         return $this->depositFlag;
+    }
+
+    public function getDefaultGatewayKey()
+    {
+        return $this->defaultGatewayKey;
     }
 
 }

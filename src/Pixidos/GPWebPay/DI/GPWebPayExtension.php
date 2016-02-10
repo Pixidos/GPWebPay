@@ -18,7 +18,10 @@ use Nette\Utils\Validators;
 
 class GPWebPayExtension extends Nette\DI\CompilerExtension
 {
-    public $defaults = ['depositFlag' => 1];
+    public $defaults = [
+        'depositFlag' => 1,
+        'gatewayKey' => 'czk'
+    ];
 
     public function loadConfiguration()
     {
@@ -30,6 +33,7 @@ class GPWebPayExtension extends Nette\DI\CompilerExtension
         Validators::assertField($config, 'url');
         Validators::assertField($config, 'merchantNumber');
         Validators::assertField($config, 'depositFlag');
+        Validators::assertField($config, 'gatewayKey');
 
         $builder = $this->getContainerBuilder();
 
@@ -40,7 +44,8 @@ class GPWebPayExtension extends Nette\DI\CompilerExtension
                 'publicKey' => $config['publicKey'],
                 'url' => $config['url'],
                 'merchantNumber' => $config['merchantNumber'],
-                'depositFlag' => $config['depositFlag']
+                'depositFlag' => $config['depositFlag'],
+                'gatewayKey' => $config['gatewayKey']
             ));
 
         $builder->addDefinition($this->prefix('provider'))

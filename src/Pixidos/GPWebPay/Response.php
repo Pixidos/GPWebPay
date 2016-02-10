@@ -26,6 +26,8 @@ class Response
     /** @var  string */
     private $digest1;
 
+    private $gatewayKey;
+
     /**
      * @param string $operation
      * @param string $ordernumber
@@ -37,7 +39,7 @@ class Response
      * @param string $digest
      * @param string $digest1
      */
-    public function __construct($operation, $ordernumber, $merordernum, $md, $prcode, $srcode, $resulttext, $digest, $digest1) {
+    public function __construct($operation, $ordernumber, $merordernum, $md, $prcode, $srcode, $resulttext, $digest, $digest1, $gatewayKey) {
         $this->params['OPERATION'] = $operation;
         $this->params['ORDERNUMBER'] = $ordernumber;
         if ($merordernum !== NULL) {
@@ -50,6 +52,7 @@ class Response
         $this->params['RESULTTEXT'] = $resulttext;
         $this->digest = $digest;
         $this->digest1 = $digest1;
+        $this->gatewayKey = $gatewayKey;
     }
 
     /**
@@ -87,8 +90,27 @@ class Response
         else{
             return NULL;
         }
+    }
 
+    /**
+     * @return string| null
+     */
+    public function getMd()
+    {
+        $explode = $explode('|', $this->params['MD'], 2);
+        if(isset($explode[1])) {
+            return $explode[1];
+        } else{
+            return NULL;
+        }
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getGatewayKey()
+    {
+        return $this->gatewayKey;
     }
 
     /**

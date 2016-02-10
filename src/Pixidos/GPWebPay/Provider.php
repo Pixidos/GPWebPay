@@ -17,7 +17,6 @@ use Pixidos\GPWebPay\Exceptions\GPWebPayException;
  * @package Pixidos\GPWebPay
  * @author Ondra Votava <ondra.votava@pixidos.com>
  */
-
 class Provider
 {
 
@@ -43,7 +42,6 @@ class Provider
     public function __construct(Settings $settings)
     {
         $this->settings = $settings;
-        $this->signer = new Signer($settings->getPrivateKey(), $settings->getPrivateKeyPassword(), $settings->getPublicKey());
     }
 
 
@@ -53,7 +51,13 @@ class Provider
      */
     public function createRequest(Operation $operation)
     {
-        $this->request = new Request($operation, $this->settings->getMerchantNumber(), $this->settings->getDepositFlag());
+        $this->request = new Request($operation, $this->settings->getMerchantNumber($operation->getGatewayKey()), $this->settings->getDepositFlag());
+        $this->signer = new Signer(
+            $this->settings->getPrivateKey($operation->getGatewayKey()),
+            $this->settings->getPrivateKeyPassword($operation->getGatewayKey()),
+            $this->settings->getPublicKey()
+        );
+
         return $this;
     }
 
@@ -83,9 +87,10 @@ class Provider
     }
 
     /**
+     * @param $params
      * @return Response
      */
-    public function createResponse($params )
+    public function createResponse($params)
     {
         $operation = isset ($params ['OPERATION']) ? $params ['OPERATION'] : '';
         $ordernumber = isset ($params ['ORDERNUMBER']) ? $params ['ORDERNUMBER'] : '';
@@ -97,7 +102,14 @@ class Provider
         $digest = isset ($params ['DIGEST']) ? $params ['DIGEST'] : '';
         $digest1 = isset ($params ['DIGEST1']) ? $params ['DIGEST1'] : '';
 
-        return new Response($operation, $ordernumber, $merordernum, $md, $prcode, $srcode, $resulttext, $digest, $digest1);
+        $key = explode('|', $md, 2);
+
+        if(is_null($key[0])){
+            $gatewayKey = $this->settings->getDefaultGatewayKey();
+        } else{
+            $gatewayKey = $key[0];
+        }
+        return new Response($operation, $ordernumber, $merordernum, $md, $prcode, $srcode, $resulttext, $digest, $digest1, $gatewayKey);
     }
 
     /**
@@ -106,21 +118,28 @@ class Provider
      * @throws GPWebPayException
      * @throws GPWebPayResultException
      */
-    public function verifyPaymentResponse(Response $response) {
+    public function verifyPaymentResponse(Response $response)
+    {
         // verify digest & digest1
         try {
+            $this->signer = new Signer(
+                $this->settings->getPrivateKey($response->getGatewayKey()),
+                $this->settings->getPrivateKeyPassword($response->getGatewayKey()),
+                $this->settings->getPublicKey()
+            );
+
             $responseParams = $response->getParams();
             $this->signer->verify($responseParams, $response->getDigest());
-            $responseParams['MERCHANTNUMBER'] = $this->settings->getMerchantNumber();
+            $responseParams['MERCHANTNUMBER'] = $this->settings->getMerchantNumber($response->getGatewayKey());
             $this->signer->verify($responseParams, $response->getDigest1());
         } catch (SignerException $e) {
             throw new GPWebPayException($e->getMessage(), $e->getCode(), $e);
         }
         // verify PRCODE and SRCODE
-        if (false !== $response->hasError()) {
+        if (FALSE !== $response->hasError()) {
             throw new GPWebPayResultException("Response has an error.", $response->getPrcode(), $response->getSrcode(), $response->getResultText());
         }
 
-        return true;
+        return TRUE;
     }
 }
