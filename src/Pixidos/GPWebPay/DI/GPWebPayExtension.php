@@ -25,7 +25,12 @@ class GPWebPayExtension extends Nette\DI\CompilerExtension
 
     public function loadConfiguration()
     {
-        $config = $this->getConfig($this->defaults);
+        $config = $this->getConfig();
+
+        $defaults = array_diff_key($this->defaults, $config);
+        foreach ($defaults as $key => $val){
+            $config[$key] = $this->defaults[$key];
+        }
 
         Validators::assertField($config, 'privateKey');
         Validators::assertField($config, 'privateKeyPassword');
