@@ -29,6 +29,21 @@ gpwebpay:
     merchantNumber: <your merechant number >   
 ```
 
+or if you need more then on gateway
+```yml
+gpwebpay:
+	privateKey:
+		czk: < your CZK private certificate path .pem>
+		eur: < your EUR private certificate path .pem>
+	privateKeyPassword:
+		czk: < private CKZ certificate password >
+		eur: < private EUR certificate password >
+	publicKey: < you public certificate path example > //gpe.signing_prod.pem
+	url: <url of gpwabpay system gateway > //example: https://test.3dsecure.gpwebpay.com/unicredit/order.do
+	merchantNumber:
+		czk: <your CZK merechant number >
+		eur: <your EUR merechant number >
+```
 
 ## Usage
 
