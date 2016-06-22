@@ -9,6 +9,7 @@
 namespace Pixidos\GPWebPay\Components;
 
 use Nette\Application\UI;
+use Nette\Bridges\ApplicationLatte\Template;
 use Nette\ComponentModel\IContainer;
 
 use Pixidos\GPWebPay\Exceptions\GPWebPayException;
@@ -162,4 +163,15 @@ class GPWebPayControl extends UI\Control
     {
         return __DIR__ . DIRECTORY_SEPARATOR . 'templates/gpWebPayControl.latte';
     }
+	public function render($attrs = array(), $text = "Pay")
+	{
+		/** @var Template $template */
+		$template = $this->getTemplate();
+		$template->setFile($this->getTemplateFilePath());
+		$template->add('checkoutLink', $this->link('//checkout!'));
+		$template->add('text', $text);
+		$template->add('attrs', $attrs);
+		$template->render();
+	}
+
 }
