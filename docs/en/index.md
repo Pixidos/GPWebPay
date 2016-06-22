@@ -29,7 +29,7 @@ gpwebpay:
     merchantNumber: <your merechant number >   
 ```
 
-or if you need more then on gateway
+or if you need more then one gateway
 ```yml
 gpwebpay:
 	privateKey:
