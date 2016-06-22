@@ -22,35 +22,27 @@
   "require": {
     "php": ">=5.4.0",
     "ext-openssl": "*",
-    "nette/di": "2.3.*",
-    "nette/application": "2.3.*",
-    "nette/utils": "2.3.*"
+    "nette/di": "^2.3",
+    "nette/application": "^2.3",
+    "nette/utils": "^2.3"
   },
   "require-dev": {
-    "nette/application": "2.3.*",
-    "nette/bootstrap": "2.3.*",
-    "nette/caching": "2.3.*",
-    "nette/component-model": "2.2.*",
-    "nette/database": "2.3.*",
-    "nette/deprecated": "2.3.*",
-    "nette/di": "2.3.*",
-    "nette/finder": "2.3.*",
-    "nette/forms": "2.3.*",
-    "nette/http": "2.3.*",
-    "nette/mail": "2.3.*",
-    "nette/neon": "2.3.*",
-    "nette/php-generator": "2.3.*",
-    "nette/reflection": "2.3.*",
-    "nette/robot-loader": "2.3.*",
-    "nette/safe-stream": "2.3.*",
-    "nette/security": "2.3.*",
-    "nette/tokenizer": "2.2.*",
-    "nette/utils": "2.3.*",
-    "latte/latte": "2.3.*",
-    "tracy/tracy": "2.3.*",
-    "nette/tester": "@dev"
+
+    "nette/bootstrap": "^2.3",
+    "nette/caching": "^2.3",
+    "nette/database": "^2.3",
+
+    "nette/finder": "^2.3",
+    "nette/forms": "^2.3",
+    "nette/http": "^2.3",
+    "nette/mail": "^2.3",
+    "nette/robot-loader": "^2.3",
+    "nette/safe-stream": "^2.3",
+    "nette/security": "^2.3",
+    "latte/latte": "^2.3",
+    "tracy/tracy": "^2.3",
+    "nette/tester": "^1.4"
   },
-  "minimum-stability" : "dev",
   "autoload": {
     "psr-0": {
       "Pixidos\\GPWebPay\\": "src/"
