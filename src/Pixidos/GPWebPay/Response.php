@@ -97,7 +97,7 @@ class Response
      */
     public function getMd()
     {
-        $explode = $explode('|', $this->params['MD'], 2);
+        $explode = explode('|', $this->params['MD'], 2);
         if(isset($explode[1])) {
             return $explode[1];
         } else{
