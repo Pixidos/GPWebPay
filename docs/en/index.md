@@ -67,6 +67,8 @@ class MyPresenter extends Nette\Application\UI\Presenter
     public function createComponentWebPayButton()
     {
         $operation = new Operation(int $orderId, int $totalPrice, int $curencyCode);
+        // if you use more than one gateway use gatewayKey - same as in config
+        // $operation = new Operation(int $orderId, int $totalPrice, int $curencyCode, string $gatewayKey);
         
         /**
          * you can set Response URL. In default will be used handelSuccess() in component
