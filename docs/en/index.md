@@ -24,7 +24,7 @@ and setting
 gpwebpay:
     privateKey: < your private certificate path >
     privateKeyPassword: < private certificate password >
-    publicKey: < you public certificate path >
+    publicKey: < gateway public certificate path (you will probably get this by email) > //gpe.signing_prod.pem
     url: <url of gpwabpay system gateway > //example: https://test.3dsecure.gpwebpay.com/unicredit/order.do
     merchantNumber: <your merechant number >   
 ```
@@ -38,7 +38,7 @@ gpwebpay:
 	privateKeyPassword:
 		czk: < private CKZ certificate password >
 		eur: < private EUR certificate password >
-	publicKey: < you public certificate path example > //gpe.signing_prod.pem
+	publicKey: < gateway public certificate path (you will probably get this by email) > //gpe.signing_prod.pem
 	url: <url of gpwabpay system gateway > //example: https://test.3dsecure.gpwebpay.com/unicredit/order.do
 	merchantNumber:
 		czk: <your CZK merechant number >
