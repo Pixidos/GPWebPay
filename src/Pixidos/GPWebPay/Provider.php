@@ -109,7 +109,7 @@ class Provider
 
 		$key = explode('|', $md, 2);
 
-		if (is_null($key[0])) {
+		if (empty($key[0])) {
 			$gatewayKey = $this->settings->getDefaultGatewayKey();
 		} else {
 			$gatewayKey = $key[0];
