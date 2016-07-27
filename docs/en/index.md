@@ -19,14 +19,14 @@ extensions:
 ```
 
 and setting
- 
+
 ```yml
 gpwebpay:
     privateKey: < your private certificate path >
     privateKeyPassword: < private certificate password >
     publicKey: < gateway public certificate path (you will probably get this by email) > //gpe.signing_prod.pem
     url: <url of gpwabpay system gateway > //example: https://test.3dsecure.gpwebpay.com/unicredit/order.do
-    merchantNumber: <your merechant number >   
+    merchantNumber: <your merechant number >
 ```
 
 or if you need more then one gateway
@@ -56,7 +56,7 @@ use Pixidos\GPWebPay\Operation;
 
 class MyPresenter extends Nette\Application\UI\Presenter
 {
-	
+
 	/** @var \Pixidos\GPWebPay\Components\GPWebPayControlFactory @inject */
 	public $gpWebPayFactory;
 
@@ -69,7 +69,10 @@ class MyPresenter extends Nette\Application\UI\Presenter
         $operation = new Operation(int $orderId, int $totalPrice, int $curencyCode);
         // if you use more than one gateway use gatewayKey - same as in config
         // $operation = new Operation(int $orderId, int $totalPrice, int $curencyCode, string $gatewayKey);
-        
+
+        // if you need to switch gateway lang
+        // $operation->setLang('cs');
+
         /**
          * you can set Response URL. In default will be used handelSuccess() in component
          * https://github.com/Pixidos/GPWebPay/blob/master/src/Pixidos/GPWebPay/Components/GPWebPayControl.php#L93
@@ -77,28 +80,28 @@ class MyPresenter extends Nette\Application\UI\Presenter
          */
 
         $control = $this->gpWebPayFactory->create($operation);
-        
+
         # Run before redirect to webpay gateway
         $control->onCheckout[] = function (GPWebPayControl $control, Request $request){
-        
-            //...
-           
-        }
-        
 
-        # On success response 
+            //...
+
+        }
+
+
+        # On success response
         $control->onSuccess[] = function(GPWebPayControl $control, Response $response) {
 
             //....
-            
+
         };
 
         # On Error
         $control->onError[] = function(GPWebPayControl $control, GPWebPayException $exception)
         {
-            
+
             //...
-            
+
         };
 
         return $control;
