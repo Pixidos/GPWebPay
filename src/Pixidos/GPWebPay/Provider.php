@@ -8,9 +8,9 @@
 
 namespace Pixidos\GPWebPay;
 
+use Pixidos\GPWebPay\Exceptions\GPWebPayException;
 use Pixidos\GPWebPay\Exceptions\GPWebPayResultException;
 use Pixidos\GPWebPay\Exceptions\SignerException;
-use Pixidos\GPWebPay\Exceptions\GPWebPayException;
 
 /**
  * Class Provider
