@@ -191,7 +191,7 @@ class Operation
      */
     public function setMd($md)
     {
-        if (strlen($md) > 250)
+        if ((strlen((string)$this->md) + strlen($md)) > 250)
             throw new GPWebPayException('MD max. length is 250! ' . strlen($md) . ' given');
 
         $this->md .= '|'.$md;
