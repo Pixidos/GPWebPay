@@ -109,6 +109,20 @@ class Request
             $this->params['MD'] = $this->operation->getMd();
         if($this->operation->getLang())
             $this->params['LANG'] = $this->operation->getLang();
+		if($this->operation->getUserParam1())
+			$this->params['USERPARAM1'] = $this->operation->getUserParam1();
+		if($this->operation->getPayMethod())
+			$this->params['PAYMETHOD'] = $this->operation->getPayMethod();
+		if($this->operation->getDisablePayMethod())
+			$this->params['DISABLEPAYMETHOD'] = $this->operation->getDisablePayMethod();
+		if($this->operation->getPayMethods())
+			$this->params['PAYMETHODS'] = $this->operation->getPayMethods();
+		if($this->operation->getEmail())
+			$this->params['EMAIL'] = $this->operation->getEmail();
+		if($this->operation->getReferenceNumber())
+			$this->params['REFERENCENUMBER'] = $this->operation->getReferenceNumber();
+		if($this->operation->getFastPayId())
+			$this->params['FASTPAYID'] = $this->operation->getFastPayId();
 
     }
 
