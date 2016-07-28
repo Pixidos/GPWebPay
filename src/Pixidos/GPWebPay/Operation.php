@@ -59,6 +59,12 @@ class Operation
      */
     private $gatewayKey = NULL;
 
+    /**
+     *
+     * @var string $lang
+     */
+    private $lang;
+
 
     /**
      * Operation constructor.
@@ -255,4 +261,29 @@ class Operation
     {
         return $this->gatewayKey;
     }
+
+    /**
+     *
+     * @param strin $lang max. length is 2
+     * @return \Pixidos\GPWebPay\Operation
+     * @throws GPWebPayException
+     */
+    public function setLang($lang)
+    {
+        if (strlen($lang) > 2)
+            throw new GPWebPayException('LANG max. length is 2! ' . strlen($lang) . ' given');
+        $this->lang = (string)$lang;
+
+        return $this;
+    }
+
+    /**
+     *
+     * @return null|string
+     */
+    public function getLang()
+    {
+        return $this->lang;
+    }
+
 }

@@ -82,10 +82,13 @@ class Provider
 		return $this->signer;
 	}
 
+	/**
+	 *
+	 * @return string
+	 */
 	public function getRequestUrl()
 	{
-		$params = $this->request->getParams();
-		$this->request->setDigest($this->signer->sign($params));
+		$this->request->setDigest($this->signer->sign($this->request->getDigestParams()));
 		$paymentUrl = $this->settings->getUrl() . '?' . http_build_query($this->request->getParams());
 
 		return $paymentUrl;
