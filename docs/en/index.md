@@ -39,7 +39,7 @@ gpwebpay:
 		czk: < private CKZ certificate password >
 		eur: < private EUR certificate password >
 	publicKey: < gateway public certificate path (you will probably get this by email) > //gpe.signing_prod.pem
-	url: <url of gpwabpay system gateway > //example: https://test.3dsecure.gpwebpay.com/unicredit/order.do
+	url: <url of gpwebpay system gateway > //example: https://test.3dsecure.gpwebpay.com/unicredit/order.do
 	merchantNumber:
 		czk: <your CZK merechant number >
 		eur: <your EUR merechant number >
