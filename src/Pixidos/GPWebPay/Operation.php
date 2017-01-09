@@ -95,9 +95,10 @@ class Operation
 	private $fastPayId = NULL;
 
 	private $payMethodSupportedVal = [
-		'CDR',
+		'CRD',
 		'MCM',
 		'MPS',
+		'BTNCS',
 	];
 
 
@@ -369,7 +370,7 @@ class Operation
 	}
 
 	/**
-	 * @param string $payMethod supported val: CRD – payment card | MCM – MasterCard Mobile | MPS – MasterPass
+	 * @param string $payMethod supported val: CRD – payment card | MCM – MasterCard Mobile | MPS – MasterPass | BTNCS - PLATBA 24
 	 * @return Operation
 	 * @throws GPWebPayException
 	 */
@@ -403,7 +404,8 @@ class Operation
 	 * CRD – payment card
 	 * MCM – MasterCard Mobile
 	 * MPS – MasterPass
-	 * @param string $disablePayMethod supported val: CRD, MCM, MPS
+	 * BTNCS - PLATBA 24
+	 * @param string $disablePayMethod supported val: CRD, MCM, MPS, BTNCS
 	 * @return Operation
 	 * @throws GPWebPayException
 	 */
@@ -437,7 +439,8 @@ class Operation
 	 * CRD – payment card
 	 * MCM – MasterCard Mobile
 	 * MPS – MasterPass
-	 * @param array $payMethods supported val: [CRD, MCM, MPS]
+	 * BTNCS - PLATBA 24
+	 * @param array $payMethods supported val: [CRD, MCM, MPS, BTNCS]
 	 * @return Operation
 	 * @throws GPWebPayException
 	 */
