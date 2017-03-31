@@ -390,7 +390,7 @@ class Operation
 				. implode(", ", $this->payMethodSupportedVal) . ' given: ' . strtoupper($payMethod));
 		}
 
-		$this->payMethod = $payMethod;
+		$this->payMethod = strtoupper($payMethod);
 		return $this;
 	}
 
