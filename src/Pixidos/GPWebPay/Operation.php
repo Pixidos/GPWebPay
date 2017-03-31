@@ -123,7 +123,7 @@ class Operation
 		$this->md = $gatewayKey;
 
 		if ($responseUrl) {
-			$this->responseUrl = $responseUrl;
+			$this->setResponseUrl($responseUrl);
 		}
 
 
