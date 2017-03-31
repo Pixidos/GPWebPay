@@ -166,7 +166,7 @@ class Operation
 
 	/**
 	 * @param $currency
-	 * @throws GPWebPayException
+	 * @throws InvalidArgumentException
 	 */
 	private function setCurrency($currency)
 	{
@@ -214,7 +214,6 @@ class Operation
 	/**
 	 * @param string $url max. lenght is 300
 	 * @return $this
-	 * @throws GPWebPayException
 	 * @throws InvalidArgumentException
 	 */
 	public function setResponseUrl($url)
@@ -224,7 +223,7 @@ class Operation
 		}
 
 		if (strlen($url) > 300) {
-			throw new GPWebPayException('URL max. length is 300! ' . strlen($url) . ' given');
+			throw new InvalidArgumentException('URL max. length is 300! ' . strlen($url) . ' given');
 		}
 
 		$this->responseUrl = $url;
@@ -245,12 +244,12 @@ class Operation
 	/**
 	 * @param string $md max. length is 255!
 	 * @return $this
-	 * @throws GPWebPayException
+	 * @throws InvalidArgumentException
 	 */
 	public function setMd($md)
 	{
 		if ((strlen((string)$this->md) + strlen($md)) > 250) {
-			throw new GPWebPayException('MD max. length is 250! ' . strlen($md) . ' given');
+			throw new InvalidArgumentException('MD max. length is 250! ' . strlen($md) . ' given');
 		}
 
 		$this->md .= '|' . $md;
@@ -271,12 +270,12 @@ class Operation
 	/**
 	 * @param string $description max. length is 255
 	 * @return $this
-	 * @throws GPWebPayException
+	 * @throws InvalidArgumentException
 	 */
 	public function setDescription($description)
 	{
 		if (strlen($description) > 255) {
-			throw new GPWebPayException('DESCRIPTION max. length is 255! ' . strlen($description) . ' given');
+			throw new InvalidArgumentException('DESCRIPTION max. length is 255! ' . strlen($description) . ' given');
 		}
 
 		$this->description = $description;
@@ -297,12 +296,12 @@ class Operation
 	/**
 	 * @param string $merordernum max. length is 30
 	 * @return $this
-	 * @throws GPWebPayException
+	 * @throws InvalidArgumentException
 	 */
 	public function setMerOrderNum($merordernum)
 	{
 		if (strlen($merordernum) > 30) {
-			throw new GPWebPayException('MERORDERNUM max. length is 30! ' . strlen($merordernum) . ' given');
+			throw new InvalidArgumentException('MERORDERNUM max. length is 30! ' . strlen($merordernum) . ' given');
 		}
 		$this->merordernum = $merordernum;
 
@@ -321,12 +320,12 @@ class Operation
 	 *
 	 * @param string $lang max. length is 2
 	 * @return \Pixidos\GPWebPay\Operation
-	 * @throws GPWebPayException
+	 * @throws InvalidArgumentException
 	 */
 	public function setLang($lang)
 	{
 		if (strlen($lang) > 2) {
-			throw new GPWebPayException('LANG max. length is 2! ' . strlen($lang) . ' given');
+			throw new InvalidArgumentException('LANG max. length is 2! ' . strlen($lang) . ' given');
 		}
 		$this->lang = (string)$lang;
 
@@ -353,12 +352,12 @@ class Operation
 	/**
 	 * @param string $userParam1 max. length is 255
 	 * @return Operation
-	 * @throws GPWebPayException
+	 * @throws InvalidArgumentException
 	 */
 	public function setUserParam1($userParam1)
 	{
 		if (strlen((string)$userParam1) > 255) {
-			throw new GPWebPayException('USERPARAM1 max. length is 255! ' . strlen((string)$userParam1) . ' given');
+			throw new InvalidArgumentException('USERPARAM1 max. length is 255! ' . strlen((string)$userParam1) . ' given');
 		}
 		$this->userParam1 = $userParam1;
 		return $this;
@@ -375,18 +374,18 @@ class Operation
 	/**
 	 * @param string $payMethod supported val: CRD – payment card | MCM – MasterCard Mobile | MPS – MasterPass | BTNCS - PLATBA 24
 	 * @return Operation
-	 * @throws GPWebPayException
+	 * @throws InvalidArgumentException
 	 */
 	public function setPayMethod($payMethod)
 	{
 
 		if (strlen((string)$payMethod) > 255) {
-			throw new GPWebPayException('PAYMETHOD max. length is 255! ' . strlen((string)$payMethod) . ' given');
+			throw new InvalidArgumentException('PAYMETHOD max. length is 255! ' . strlen((string)$payMethod) . ' given');
 		}
 
 		$payMethod = strtoupper($payMethod);
 		if (!in_array($payMethod, $this->payMethodSupportedVal)) {
-			throw new GPWebPayException('PAYMETHOD supported values: '
+			throw new InvalidArgumentException('PAYMETHOD supported values: '
 				. implode(", ", $this->payMethodSupportedVal) . ' given: ' . strtoupper($payMethod));
 		}
 
@@ -410,17 +409,17 @@ class Operation
 	 * BTNCS - PLATBA 24
 	 * @param string $disablePayMethod supported val: CRD, MCM, MPS, BTNCS
 	 * @return Operation
-	 * @throws GPWebPayException
+	 * @throws InvalidArgumentException
 	 */
 	public function setDisablePayMethod($disablePayMethod)
 	{
 
 		if (strlen((string)$disablePayMethod) > 255) {
-			throw new GPWebPayException('DISABLEPAYMETHOD max. length is 255! ' . strlen((string)$disablePayMethod) . ' given');
+			throw new InvalidArgumentException('DISABLEPAYMETHOD max. length is 255! ' . strlen((string)$disablePayMethod) . ' given');
 		}
 
 		if (!in_array(strtoupper($disablePayMethod), $this->payMethodSupportedVal)) {
-			throw new GPWebPayException('DISABLEPAYMETHOD supported values: '
+			throw new InvalidArgumentException('DISABLEPAYMETHOD supported values: '
 				. implode(", ", $this->payMethodSupportedVal) . ' given: ' . strtoupper($disablePayMethod));
 		}
 
@@ -445,7 +444,7 @@ class Operation
 	 * BTNCS - PLATBA 24
 	 * @param array $payMethods supported val: [CRD, MCM, MPS, BTNCS]
 	 * @return Operation
-	 * @throws GPWebPayException
+	 * @throws InvalidArgumentException
 	 */
 	public function setPayMethods($payMethods)
 	{
@@ -459,14 +458,14 @@ class Operation
 			$val = strtoupper($val);
 			$payMethods[$key] = $val;
 			if (!in_array($val, $this->payMethodSupportedVal)) {
-				throw new GPWebPayException('PAYMETHODS supported values: '
+				throw new InvalidArgumentException('PAYMETHODS supported values: '
 					. $suppValImplode . ' given: ' . strtoupper($val));
 			}
 		}
 
 		$str = implode(",", $payMethods);
 		if (strlen($str) > 255) {
-			throw new GPWebPayException('PAYMETHODS max. length is 255! ' . strlen($str) . ' given');
+			throw new InvalidArgumentException('PAYMETHODS max. length is 255! ' . strlen($str) . ' given');
 		}
 
 		$this->payMethods = $str;
@@ -499,7 +498,7 @@ class Operation
 	/**
 	 * @param string $email max. lenght is 255
 	 * @return Operation
-	 * @throws GPWebPayException
+	 * @throws InvalidArgumentException
 	 */
 	public function setEmail($email)
 	{
@@ -507,7 +506,7 @@ class Operation
 			throw new InvalidArgumentException('EMAIL is not valid! ' . $email . ' given');
 		}
 		if (strlen((string)$email) > 255) {
-			throw new GPWebPayException('EMAIL max. length is 255! ' . strlen($email) . ' given');
+			throw new InvalidArgumentException('EMAIL max. length is 255! ' . strlen($email) . ' given');
 		}
 
 		$this->email = $email;
@@ -525,12 +524,12 @@ class Operation
 	/**
 	 * @param string $referenceNumber max. lenght is 20
 	 * @return Operation
-	 * @throws GPWebPayException
+	 * @throws InvalidArgumentException
 	 */
 	public function setReferenceNumber($referenceNumber)
 	{
 		if (strlen((string)$referenceNumber) > 20) {
-			throw new GPWebPayException('REFERENCENUMBER max. length is 20! ' . strlen($referenceNumber) . ' given');
+			throw new InvalidArgumentException('REFERENCENUMBER max. length is 20! ' . strlen($referenceNumber) . ' given');
 		}
 		$this->referenceNumber = $referenceNumber;
 		return $this;
@@ -547,21 +546,20 @@ class Operation
 	/**
 	 * @param int $fastPayId max. lenght is 15
 	 * @return Operation
-	 * @throws GPWebPayException
+	 * @throws InvalidArgumentException
 	 */
 	public function setFastPayId($fastPayId)
 	{
 		if (strlen((string)$fastPayId) > 15) {
-			throw new GPWebPayException('FASTPAYID max. length is 15! ' . strlen($fastPayId) . ' given');
+			throw new InvalidArgumentException('FASTPAYID max. length is 15! ' . strlen($fastPayId) . ' given');
 		}
 
 		if (!is_int($fastPayId)) {
-			throw new GPWebPayException('FASTPAYID must by numeric! ' . gettype($fastPayId) . ' given');
+			throw new InvalidArgumentException('FASTPAYID must by numeric! ' . gettype($fastPayId) . ' given');
 		}
 
 		$this->fastPayId = $fastPayId;
 		return $this;
 	}
-
 
 }

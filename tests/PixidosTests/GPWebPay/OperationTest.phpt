@@ -7,7 +7,6 @@
 
 namespace Pixidos\GPWebPayTest;
 
-use Pixidos\GPWebPay\Exceptions\GPWebPayException;
 use Pixidos\GPWebPay\Exceptions\InvalidArgumentException;
 use Pixidos\GPWebPay\Operation;
 use PixidosTests\GPWebPay\GPWebPayTestCase;
@@ -97,7 +96,7 @@ class OperationTest extends GPWebPayTestCase
 		}
 		Assert::exception(function () use ($operation, $url){
 			$operation->setResponseUrl($url);
-		}, GPWebPayException::class, 'URL max. length is 300! ' . strlen($url) . ' given');
+		}, InvalidArgumentException::class, 'URL max. length is 300! ' . strlen($url) . ' given');
 
 		$url = 'absdsdas';
 		Assert::exception(function () use ($operation, $url){
@@ -120,7 +119,7 @@ class OperationTest extends GPWebPayTestCase
 		}
 		Assert::exception(function () use ($operation, $md){
 			$operation->setMd($md);
-		}, GPWebPayException::class, 'MD max. length is 250! ' . strlen($md) . ' given');
+		}, InvalidArgumentException::class, 'MD max. length is 250! ' . strlen($md) . ' given');
 
 	}
 
@@ -137,7 +136,7 @@ class OperationTest extends GPWebPayTestCase
 		}
 		Assert::exception(function () use ($operation, $description){
 			$operation->setDescription($description);
-		}, GPWebPayException::class, 'DESCRIPTION max. length is 255! ' . strlen($description) . ' given');
+		}, InvalidArgumentException::class, 'DESCRIPTION max. length is 255! ' . strlen($description) . ' given');
 
 	}
 
@@ -154,7 +153,7 @@ class OperationTest extends GPWebPayTestCase
 		}
 		Assert::exception(function () use ($operation, $merordernum){
 			$operation->setMerOrderNum($merordernum);
-		}, GPWebPayException::class, 'MERORDERNUM max. length is 30! ' . strlen($merordernum) . ' given');
+		}, InvalidArgumentException::class, 'MERORDERNUM max. length is 30! ' . strlen($merordernum) . ' given');
 
 	}
 
@@ -170,7 +169,7 @@ class OperationTest extends GPWebPayTestCase
 
 		Assert::exception(function () use ($operation, $lang){
 			$operation->setLang($lang);
-		}, GPWebPayException::class, 'LANG max. length is 2! ' . strlen($lang) . ' given');
+		}, InvalidArgumentException::class, 'LANG max. length is 2! ' . strlen($lang) . ' given');
 
 	}
 
@@ -188,7 +187,7 @@ class OperationTest extends GPWebPayTestCase
 		}
 		Assert::exception(function () use ($operation, $userParam1){
 			$operation->setUserParam1($userParam1);
-		}, GPWebPayException::class, 'USERPARAM1 max. length is 255! ' . strlen((string)$userParam1) . ' given');
+		}, InvalidArgumentException::class, 'USERPARAM1 max. length is 255! ' . strlen((string)$userParam1) . ' given');
 
 	}
 
@@ -210,12 +209,12 @@ class OperationTest extends GPWebPayTestCase
 		}
 		Assert::exception(function () use ($operation, $payMethod) {
 			$operation->setPayMethod($payMethod);
-		}, GPWebPayException::class, 'PAYMETHOD max. length is 255! ' . strlen((string)$payMethod) . ' given');
+		}, InvalidArgumentException::class, 'PAYMETHOD max. length is 255! ' . strlen((string)$payMethod) . ' given');
 
 		$payMethod = 'CREDIT CARD';
 		Assert::exception(function () use ($operation, $payMethod){
 			$operation->setPayMethod($payMethod);
-		}, GPWebPayException::class, 'PAYMETHOD supported values: CRD, MCM, MPS, BTNCS given: ' . strtoupper($payMethod));
+		}, InvalidArgumentException::class, 'PAYMETHOD supported values: CRD, MCM, MPS, BTNCS given: ' . strtoupper($payMethod));
 
 	}
 
@@ -236,12 +235,12 @@ class OperationTest extends GPWebPayTestCase
 		}
 		Assert::exception(function () use ($operation, $disablePayMethod) {
 			$operation->setDisablePayMethod($disablePayMethod);
-		}, GPWebPayException::class, 'DISABLEPAYMETHOD max. length is 255! ' . strlen((string)$disablePayMethod) . ' given');
+		}, InvalidArgumentException::class, 'DISABLEPAYMETHOD max. length is 255! ' . strlen((string)$disablePayMethod) . ' given');
 
 		$disablePayMethod = 'CREDIT CARD';
 		Assert::exception(function () use ($operation, $disablePayMethod){
 			$operation->setDisablePayMethod($disablePayMethod);
-		}, GPWebPayException::class, 'DISABLEPAYMETHOD supported values: CRD, MCM, MPS, BTNCS given: ' . strtoupper($disablePayMethod));
+		}, InvalidArgumentException::class, 'DISABLEPAYMETHOD supported values: CRD, MCM, MPS, BTNCS given: ' . strtoupper($disablePayMethod));
 
 	}
 
@@ -262,12 +261,12 @@ class OperationTest extends GPWebPayTestCase
 		$str = implode(",", $payMethods);
 		Assert::exception(function () use ($operation, $payMethods, $str) {
 			$operation->setPayMethods($payMethods);
-		}, GPWebPayException::class, 'PAYMETHODS max. length is 255! ' . strlen($str) . ' given');
+		}, InvalidArgumentException::class, 'PAYMETHODS max. length is 255! ' . strlen($str) . ' given');
 
 		$payMethods = ['ABC'];
 		Assert::exception(function () use ($operation, $payMethods){
 			$operation->setPayMethods($payMethods);
-		}, GPWebPayException::class, 'PAYMETHODS supported values: CRD, MCM, MPS, BTNCS given: ABC');
+		}, InvalidArgumentException::class, 'PAYMETHODS supported values: CRD, MCM, MPS, BTNCS given: ABC');
 
 	}
 
@@ -291,7 +290,7 @@ class OperationTest extends GPWebPayTestCase
 		$email .= '@test.com';
 		Assert::exception(function () use ($operation, $email){
 			$operation->setEmail($email);
-		}, GPWebPayException::class, 'EMAIL max. length is 255! ' . strlen($email) . ' given');
+		}, InvalidArgumentException::class, 'EMAIL max. length is 255! ' . strlen($email) . ' given');
 
 	}
 
@@ -304,7 +303,7 @@ class OperationTest extends GPWebPayTestCase
 		$referenceNumber = '1234567890123456789012';
 		Assert::exception(function () use ($operation, $referenceNumber){
 			$operation->setReferenceNumber($referenceNumber);
-		}, GPWebPayException::class, 'REFERENCENUMBER max. length is 20! ' . strlen($referenceNumber) . ' given');
+		}, InvalidArgumentException::class, 'REFERENCENUMBER max. length is 20! ' . strlen($referenceNumber) . ' given');
 
 	}
 
@@ -317,13 +316,13 @@ class OperationTest extends GPWebPayTestCase
 		$fastPayId = '15';
 		Assert::exception(function () use ($operation, $fastPayId){
 			$operation->setFastPayId($fastPayId);
-		}, GPWebPayException::class, 'FASTPAYID must by numeric! ' . gettype($fastPayId) . ' given');
+		}, InvalidArgumentException::class, 'FASTPAYID must by numeric! ' . gettype($fastPayId) . ' given');
 
 
 		$fastPayId = 1234567890123456;
 		Assert::exception(function () use ($operation, $fastPayId){
 			$operation->setFastPayId($fastPayId);
-		}, GPWebPayException::class, 'FASTPAYID max. length is 15! ' . strlen($fastPayId) . ' given');
+		}, InvalidArgumentException::class, 'FASTPAYID max. length is 15! ' . strlen($fastPayId) . ' given');
 
 	}
 
