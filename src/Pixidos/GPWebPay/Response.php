@@ -28,17 +28,18 @@ class Response
 
     private $gatewayKey;
 
-    /**
-     * @param string $operation
-     * @param string $ordernumber
-     * @param string $merordernum
-     * @param string $md
-     * @param int $prcode
-     * @param int $srcode
-     * @param string $resulttext
-     * @param string $digest
-     * @param string $digest1
-     */
+	/**
+	 * @param string $operation
+	 * @param string $ordernumber
+	 * @param string $merordernum
+	 * @param string $md
+	 * @param int $prcode
+	 * @param int $srcode
+	 * @param string $resulttext
+	 * @param string $digest
+	 * @param string $digest1
+	 * @param $gatewayKey
+	 */
     public function __construct($operation, $ordernumber, $merordernum, $md, $prcode, $srcode, $resulttext, $digest, $digest1, $gatewayKey) {
         $this->params['OPERATION'] = $operation;
         $this->params['ORDERNUMBER'] = $ordernumber;
