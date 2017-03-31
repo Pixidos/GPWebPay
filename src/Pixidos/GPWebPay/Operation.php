@@ -449,6 +449,10 @@ class Operation
 	 */
 	public function setPayMethods($payMethods)
 	{
+		if(! is_array($payMethods)){
+			$payMethods = [$payMethods];
+		}
+
 		$suppValImplode = implode(", ", $this->payMethodSupportedVal);
 
 		foreach ($payMethods as $key => $val) {
