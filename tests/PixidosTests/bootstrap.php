@@ -2,13 +2,11 @@
 
 
 
-if (file_exists(__DIR__.'/../../../../vendor/autoload.php')) {
+if (file_exists(__DIR__.'/../../vendor/autoload.php')) {
     // dependencies were installed via composer - this is the main project
-    $classLoader = require __DIR__ . '/../../../../vendor/autoload.php';
-}elseif (file_exists(__DIR__.'/../vendor/autoload.php')){
-    $classLoader = require __DIR__ . '/../vendor/autoload.php';
-}elseif (file_exists(__DIR__.'/../../../autoload.php')){
-    $classLoader = require __DIR__ . '/../../../autoload.php';
+    $classLoader = require __DIR__ . '/../../vendor/autoload.php';
+}elseif (file_exists(__DIR__.'/../../../../autoload.php')){
+    $classLoader = require __DIR__ . '/../../../../autoload.php';
 } else {
     throw new Exception('Can\'t find autoload.php. Did you install dependencies via Composer?');
 }
@@ -17,7 +15,7 @@ Tester\Environment::setup();
 date_default_timezone_set('Europe/Prague');
 
 // create temporary directory
-define('TEMP_DIR', __DIR__.'/tmp/test'.getmypid());
+define('TEMP_DIR', __DIR__.'/../tmp/test'.getmypid());
 @mkdir(dirname(TEMP_DIR)); // @ - directory may already exist
 \Tester\Helpers::purge(TEMP_DIR);
 

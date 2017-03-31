@@ -47,5 +47,10 @@
     "psr-0": {
       "Pixidos\\GPWebPay\\": "src/"
     }
+  },
+  "autoload-dev": {
+    "psr-0": {
+      "PixidosTests\\GPWebPay\\": "tests/"
+    }
   }
 }
