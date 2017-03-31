@@ -482,12 +482,30 @@ class Operation
 	}
 
 	/**
+	 * @param $value
+	 * @return bool
+	 */
+	public function isEmail($value)	{
+		$atom = "[-a-z0-9!#$%&'*+/=?^_`{|}~]"; // RFC 5322 unquoted characters in local-part
+		$alpha = "a-z\x80-\xFF"; // superset of IDN
+		return (bool) preg_match("(^
+			(\"([ !#-[\\]-~]*|\\\\[ -~])+\"|$atom+(\\.$atom+)*)  # quoted or unquoted
+			@
+			([0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)+    # domain - RFC 1034
+			[$alpha]([-0-9$alpha]{0,17}[$alpha])?                # top domain
+		\\z)ix", $value);
+	}
+
+	/**
 	 * @param string $email max. lenght is 255
 	 * @return Operation
 	 * @throws GPWebPayException
 	 */
 	public function setEmail($email)
 	{
+		if(!$this->isEmail($email)){
+			throw new InvalidArgumentException('EMAIL is not valid! ' . $email . ' given');
+		}
 		if (strlen((string)$email) > 255) {
 			throw new GPWebPayException('EMAIL max. length is 255! ' . strlen($email) . ' given');
 		}
