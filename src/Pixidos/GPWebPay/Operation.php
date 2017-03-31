@@ -156,7 +156,10 @@ class Operation
 				throw new InvalidArgumentException('AMOUNT must by type of INT or FLOAT !' . gettype($amount) . ' given');
 			}
 		}
-		$this->amount = $amount * 100;
+		// prevod na halere/centy
+		$amount *= 100;
+
+		$this->amount = (int)$amount;
 
 		return $this;
 	}
