@@ -173,7 +173,7 @@ class Operation
 		if (!is_int($currency)) {
 			throw new InvalidArgumentException('CURRENCY must by INT ! ' . gettype($currency) . ' given');
 		}
-		if (strlen($currency) > 15) {
+		if (strlen($currency) > 3) {
 			throw new InvalidArgumentException('CURRENCY code max. length is 3! ' . strlen($currency) . ' given');
 		}
 
