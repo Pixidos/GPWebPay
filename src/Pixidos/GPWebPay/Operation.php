@@ -139,6 +139,7 @@ class Operation
 			throw new InvalidArgumentException('ORDERNUMBER max. length is 15! ' . strlen($orderNumber) . ' given');
 		}
 		if (!is_numeric($orderNumber)) {
+		if (is_string($orderNumber) || !is_numeric($orderNumber) || is_float($orderNumber)) {
 			throw new InvalidArgumentException('ORDERNUMBER must by type of numeric ' . gettype($orderNumber) . ' given');
 		}
 		$this->orderNumber = $orderNumber;
