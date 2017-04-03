@@ -1,0 +1,18 @@
+php:
+	date.timezone: Europe/Prague
+
+http:
+	frames: null
+
+session:
+	autoStart: false
+
+application:
+	mapping:
+		*: PixidosTests\GPWebPay\*Presenter
+
+services:
+	router: Nette\Application\Routers\SimpleRouter
+
+	cacheStorage:
+		class: Nette\Caching\Storages\MemoryStorage
