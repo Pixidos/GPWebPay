@@ -84,9 +84,10 @@ class GPWebPayControl extends UI\Control
 			$this->onCheckout($this, $this->provider->getRequest());
 			$this->getPresenter()->redirectUrl($url);
 
-			
+
 		} catch (GPWebPayException $e) {
-			throw $e;
+			$this->errorHandler($e);
+			return;
 		}
 
 
