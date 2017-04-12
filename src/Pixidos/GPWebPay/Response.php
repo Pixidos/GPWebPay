@@ -50,7 +50,9 @@ class Response
             $this->params['MD'] = $md;
         $this->params['PRCODE'] = (int)$prcode;
         $this->params['SRCODE'] = (int)$srcode;
-        $this->params['RESULTTEXT'] = $resulttext;
+        if ( ! empty($resulttext)) {
+		    $this->params['RESULTTEXT'] = $resulttext;
+        }
         $this->digest = $digest;
         $this->digest1 = $digest1;
         $this->gatewayKey = $gatewayKey;
