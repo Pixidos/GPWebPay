@@ -58,6 +58,7 @@ class Response
         $this->gatewayKey = $gatewayKey;
     }
 
+
     /**
      * @return array
      */
@@ -144,4 +145,17 @@ class Response
     {
         return $this->params['RESULTTEXT'];
     }
+
+	/**
+	 * @return string
+	 */
+	public function getUserParam1()
+	{
+		return $this->params['USERPARAM1'];
+    }
+
+	public function setUserParam1($userParam1)
+	{
+		$this->params['USERPARAM1'] = $userParam1;
+	}
 }

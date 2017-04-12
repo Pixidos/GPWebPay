@@ -117,8 +117,12 @@ class Provider
 		} else {
 			$gatewayKey = $key[0];
 		}
-		return new Response($operation, $ordernumber, $merordernum, $md, $prcode, $srcode, $resulttext, $digest,
+		$response = new Response($operation, $ordernumber, $merordernum, $md, $prcode, $srcode, $resulttext, $digest,
 			$digest1, $gatewayKey);
+		if(isset($params['USERPARAM1'])){
+			$response->setUserParam1($params['USERPARAM1']);
+		}
+		return $response;
 	}
 
 	/**
