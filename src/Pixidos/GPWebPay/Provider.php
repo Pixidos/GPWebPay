@@ -106,7 +106,7 @@ class Provider
 		$md = isset ($params ['MD']) ? $params['MD'] : NULL;
 		$prcode = isset ($params ['PRCODE']) ? $params ['PRCODE'] : '';
 		$srcode = isset ($params ['SRCODE']) ? $params ['SRCODE'] : '';
-		$resulttext = isset ($params ['RESULTTEXT']) ? $params ['RESULTTEXT'] : '';
+		$resulttext = isset ($params ['RESULTTEXT']) ? $params ['RESULTTEXT'] : NULL;
 		$digest = isset ($params ['DIGEST']) ? $params ['DIGEST'] : '';
 		$digest1 = isset ($params ['DIGEST1']) ? $params ['DIGEST1'] : '';
 
