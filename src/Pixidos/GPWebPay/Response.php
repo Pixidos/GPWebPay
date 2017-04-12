@@ -89,11 +89,7 @@ class Response
      */
     public function getMerOrderNumber()
     {
-        if(isset($this->params['MERORDERNUM']))
-            return $this->params['MERORDERNUM'];
-        else{
-            return NULL;
-        }
+		return isset($this->params['MERORDERNUM']) ? $this->params['MERORDERNUM'] : NULL;
     }
 
     /**
@@ -141,17 +137,20 @@ class Response
         return $this->params['PRCODE'];
     }
 
-    public function getResultText()
+	/**
+	 * @return string|null
+	 */
+	public function getResultText()
     {
-        return $this->params['RESULTTEXT'];
+        return isset($this->params['RESULTTEXT']) ? $this->params['RESULTTEXT'] : NULL;
     }
 
 	/**
-	 * @return string
+	 * @return string | null
 	 */
 	public function getUserParam1()
 	{
-		return $this->params['USERPARAM1'];
+		return isset($this->params['USERPARAM1']) ? $this->params['USERPARAM1'] : NULL;
     }
 
 	public function setUserParam1($userParam1)
