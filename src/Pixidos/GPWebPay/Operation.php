@@ -109,13 +109,14 @@ class Operation
 	 * @param int $currency max. length is 3
 	 * @param null $gatewayKey
 	 * @param null $responseUrl
+	 * @param bool $converToPennies
 	 * @throws InvalidArgumentException
 	 */
-	public function __construct($orderNumber, $amount, $currency, $gatewayKey = NULL, $responseUrl = NULL)
+	public function __construct($orderNumber, $amount, $currency, $gatewayKey = NULL, $responseUrl = NULL, $converToPennies = TRUE)
 	{
 
 		$this->setOrderNumber($orderNumber);
-		$this->setAmount($amount);
+		$this->setAmount($amount, $converToPennies);
 		$this->setCurrency($currency);
 
 		$this->gatewayKey = $gatewayKey;
@@ -146,10 +147,11 @@ class Operation
 
 	/**
 	 * @param int | float $amount
+	 * @param bool $converToPennies
 	 * @return $this
 	 * @throws InvalidArgumentException
 	 */
-	private function setAmount($amount)
+	private function setAmount($amount, $converToPennies = TRUE)
 	{
 		if (!is_int($amount)) {
 			if (!is_float($amount)) {
@@ -157,7 +159,9 @@ class Operation
 			}
 		}
 		// prevod na halere/centy
-		$amount *= 100;
+		if($converToPennies){
+			$amount *= 100;
+		}
 
 		$this->amount = (int)$amount;
 

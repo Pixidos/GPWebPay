@@ -36,6 +36,14 @@ class OperationTest extends GPWebPayTestCase
 		Assert::same('http://response.com', $operation->getResponseUrl());
 	}
 
+	public function testConversionForPenniesOff()
+	{
+		$operation = new Operation(123456, 100000, 203, 'CZK', 'http://response.com', FALSE);
+
+		Assert::same(100000, $operation->getAmount());
+
+	}
+
 
 	/**
 	 * @dataProvider getOrderNumberExceptionData
