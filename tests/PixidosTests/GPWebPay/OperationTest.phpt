@@ -59,7 +59,6 @@ class OperationTest extends GPWebPayTestCase
 	public function getOrderNumberExceptionData()
 	{
 		return [
-			['123456'],
 			['FA1234'],
 			[9.2],
 			['9.2'],
