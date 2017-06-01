@@ -1,1 +1,1 @@
-../vendor/bin/tester.bat -c "C:\Program Files (x86)\PHP\v7.0\php.ini" ./PixidosTests/
+../vendor/bin/tester.bat -c "C:\Program Files (x86)\PHP\v5.6\php.ini" ./PixidosTests/

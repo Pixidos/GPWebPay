@@ -387,7 +387,7 @@ class Operation
 		$payMethod = strtoupper($payMethod);
 		if (!in_array($payMethod, $this->payMethodSupportedVal)) {
 			throw new InvalidArgumentException('PAYMETHOD supported values: '
-				. implode(", ", $this->payMethodSupportedVal) . ' given: ' . strtoupper($payMethod));
+				. implode(', ', $this->payMethodSupportedVal) . ' given: ' . strtoupper($payMethod));
 		}
 
 		$this->payMethod = strtoupper($payMethod);
@@ -419,9 +419,9 @@ class Operation
 			throw new InvalidArgumentException('DISABLEPAYMETHOD max. length is 255! ' . strlen((string)$disablePayMethod) . ' given');
 		}
 
-		if (!in_array(strtoupper($disablePayMethod), $this->payMethodSupportedVal)) {
+		if (!in_array(strtoupper($disablePayMethod), $this->payMethodSupportedVal, TRUE)) {
 			throw new InvalidArgumentException('DISABLEPAYMETHOD supported values: '
-				. implode(", ", $this->payMethodSupportedVal) . ' given: ' . strtoupper($disablePayMethod));
+				. implode(', ', $this->payMethodSupportedVal) . ' given: ' . strtoupper($disablePayMethod));
 		}
 
 		$this->disablePayMethod = $disablePayMethod;
@@ -453,7 +453,7 @@ class Operation
 			$payMethods = [$payMethods];
 		}
 
-		$suppValImplode = implode(", ", $this->payMethodSupportedVal);
+		$suppValImplode = implode(', ', $this->payMethodSupportedVal);
 
 		foreach ($payMethods as $key => $val) {
 			$val = strtoupper($val);
