@@ -8,6 +8,7 @@
 
 namespace Pixidos\GPWebPay;
 
+use Pixidos\GPWebPay\Exceptions\GPWebPayException;
 use Pixidos\GPWebPay\Exceptions\InvalidArgumentException;
 
 /**
