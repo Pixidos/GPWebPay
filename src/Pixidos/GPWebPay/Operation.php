@@ -8,7 +8,6 @@
 
 namespace Pixidos\GPWebPay;
 
-use Pixidos\GPWebPay\Exceptions\GPWebPayException;
 use Pixidos\GPWebPay\Exceptions\InvalidArgumentException;
 
 /**
@@ -139,7 +138,7 @@ class Operation
 		if (strlen($orderNumber) > 15) {
 			throw new InvalidArgumentException('ORDERNUMBER max. length is 15! ' . strlen($orderNumber) . ' given');
 		}
-		if (is_string($orderNumber) || !is_numeric($orderNumber) || is_float($orderNumber)) {
+		if (!is_numeric($orderNumber) || is_float($orderNumber)) {
 			throw new InvalidArgumentException('ORDERNUMBER must by type of numeric ' . gettype($orderNumber) . ' given');
 		}
 		$this->orderNumber = $orderNumber;
@@ -162,9 +161,7 @@ class Operation
 		if($converToPennies){
 			$amount *= 100;
 		}
-
 		$this->amount = (int)$amount;
-
 		return $this;
 	}
 
