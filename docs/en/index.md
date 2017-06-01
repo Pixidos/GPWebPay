@@ -15,7 +15,7 @@ and you can enable the extension using your neon config
 
 ```yml
 extensions:
-	gpwebpay: Pixidos\GPWebPay\DI\GPWebPayExtension
+    gpwebpay: Pixidos\GPWebPay\DI\GPWebPayExtension
 ```
 
 and setting
@@ -32,17 +32,17 @@ gpwebpay:
 or if you need more then one gateway
 ```yml
 gpwebpay:
-	privateKey:
-		czk: < your CZK private certificate path .pem>
-		eur: < your EUR private certificate path .pem>
-	privateKeyPassword:
-		czk: < private CKZ certificate password >
-		eur: < private EUR certificate password >
-	publicKey: < gateway public certificate path (you will probably get this by email) > //gpe.signing_prod.pem
-	url: <url of gpwebpay system gateway > //example: https://test.3dsecure.gpwebpay.com/unicredit/order.do
-	merchantNumber:
-		czk: <your CZK merechant number >
-		eur: <your EUR merechant number >
+    privateKey:
+        czk: < your CZK private certificate path .pem>
+        eur: < your EUR private certificate path .pem>
+    privateKeyPassword:
+        czk: < private CKZ certificate password >
+        eur: < private EUR certificate password >
+    publicKey: < gateway public certificate path (you will probably get this by email) > //gpe.signing_prod.pem
+    url: <url of gpwebpay system gateway > //example: https://test.3dsecure.gpwebpay.com/unicredit/order.do
+    merchantNumber:
+        czk: <your CZK merechant number >
+        eur: <your EUR merechant number >
 ```
 
 ## Usage
