@@ -8,14 +8,16 @@
 
 namespace Pixidos\GPWebPay;
 
+use Pixidos\GPWebPay\Intefaces\IOperation;
 use Pixidos\GPWebPay\Exceptions\InvalidArgumentException;
+use Pixidos\GPWebPay\Intefaces\IRequest;
 
 /**
  * Class Request
  * @package Pixidos\GPWebPay
  * @author Ondra Votava <ondra.votava@pixidos.com>
  */
-class Request
+class Request implements IRequest
 {
 
 	/**
@@ -69,12 +71,12 @@ class Request
 	);
 
 	/**
-	 * @param Operation $operation
+	 * @param IOperation $operation
 	 * @param $merchantNumber
 	 * @param $depositFlag
 	 * @throws InvalidArgumentException
 	 */
-	public function __construct(Operation $operation, $merchantNumber, $depositFlag)
+	public function __construct(IOperation $operation, $merchantNumber, $depositFlag)
 	{
 		$this->operation = $operation;
 		if (!$this->url = $operation->getResponseUrl()) {

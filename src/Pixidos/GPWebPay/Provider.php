@@ -11,13 +11,18 @@ namespace Pixidos\GPWebPay;
 use Pixidos\GPWebPay\Exceptions\GPWebPayException;
 use Pixidos\GPWebPay\Exceptions\GPWebPayResultException;
 use Pixidos\GPWebPay\Exceptions\SignerException;
+use Pixidos\GPWebPay\Intefaces\IOperation;
+use Pixidos\GPWebPay\Intefaces\IProvider;
+use Pixidos\GPWebPay\Intefaces\IRequest;
+use Pixidos\GPWebPay\Intefaces\IResponse;
+use Pixidos\GPWebPay\Intefaces\ISigner;
 
 /**
  * Class Provider
  * @package Pixidos\GPWebPay
  * @author Ondra Votava <ondra.votava@pixidos.com>
  */
-class Provider
+class Provider implements IProvider
 {
 
 	/**
@@ -26,12 +31,12 @@ class Provider
 	private $settings;
 
 	/**
-	 * @var  Request $request
+	 * @var  IRequest $request
 	 */
 	private $request;
 
 	/**
-	 * @var  Signer $signer
+	 * @var  ISigner $signer
 	 */
 	private $signer;
 
@@ -46,10 +51,12 @@ class Provider
 
 
 	/**
-	 * @param Operation $operation
+	 * @param IOperation $operation
 	 * @return $this
+	 * @throws \Pixidos\GPWebPay\Exceptions\SignerException
+	 * @throws \Pixidos\GPWebPay\Exceptions\InvalidArgumentException
 	 */
-	public function createRequest(Operation $operation)
+	public function createRequest(IOperation $operation)
 	{
 		$this->request = new Request(
 			$operation,
@@ -67,7 +74,7 @@ class Provider
 	}
 
 	/**
-	 * @return Request
+	 * @return IRequest
 	 */
 	public function getRequest()
 	{
@@ -75,7 +82,7 @@ class Provider
 	}
 
 	/**
-	 * @return Signer
+	 * @return ISigner
 	 */
 	public function getSigner()
 	{
@@ -96,7 +103,7 @@ class Provider
 
 	/**
 	 * @param $params
-	 * @return Response
+	 * @return IResponse
 	 */
 	public function createResponse($params)
 	{
@@ -119,19 +126,19 @@ class Provider
 		}
 		$response = new Response($operation, $ordernumber, $merordernum, $md, $prcode, $srcode, $resulttext, $digest,
 			$digest1, $gatewayKey);
-		if(isset($params['USERPARAM1'])){
+		if (isset($params['USERPARAM1'])) {
 			$response->setUserParam1($params['USERPARAM1']);
 		}
 		return $response;
 	}
 
 	/**
-	 * @param Response $response
+	 * @param IResponse $response
 	 * @return bool
 	 * @throws GPWebPayException
 	 * @throws GPWebPayResultException
 	 */
-	public function verifyPaymentResponse(Response $response)
+	public function verifyPaymentResponse(IResponse $response)
 	{
 		// verify digest & digest1
 		try {
@@ -150,7 +157,7 @@ class Provider
 		}
 		// verify PRCODE and SRCODE
 		if (FALSE !== $response->hasError()) {
-			throw new GPWebPayResultException("Response has an error.", $response->getPrcode(), $response->getSrcode(),
+			throw new GPWebPayResultException('Response has an error.', $response->getPrcode(), $response->getSrcode(),
 				$response->getResultText());
 		}
 

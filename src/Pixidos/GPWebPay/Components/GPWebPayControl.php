@@ -11,12 +11,11 @@ namespace Pixidos\GPWebPay\Components;
 use Nette\Application\UI;
 use Nette\Bridges\ApplicationLatte\Template;
 use Nette\ComponentModel\IContainer;
-
 use Pixidos\GPWebPay\Exceptions\GPWebPayException;
-use Pixidos\GPWebPay\Operation;
-use Pixidos\GPWebPay\Provider;
-use Pixidos\GPWebPay\Response;
-use Pixidos\GPWebPay\Request;
+use Pixidos\GPWebPay\Intefaces\IOperation;
+use Pixidos\GPWebPay\Intefaces\IProvider;
+use Pixidos\GPWebPay\Intefaces\IRequest;
+use Pixidos\GPWebPay\Intefaces\IResponse;
 
 
 /**
@@ -56,12 +55,12 @@ class GPWebPayControl extends UI\Control
 	private $templateFile;
 
 	/**
-	 * @param Operation $operation
-	 * @param Provider $provider
+	 * @param IOperation $operation
+	 * @param IProvider $provider
 	 * @param IContainer|null $control
 	 * @param string $name
 	 */
-	public function __construct(Operation $operation, Provider $provider, IContainer $control = NULL, $name = NULL)
+	public function __construct(IOperation $operation, IProvider $provider, IContainer $control = NULL, $name = NULL)
 	{
 		parent::__construct($control, $name);
 
@@ -71,7 +70,7 @@ class GPWebPayControl extends UI\Control
 
 	/**
 	 * @throws GPWebPayException
-	 * @throws \Exception
+	 * @throws \Nette\Application\AbortException
 	 */
 	public function handleCheckout()
 	{
@@ -102,7 +101,7 @@ class GPWebPayControl extends UI\Control
 		$params = $this->getPresenter()->getParameters();
 
 		try {
-			/** @var Response $response */
+			/** @var IResponse $response */
 			$response = $this->provider->createResponse($params);
 			$this->provider->verifyPaymentResponse($response);
 		} catch (GPWebPayException $e) {

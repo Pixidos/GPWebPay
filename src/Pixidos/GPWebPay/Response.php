@@ -8,13 +8,15 @@
 
 namespace Pixidos\GPWebPay;
 
+use Pixidos\GPWebPay\Intefaces\IResponse;
+
 /**
  * Class Response
  * @package Pixidos\GPWebPay
  * @author Ondra Votava <ondra.votava@pixidos.com>
  */
 
-class Response
+class Response implements IResponse
 {
 
 	/**

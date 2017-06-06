@@ -8,6 +8,7 @@
 
 namespace Pixidos\GPWebPay;
 
+use Pixidos\GPWebPay\Intefaces\IOperation;
 use Pixidos\GPWebPay\Exceptions\InvalidArgumentException;
 
 /**
@@ -15,7 +16,7 @@ use Pixidos\GPWebPay\Exceptions\InvalidArgumentException;
  * @package Pixidos\GPWebPay
  * @author Ondra Votava <ondra.votava@pixidos.com>
  */
-class Operation
+class Operation implements IOperation
 {
 
 	const EUR                       = 978;
