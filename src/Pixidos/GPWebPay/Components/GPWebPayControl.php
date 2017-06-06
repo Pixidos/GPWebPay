@@ -24,30 +24,30 @@ use Pixidos\GPWebPay\Request;
  * @package Pixidos\GPWebPay\Components
  * @author Ondra Votava <ondra.votava@pixidos.com>
  *
- * @method onCheckout(GPWebPayControl $control, Request $request)
- * @method onSuccess(GPWebPayControl $control, Response $response)
+ * @method onCheckout(GPWebPayControl $control, IRequest $request)
+ * @method onSuccess(GPWebPayControl $control, IResponse $response)
  * @method onError(GPWebPayControl $control, GPWebPayException $exception)
  */
 class GPWebPayControl extends UI\Control
 {
 	/**
-	 * @var array of callbacks, signature: function(GPWebPayControl $control)
+	 * @var array of callback[], signature: function(GPWebPayControl $control)
 	 */
 	public $onCheckout = array();
 	/**
-	 * @var array of callbacks, signature: function(GPWebPayControl $control, Response $response)
+	 * @var array of callback[], signature: function(GPWebPayControl $control, Response $response)
 	 */
 	public $onSuccess = array();
 	/**
-	 * @var array of callbacks, signature: function(GPWebPayControl $control, \Exception $exception)
+	 * @var array of callback[], signature: function(GPWebPayControl $control, GPWebPayException $exception)
 	 */
 	public $onError = array();
 	/**
-	 * @var Operation $operation
+	 * @var IOperation $operation
 	 */
 	private $operation;
 	/**
-	 * @var  Provider $provider
+	 * @var  IProvider $provider
 	 */
 	private $provider;
 	/**

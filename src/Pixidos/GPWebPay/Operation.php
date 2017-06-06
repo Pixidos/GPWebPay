@@ -111,8 +111,14 @@ class Operation
 	 * @param bool $converToPennies
 	 * @throws InvalidArgumentException
 	 */
-	public function __construct($orderNumber, $amount, $currency, $gatewayKey = NULL, $responseUrl = NULL, $converToPennies = TRUE)
-	{
+	public function __construct(
+		$orderNumber,
+		$amount,
+		$currency,
+		$gatewayKey = NULL,
+		$responseUrl = NULL,
+		$converToPennies = TRUE
+	) {
 
 		$this->setOrderNumber($orderNumber);
 		$this->setAmount($amount, $converToPennies);
@@ -152,13 +158,12 @@ class Operation
 	 */
 	private function setAmount($amount, $converToPennies = TRUE)
 	{
-		if (!is_int($amount)) {
-			if (!is_float($amount)) {
-				throw new InvalidArgumentException('AMOUNT must by type of INT or FLOAT !' . gettype($amount) . ' given');
-			}
+		if (!is_int($amount) && !is_float($amount)) {
+			throw new InvalidArgumentException('AMOUNT must by type of INT or FLOAT !' . gettype($amount) . ' given');
 		}
+
 		// prevod na halere/centy
-		if($converToPennies){
+		if ($converToPennies) {
 			$amount *= 100;
 		}
 		$this->amount = (int)$amount;
@@ -237,9 +242,7 @@ class Operation
 	 */
 	public function getMd()
 	{
-		return ($this->md)
-			? $this->md
-			: NULL;
+		return $this->md ?: NULL;
 	}
 
 	/**
@@ -263,9 +266,7 @@ class Operation
 	 */
 	public function getDescription()
 	{
-		return ($this->description)
-			? $this->description
-			: NULL;
+		return $this->description ?: NULL;
 	}
 
 	/**
@@ -289,9 +290,7 @@ class Operation
 	 */
 	public function getMerOrderNum()
 	{
-		return ($this->merordernum)
-			? $this->merordernum
-			: NULL;
+		return $this->merordernum ?: NULL;
 	}
 
 	/**
@@ -485,10 +484,11 @@ class Operation
 	 * @param $value
 	 * @return bool
 	 */
-	public function isEmail($value)	{
+	public function isEmail($value)
+	{
 		$atom = "[-a-z0-9!#$%&'*+/=?^_`{|}~]"; // RFC 5322 unquoted characters in local-part
 		$alpha = "a-z\x80-\xFF"; // superset of IDN
-		return (bool) preg_match("(^
+		return (bool)preg_match("(^
 			(\"([ !#-[\\]-~]*|\\\\[ -~])+\"|$atom+(\\.$atom+)*)  # quoted or unquoted
 			@
 			([0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)+    # domain - RFC 1034
@@ -503,7 +503,7 @@ class Operation
 	 */
 	public function setEmail($email)
 	{
-		if(!$this->isEmail($email)){
+		if (!$this->isEmail($email)) {
 			throw new InvalidArgumentException('EMAIL is not valid! ' . $email . ' given');
 		}
 		if (strlen((string)$email) > 255) {
