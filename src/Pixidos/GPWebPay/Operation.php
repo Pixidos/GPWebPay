@@ -18,8 +18,19 @@ use Pixidos\GPWebPay\Exceptions\InvalidArgumentException;
 class Operation
 {
 
-	const EUR = 978;
-	const CZK = 203;
+	const EUR                       = 978;
+	const CZK                       = 203;
+	const PAYMENT_CARD              = 'CRD';
+	const PAYMENT_MASTERCARD_MOBILE = 'MCM';
+	const PAYMENT_MASTERPASS        = 'MPS';
+	const PAYMENT_PLATBA24          = 'BTNCS';
+
+	private static $payMethodSupportedVal = [
+		self::PAYMENT_CARD,
+		self::PAYMENT_MASTERCARD_MOBILE,
+		self::PAYMENT_MASTERPASS,
+		self::PAYMENT_PLATBA24,
+	];
 
 	/**
 	 * @var int $orderNumber
@@ -92,13 +103,6 @@ class Operation
 	 * @var int fastPayId
 	 */
 	private $fastPayId = NULL;
-
-	private $payMethodSupportedVal = [
-		'CRD',
-		'MCM',
-		'MPS',
-		'BTNCS',
-	];
 
 
 	/**
@@ -372,7 +376,7 @@ class Operation
 	}
 
 	/**
-	 * @param string $payMethod supported val: CRD – payment card | MCM – MasterCard Mobile | MPS – MasterPass | BTNCS - PLATBA 24
+	 * @param string $payMethod supported val: Operation::PAYMENT_xxx
 	 * @return Operation
 	 * @throws InvalidArgumentException
 	 */
@@ -384,9 +388,9 @@ class Operation
 		}
 
 		$payMethod = strtoupper($payMethod);
-		if (!in_array($payMethod, $this->payMethodSupportedVal)) {
+		if (!in_array($payMethod, self::$payMethodSupportedVal, TRUE)) {
 			throw new InvalidArgumentException('PAYMETHOD supported values: '
-				. implode(', ', $this->payMethodSupportedVal) . ' given: ' . strtoupper($payMethod));
+				. implode(', ', self::$payMethodSupportedVal) . ' given: ' . strtoupper($payMethod));
 		}
 
 		$this->payMethod = strtoupper($payMethod);
@@ -407,7 +411,7 @@ class Operation
 	 * MCM – MasterCard Mobile
 	 * MPS – MasterPass
 	 * BTNCS - PLATBA 24
-	 * @param string $disablePayMethod supported val: CRD, MCM, MPS, BTNCS
+	 * @param string $disablePayMethod supported val: Operation::PAYMENT_xxx
 	 * @return Operation
 	 * @throws InvalidArgumentException
 	 */
@@ -418,9 +422,9 @@ class Operation
 			throw new InvalidArgumentException('DISABLEPAYMETHOD max. length is 255! ' . strlen((string)$disablePayMethod) . ' given');
 		}
 
-		if (!in_array(strtoupper($disablePayMethod), $this->payMethodSupportedVal, TRUE)) {
+		if (!in_array(strtoupper($disablePayMethod), self::$payMethodSupportedVal, TRUE)) {
 			throw new InvalidArgumentException('DISABLEPAYMETHOD supported values: '
-				. implode(', ', $this->payMethodSupportedVal) . ' given: ' . strtoupper($disablePayMethod));
+				. implode(', ', self::$payMethodSupportedVal) . ' given: ' . strtoupper($disablePayMethod));
 		}
 
 		$this->disablePayMethod = $disablePayMethod;
@@ -448,22 +452,22 @@ class Operation
 	 */
 	public function setPayMethods($payMethods)
 	{
-		if(! is_array($payMethods)){
+		if (!is_array($payMethods)) {
 			$payMethods = [$payMethods];
 		}
 
-		$suppValImplode = implode(', ', $this->payMethodSupportedVal);
+		$suppValImplode = implode(', ', self::$payMethodSupportedVal);
 
 		foreach ($payMethods as $key => $val) {
 			$val = strtoupper($val);
 			$payMethods[$key] = $val;
-			if (!in_array($val, $this->payMethodSupportedVal)) {
+			if (!in_array($val, self::$payMethodSupportedVal, TRUE)) {
 				throw new InvalidArgumentException('PAYMETHODS supported values: '
 					. $suppValImplode . ' given: ' . strtoupper($val));
 			}
 		}
 
-		$str = implode(",", $payMethods);
+		$str = implode(',', $payMethods);
 		if (strlen($str) > 255) {
 			throw new InvalidArgumentException('PAYMETHODS max. length is 255! ' . strlen($str) . ' given');
 		}
