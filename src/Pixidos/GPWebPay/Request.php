@@ -49,7 +49,7 @@ class Request implements IRequest
 	 *
 	 * @var array $digestParamsKeys
 	 */
-	private $digestParamsKeys = array(
+	private static $digestParamsKeys = array(
 		'MERCHANTNUMBER',
 		'OPERATION',
 		'ORDERNUMBER',
@@ -140,6 +140,7 @@ class Request implements IRequest
 	}
 
 	/**
+	 * Method only for ISinger
 	 * @param string $digest
 	 * @internal
 	 */
@@ -157,12 +158,11 @@ class Request implements IRequest
 	}
 
 	/**
-	 *
 	 * @return array
 	 */
 	public function getDigestParams()
 	{
-		return array_intersect_key($this->params, array_flip($this->digestParamsKeys));
+		return array_intersect_key($this->params, array_flip(self::$digestParamsKeys));
 	}
 
 }
