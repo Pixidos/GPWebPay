@@ -135,8 +135,6 @@ class Operation
 		if ($responseUrl) {
 			$this->setResponseUrl($responseUrl);
 		}
-
-
 	}
 
 	/**
@@ -216,9 +214,7 @@ class Operation
 	 */
 	public function getResponseUrl()
 	{
-		return ($this->responseUrl)
-			? $this->responseUrl
-			: NULL;
+		return $this->responseUrl ?: NULL;
 	}
 
 	/**
