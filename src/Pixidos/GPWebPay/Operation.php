@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ondra Votava
- * Date: 21.10.2015
- * Time: 11:18
- */
+declare(strict_types=1);
 
 namespace Pixidos\GPWebPay;
 
-use Pixidos\GPWebPay\Intefaces\IOperation;
 use Pixidos\GPWebPay\Exceptions\InvalidArgumentException;
+use Pixidos\GPWebPay\Intefaces\IOperation;
 
 /**
  * Class Operation
@@ -18,550 +13,609 @@ use Pixidos\GPWebPay\Exceptions\InvalidArgumentException;
  */
 class Operation implements IOperation
 {
-
-	const EUR                       = 978;
-	const CZK                       = 203;
-	const PAYMENT_CARD              = 'CRD';
-	const PAYMENT_MASTERCARD_MOBILE = 'MCM';
-	const PAYMENT_MASTERPASS        = 'MPS';
-	const PAYMENT_PLATBA24          = 'BTNCS';
-
-	private static $payMethodSupportedVal = [
-		self::PAYMENT_CARD,
-		self::PAYMENT_MASTERCARD_MOBILE,
-		self::PAYMENT_MASTERPASS,
-		self::PAYMENT_PLATBA24,
-	];
-
-	/**
-	 * @var int $orderNumber
-	 */
-	private $orderNumber;
-
-	/**
-	 * @var int $amount
-	 */
-	private $amount;
-
-	/**
-	 * @var int $currency
-	 */
-	private $currency;
-
-	/**
-	 * @var  string $description
-	 */
-	private $description;
-	/**
-	 * @var  string $md
-	 */
-	private $md;
-	/**
-	 * @var  int $merordernum
-	 */
-	private $merordernum;
-	/**
-	 * @var null $responseUrl
-	 */
-	private $responseUrl;
-
-	/**
-	 * @var string $gatewayKey
-	 */
-	private $gatewayKey = NULL;
-
-	/**
-	 * @var string $lang
-	 */
-	private $lang;
-
-	/**
-	 * @var  string $userParam1
-	 */
-	private $userParam1 = NULL;
-	/**
-	 * @var  string $payMethod
-	 */
-	private $payMethod = NULL;
-	/**
-	 * @var  string $disablePayMethod
-	 */
-	private $disablePayMethod = NULL;
-	/**
-	 * @var  array $payMethods
-	 */
-	private $payMethods = [];
-	/**
-	 * @var  string $email
-	 */
-	private $email = NULL;
-	/**
-	 * @var  string $referenceNumber
-	 */
-	private $referenceNumber = NULL;
-
-	/**
-	 * @var int fastPayId
-	 */
-	private $fastPayId = NULL;
-
-
-	/**
-	 * Operation constructor.
-	 * @param string $orderNumber max. length is 15
-	 * @param int $amount
-	 * @param int $currency max. length is 3
-	 * @param null $gatewayKey
-	 * @param null $responseUrl
-	 * @param bool $converToPennies
-	 * @throws InvalidArgumentException
-	 */
-	public function __construct(
-		$orderNumber,
-		$amount,
-		$currency,
-		$gatewayKey = NULL,
-		$responseUrl = NULL,
-		$converToPennies = TRUE
-	) {
-
-		$this->setOrderNumber($orderNumber);
-		$this->setAmount($amount, $converToPennies);
-		$this->setCurrency($currency);
-
-		$this->gatewayKey = $gatewayKey;
-
-		$this->md = $gatewayKey;
-
-		if ($responseUrl) {
-			$this->setResponseUrl($responseUrl);
-		}
-	}
-
-	/**
-	 * @param int $orderNumber
-	 * @throws InvalidArgumentException
-	 */
-	private function setOrderNumber($orderNumber)
-	{
-		if (strlen($orderNumber) > 15) {
-			throw new InvalidArgumentException('ORDERNUMBER max. length is 15! ' . strlen($orderNumber) . ' given');
-		}
-		if (!is_numeric($orderNumber) || floor($orderNumber) != $orderNumber) {
-			throw new InvalidArgumentException('ORDERNUMBER must by type of numeric ' . gettype($orderNumber) . ' given');
-		}
-		$this->orderNumber = $orderNumber;
-	}
-
-	/**
-	 * @param int | float $amount
-	 * @param bool $converToPennies
-	 * @return $this
-	 * @throws InvalidArgumentException
-	 */
-	private function setAmount($amount, $converToPennies = TRUE)
-	{
-		if (!is_int($amount) && !is_float($amount)) {
-			throw new InvalidArgumentException('AMOUNT must by type of INT or FLOAT !' . gettype($amount) . ' given');
-		}
-
-		// prevod na halere/centy
-		if ($converToPennies) {
-			$amount *= 100;
-		}
-		$this->amount = (int)$amount;
-		return $this;
-	}
-
-	/**
-	 * @param $currency
-	 * @throws InvalidArgumentException
-	 */
-	private function setCurrency($currency)
-	{
-		if (!is_int($currency)) {
-			throw new InvalidArgumentException('CURRENCY must by INT ! ' . gettype($currency) . ' given');
-		}
-		if (strlen($currency) > 3) {
-			throw new InvalidArgumentException('CURRENCY code max. length is 3! ' . strlen($currency) . ' given');
-		}
-
-		$this->currency = $currency;
-	}
-
-	public function getOrderNumber()
-	{
-		return $this->orderNumber;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getAmount()
-	{
-		return $this->amount;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getCurrency()
-	{
-		return $this->currency;
-	}
-
-	/**
-	 * @return null | string
-	 */
-	public function getResponseUrl()
-	{
-		return $this->responseUrl ?: NULL;
-	}
-
-	/**
-	 * @param string $url max. lenght is 300
-	 * @return $this
-	 * @throws InvalidArgumentException
-	 */
-	public function setResponseUrl($url)
-	{
-		if (!filter_var($url, FILTER_VALIDATE_URL)) {
-			throw new InvalidArgumentException('URL is Invalid');
-		}
-
-		if (strlen($url) > 300) {
-			throw new InvalidArgumentException('URL max. length is 300! ' . strlen($url) . ' given');
-		}
-
-		$this->responseUrl = $url;
-
-		return $this;
-	}
-
-	/**
-	 * @return null | string
-	 */
-	public function getMd()
-	{
-		return $this->md ?: NULL;
-	}
-
-	/**
-	 * @param string $md max. length is 255!
-	 * @return $this
-	 * @throws InvalidArgumentException
-	 */
-	public function setMd($md)
-	{
-		if ((strlen((string)$this->md) + strlen($md)) > 250) {
-			throw new InvalidArgumentException('MD max. length is 250! ' . strlen($md) . ' given');
-		}
-
-		$this->md .= '|' . $md;
-
-		return $this;
-	}
-
-	/**
-	 * @return null | string
-	 */
-	public function getDescription()
-	{
-		return $this->description ?: NULL;
-	}
-
-	/**
-	 * @param string $description max. length is 255
-	 * @return $this
-	 * @throws InvalidArgumentException
-	 */
-	public function setDescription($description)
-	{
-		if (strlen($description) > 255) {
-			throw new InvalidArgumentException('DESCRIPTION max. length is 255! ' . strlen($description) . ' given');
-		}
-
-		$this->description = $description;
-
-		return $this;
-	}
-
-	/**
-	 * @return int|null
-	 */
-	public function getMerOrderNum()
-	{
-		return $this->merordernum ?: NULL;
-	}
-
-	/**
-	 * @param string $merordernum max. length is 30
-	 * @return $this
-	 * @throws InvalidArgumentException
-	 */
-	public function setMerOrderNum($merordernum)
-	{
-		if (strlen($merordernum) > 30) {
-			throw new InvalidArgumentException('MERORDERNUM max. length is 30! ' . strlen($merordernum) . ' given');
-		}
-		$this->merordernum = $merordernum;
-
-		return $this;
-	}
-
-	/**
-	 * @return null|string
-	 */
-	public function getGatewayKey()
-	{
-		return $this->gatewayKey;
-	}
-
-	/**
-	 *
-	 * @param string $lang max. length is 2
-	 * @return \Pixidos\GPWebPay\Operation
-	 * @throws InvalidArgumentException
-	 */
-	public function setLang($lang)
-	{
-		if (strlen($lang) > 2) {
-			throw new InvalidArgumentException('LANG max. length is 2! ' . strlen($lang) . ' given');
-		}
-		$this->lang = (string)$lang;
-
-		return $this;
-	}
-
-	/**
-	 *
-	 * @return null|string
-	 */
-	public function getLang()
-	{
-		return $this->lang;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getUserParam1()
-	{
-		return $this->userParam1;
-	}
-
-	/**
-	 * @param string $userParam1 max. length is 255
-	 * @return Operation
-	 * @throws InvalidArgumentException
-	 */
-	public function setUserParam1($userParam1)
-	{
-		if (strlen((string)$userParam1) > 255) {
-			throw new InvalidArgumentException('USERPARAM1 max. length is 255! ' . strlen((string)$userParam1) . ' given');
-		}
-		$this->userParam1 = $userParam1;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPayMethod()
-	{
-		return $this->payMethod;
-	}
-
-	/**
-	 * @param string $payMethod supported val: Operation::PAYMENT_xxx
-	 * @return Operation
-	 * @throws InvalidArgumentException
-	 */
-	public function setPayMethod($payMethod)
-	{
-
-		if (strlen((string)$payMethod) > 255) {
-			throw new InvalidArgumentException('PAYMETHOD max. length is 255! ' . strlen((string)$payMethod) . ' given');
-		}
-
-		$payMethod = strtoupper($payMethod);
-		if (!in_array($payMethod, self::$payMethodSupportedVal, TRUE)) {
-			throw new InvalidArgumentException('PAYMETHOD supported values: '
-				. implode(', ', self::$payMethodSupportedVal) . ' given: ' . strtoupper($payMethod));
-		}
-
-		$this->payMethod = strtoupper($payMethod);
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDisablePayMethod()
-	{
-		return $this->disablePayMethod;
-	}
-
-	/**
-	 * Supported Values:
-	 * CRD – payment card
-	 * MCM – MasterCard Mobile
-	 * MPS – MasterPass
-	 * BTNCS - PLATBA 24
-	 * @param string $disablePayMethod supported val: Operation::PAYMENT_xxx
-	 * @return Operation
-	 * @throws InvalidArgumentException
-	 */
-	public function setDisablePayMethod($disablePayMethod)
-	{
-
-		if (strlen((string)$disablePayMethod) > 255) {
-			throw new InvalidArgumentException('DISABLEPAYMETHOD max. length is 255! ' . strlen((string)$disablePayMethod) . ' given');
-		}
-
-		if (!in_array(strtoupper($disablePayMethod), self::$payMethodSupportedVal, TRUE)) {
-			throw new InvalidArgumentException('DISABLEPAYMETHOD supported values: '
-				. implode(', ', self::$payMethodSupportedVal) . ' given: ' . strtoupper($disablePayMethod));
-		}
-
-		$this->disablePayMethod = $disablePayMethod;
-		return $this;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getPayMethods()
-	{
-		return $this->payMethods;
-	}
-
-	/**
-	 * List of allowed payment methods.
-	 * Supported Values:
-	 * CRD – payment card
-	 * MCM – MasterCard Mobile
-	 * MPS – MasterPass
-	 * BTNCS - PLATBA 24
-	 * @param array $payMethods supported val: [CRD, MCM, MPS, BTNCS]
-	 * @return Operation
-	 * @throws InvalidArgumentException
-	 */
-	public function setPayMethods($payMethods)
-	{
-		if (!is_array($payMethods)) {
-			$payMethods = [$payMethods];
-		}
-
-		$suppValImplode = implode(', ', self::$payMethodSupportedVal);
-
-		foreach ($payMethods as $key => $val) {
-			$val = strtoupper($val);
-			$payMethods[$key] = $val;
-			if (!in_array($val, self::$payMethodSupportedVal, TRUE)) {
-				throw new InvalidArgumentException('PAYMETHODS supported values: '
-					. $suppValImplode . ' given: ' . strtoupper($val));
-			}
-		}
-
-		$str = implode(',', $payMethods);
-		if (strlen($str) > 255) {
-			throw new InvalidArgumentException('PAYMETHODS max. length is 255! ' . strlen($str) . ' given');
-		}
-
-		$this->payMethods = $str;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getEmail()
-	{
-		return $this->email;
-	}
-
-	/**
-	 * @param $value
-	 * @return bool
-	 */
-	public function isEmail($value)
-	{
-		$atom = "[-a-z0-9!#$%&'*+/=?^_`{|}~]"; // RFC 5322 unquoted characters in local-part
-		$alpha = "a-z\x80-\xFF"; // superset of IDN
-		return (bool)preg_match("(^
+    
+    public const EUR = 978;
+    public const CZK = 203;
+    public const PAYMENT_CARD = 'CRD';
+    public const PAYMENT_MASTERCARD_MOBILE = 'MCM';
+    public const PAYMENT_MASTERPASS = 'MPS';
+    public const PAYMENT_PLATBA24 = 'BTNCS';
+    
+    private static $payMethodSupportedVal = [
+        self::PAYMENT_CARD,
+        self::PAYMENT_MASTERCARD_MOBILE,
+        self::PAYMENT_MASTERPASS,
+        self::PAYMENT_PLATBA24,
+    ];
+    
+    /**
+     * @var string $orderNumber
+     */
+    private $orderNumber;
+    
+    /**
+     * @var int $amount
+     */
+    private $amount;
+    
+    /**
+     * @var int $currency
+     */
+    private $currency;
+    
+    /**
+     * @var string $description
+     */
+    private $description;
+    /**
+     * @var string $md
+     */
+    private $md;
+    /**
+     * @var int $merordernum
+     */
+    private $merordernum;
+    /**
+     * @var null $responseUrl
+     */
+    private $responseUrl;
+    
+    /**
+     * @var string $gatewayKey
+     */
+    private $gatewayKey;
+    
+    /**
+     * @var string $lang
+     */
+    private $lang;
+    
+    /**
+     * @var string $userParam1
+     */
+    private $userParam1;
+    /**
+     * @var string $payMethod
+     */
+    private $payMethod;
+    /**
+     * @var string $disablePayMethod
+     */
+    private $disablePayMethod;
+    /**
+     * @var string $payMethods
+     */
+    private $payMethods;
+    /**
+     * @var string $email
+     */
+    private $email;
+    /**
+     * @var string $referenceNumber
+     */
+    private $referenceNumber;
+    
+    /**
+     * @var int fastPayId
+     */
+    private $fastPayId;
+    
+    
+    /**
+     * Operation constructor.
+     *
+     * @param string      $orderNumber max. length is 15
+     * @param int         $amount
+     * @param int         $currency max. length is 3
+     * @param null|string $gatewayKey
+     * @param null|string $responseUrl
+     * @param bool        $converToPennies
+     *
+     * @throws InvalidArgumentException
+     */
+    public function __construct(
+        string $orderNumber,
+        int $amount,
+        int $currency,
+        ?string $gatewayKey = null,
+        ?string $responseUrl = null,
+        bool $converToPennies = true
+    ) {
+        
+        $this->setOrderNumber($orderNumber);
+        $this->setAmount($amount, $converToPennies);
+        $this->setCurrency($currency);
+        
+        $this->gatewayKey = $gatewayKey;
+        
+        $this->md = $gatewayKey;
+        
+        if ($responseUrl) {
+            $this->setResponseUrl($responseUrl);
+        }
+    }
+    
+    /**
+     * @return string
+     */
+    public function getOrderNumber(): string
+    {
+        return $this->orderNumber;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getAmount(): int
+    {
+        return $this->amount;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getCurrency(): int
+    {
+        return $this->currency;
+    }
+    
+    /**
+     * @return null|string
+     */
+    public function getResponseUrl(): ?string
+    {
+        return $this->responseUrl ?: null;
+    }
+    
+    /**
+     * @param string $url max. lenght is 300
+     *
+     * @return IOperation
+     * @throws InvalidArgumentException
+     */
+    public function setResponseUrl(string $url): IOperation
+    {
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            throw new InvalidArgumentException('URL is Invalid');
+        }
+        
+        $strlen = \strlen($url);
+        if ($strlen > 300) {
+            throw new InvalidArgumentException(sprintf('URL max. length is 300! "%s" given', $strlen));
+        }
+        
+        $this->responseUrl = $url;
+        
+        return $this;
+    }
+    
+    /**
+     * @return null|string
+     */
+    public function getMd(): ?string
+    {
+        return $this->md ?? null;
+    }
+    
+    /**
+     * @param string $md max. length is 250!
+     *
+     * @return IOperation
+     * @throws InvalidArgumentException
+     */
+    public function setMd($md): IOperation
+    {
+        $strlen = \strlen($md);
+        if ((\strlen((string)$this->md) + $strlen) > 250) {
+            throw new InvalidArgumentException(sprintf('MD max. length is 250! "%s" given', $strlen));
+        }
+        
+        $this->md .= '|' . $md;
+        
+        return $this;
+    }
+    
+    /**
+     * @return null|string
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description ?? null;
+    }
+    
+    /**
+     * @param string $description max. length is 255
+     *
+     * @return IOperation
+     * @throws InvalidArgumentException
+     */
+    public function setDescription(string $description): IOperation
+    {
+        $strlen = \strlen($description);
+        if ($strlen > 255) {
+            throw new InvalidArgumentException(sprintf('DESCRIPTION max. length is 255! "%s" given', $strlen));
+        }
+        
+        $this->description = $description;
+        
+        return $this;
+    }
+    
+    /**
+     * @return int|null
+     */
+    public function getMerOrderNum(): ?int
+    {
+        return $this->merordernum ?? null;
+    }
+    
+    /**
+     * @param string $merordernum max. length is 30
+     *
+     * @return IOperation
+     * @throws InvalidArgumentException
+     */
+    public function setMerOrderNum(string $merordernum): IOperation
+    {
+        $strlen = \strlen($merordernum);
+        if ($strlen > 30) {
+            throw new InvalidArgumentException(sprintf('MERORDERNUM max. length is 30! "%s" given', $strlen));
+        }
+        $this->merordernum = $merordernum;
+        
+        return $this;
+    }
+    
+    /**
+     * @return null|string
+     */
+    public function getGatewayKey(): ?string
+    {
+        return $this->gatewayKey;
+    }
+    
+    /**
+     * @return null|string
+     */
+    public function getLang(): ?string
+    {
+        return $this->lang;
+    }
+    
+    /**
+     *
+     * @param string $lang max. length is 2
+     *
+     * @return IOperation
+     * @throws InvalidArgumentException
+     */
+    public function setLang(string $lang): IOperation
+    {
+        $strlen = \strlen($lang);
+        if ($strlen > 2) {
+            throw new InvalidArgumentException(sprintf('LANG max. length is 2! "%s" given', $strlen));
+        }
+        $this->lang = $lang;
+        
+        return $this;
+    }
+    
+    /**
+     * @return string|null
+     */
+    public function getUserParam1(): ?string
+    {
+        return $this->userParam1;
+    }
+    
+    /**
+     * @param string $userParam1 max. length is 255
+     *
+     * @return IOperation
+     * @throws InvalidArgumentException
+     */
+    public function setUserParam1(string $userParam1): IOperation
+    {
+        $strlen = \strlen($userParam1);
+        if ($strlen > 255) {
+            throw new InvalidArgumentException(sprintf('USERPARAM1 max. length is 255! "%s" given', $strlen));
+        }
+        $this->userParam1 = $userParam1;
+        
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getPayMethod(): string
+    {
+        return $this->payMethod;
+    }
+    
+    /**
+     * @param string $payMethod supported val: Operation::PAYMENT_xxx
+     *
+     * @return IOperation
+     * @throws InvalidArgumentException
+     */
+    public function setPayMethod(string $payMethod): IOperation
+    {
+        
+        $strlen = \strlen($payMethod);
+        if ($strlen > 255) {
+            throw new InvalidArgumentException(sprintf('PAYMETHOD max. length is 255! "%s" given', $strlen));
+        }
+        
+        $payMethodUpper = strtoupper($payMethod);
+        if (!\in_array($payMethodUpper, self::$payMethodSupportedVal, true)) {
+            throw new InvalidArgumentException(
+                sprintf('PAYMETHOD supported values: "%s" given: %s', implode(', ', self::$payMethodSupportedVal), $payMethodUpper)
+            );
+        }
+        
+        $this->payMethod = $payMethodUpper;
+        
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getDisablePayMethod(): string
+    {
+        return $this->disablePayMethod;
+    }
+    
+    /**
+     * Supported Values:
+     * CRD – payment card
+     * MCM – MasterCard Mobile
+     * MPS – MasterPass
+     * BTNCS - PLATBA 24
+     *
+     * @param string $disablePayMethod supported val: Operation::PAYMENT_xxx
+     *
+     * @return IOperation
+     * @throws InvalidArgumentException
+     */
+    public function setDisablePayMethod($disablePayMethod): IOperation
+    {
+        
+        $strlen = strlen((string)$disablePayMethod);
+        if ($strlen > 255) {
+            throw new InvalidArgumentException(sprintf('DISABLEPAYMETHOD max. length is 255! "%s" given', $strlen));
+        }
+        
+        $disblePayMethodUpper = strtoupper($disablePayMethod);
+        if (!\in_array($disblePayMethodUpper, self::$payMethodSupportedVal, true)) {
+            $implode = implode(', ', self::$payMethodSupportedVal);
+            throw new InvalidArgumentException(
+                sprintf('DISABLEPAYMETHOD supported values: "%s" given: "%s"', $implode, $disblePayMethodUpper)
+            );
+        }
+        
+        $this->disablePayMethod = $disablePayMethod;
+        
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getPayMethods(): string
+    {
+        return $this->payMethods;
+    }
+    
+    /**
+     * List of allowed payment methods.
+     * Supported Values:
+     * CRD – payment card
+     * MCM – MasterCard Mobile
+     * MPS – MasterPass
+     * BTNCS - PLATBA 24
+     *
+     * @param array|string $payMethods supported val: [CRD, MCM, MPS, BTNCS]
+     *
+     * @return IOperation
+     * @throws InvalidArgumentException
+     */
+    public function setPayMethods($payMethods): IOperation
+    {
+        if (!\is_array($payMethods)) {
+            trigger_error(
+                'Use array instead of string or ' . static::class . '::setPayMethod(). string support will be removed in next version', E_USER_DEPRECATED
+            );
+            $payMethods = [$payMethods];
+        }
+        
+        $suppValImplode = implode(', ', self::$payMethodSupportedVal);
+        
+        foreach ($payMethods as $key => $val) {
+            $upperVal = strtoupper($val);
+            
+            if (!\in_array($upperVal, self::$payMethodSupportedVal, true)) {
+                throw new InvalidArgumentException(sprintf('PAYMETHODS supported values: "%s" given: "%s"', $suppValImplode, $upperVal));
+            }
+            $payMethods[$key] = $upperVal;
+        }
+        
+        $str = implode(',', $payMethods);
+        
+        $strlen = \strlen($str);
+        if ($strlen > 255) {
+            throw new InvalidArgumentException(sprintf('PAYMETHODS max. length is 255! "%s" given', $strlen));
+        }
+        
+        $this->payMethods = $str;
+        
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+    
+    /**
+     * @param string $email max. lenght is 255
+     *
+     * @return IOperation
+     * @throws InvalidArgumentException
+     */
+    public function setEmail(string $email): IOperation
+    {
+        if (!$this->isEmail($email)) {
+            throw new InvalidArgumentException(sprintf('EMAIL is not valid! "%s" given', $email));
+        }
+        $strlen = \strlen($email);
+        if ($strlen > 255) {
+            throw new InvalidArgumentException(sprintf('EMAIL max. length is 255! "%s" given', $strlen));
+        }
+        
+        $this->email = $email;
+        
+        return $this;
+    }
+    
+    /**
+     * @param string $value
+     *
+     * @return bool
+     */
+    public function isEmail(string $value): bool
+    {
+        $atom = "[-a-z0-9!#$%&'*+/=?^_`{|}~]"; // RFC 5322 unquoted characters in local-part
+        $alpha = "a-z\x80-\xFF"; // superset of IDN
+        
+        return (bool)preg_match(
+            "(^
 			(\"([ !#-[\\]-~]*|\\\\[ -~])+\"|$atom+(\\.$atom+)*)  # quoted or unquoted
 			@
 			([0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)+    # domain - RFC 1034
 			[$alpha]([-0-9$alpha]{0,17}[$alpha])?                # top domain
-		\\z)ix", $value);
-	}
-
-	/**
-	 * @param string $email max. lenght is 255
-	 * @return Operation
-	 * @throws InvalidArgumentException
-	 */
-	public function setEmail($email)
-	{
-		if (!$this->isEmail($email)) {
-			throw new InvalidArgumentException('EMAIL is not valid! ' . $email . ' given');
-		}
-		if (strlen((string)$email) > 255) {
-			throw new InvalidArgumentException('EMAIL max. length is 255! ' . strlen($email) . ' given');
-		}
-
-		$this->email = $email;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getReferenceNumber()
-	{
-		return $this->referenceNumber;
-	}
-
-	/**
-	 * @param string $referenceNumber max. lenght is 20
-	 * @return Operation
-	 * @throws InvalidArgumentException
-	 */
-	public function setReferenceNumber($referenceNumber)
-	{
-		if (strlen((string)$referenceNumber) > 20) {
-			throw new InvalidArgumentException('REFERENCENUMBER max. length is 20! ' . strlen($referenceNumber) . ' given');
-		}
-		$this->referenceNumber = $referenceNumber;
-		return $this;
-	}
-
-	/**
-	 * @return null
-	 */
-	public function getFastPayId()
-	{
-		return $this->fastPayId;
-	}
-
-	/**
-	 * @param int $fastPayId max. lenght is 15
-	 * @return Operation
-	 * @throws InvalidArgumentException
-	 */
-	public function setFastPayId($fastPayId)
-	{
-		if (strlen((string)$fastPayId) > 15) {
-			throw new InvalidArgumentException('FASTPAYID max. length is 15! ' . strlen($fastPayId) . ' given');
-		}
-
-		if (!is_int($fastPayId)) {
-			throw new InvalidArgumentException('FASTPAYID must by numeric! ' . gettype($fastPayId) . ' given');
-		}
-
-		$this->fastPayId = $fastPayId;
-		return $this;
-	}
-
+		\\z)ix", $value
+        );
+    }
+    
+    /**
+     * @return string
+     */
+    public function getReferenceNumber(): string
+    {
+        return $this->referenceNumber;
+    }
+    
+    /**
+     * @param string $referenceNumber max. lenght is 20
+     *
+     * @return IOperation
+     * @throws InvalidArgumentException
+     */
+    public function setReferenceNumber(string $referenceNumber): IOperation
+    {
+        $strlen = \strlen($referenceNumber);
+        if ($strlen > 20) {
+            throw new InvalidArgumentException(sprintf('REFERENCENUMBER max. length is 20! "%s" given', $strlen));
+        }
+        $this->referenceNumber = $referenceNumber;
+        
+        return $this;
+    }
+    
+    /**
+     * @return int|float
+     */
+    public function getFastPayId()
+    {
+        return $this->fastPayId;
+    }
+    
+    /**
+     * @param int|float|string $fastPayId max. lenght is 15 and can contain only numbers
+     *
+     * @return IOperation
+     * @throws InvalidArgumentException
+     */
+    public function setFastPayId($fastPayId): IOperation
+    {
+        $this->isNumeric($fastPayId, 15, 'FASTPAYID');
+        
+        $this->fastPayId = $fastPayId;
+        
+        return $this;
+    }
+    
+    /**
+     * @param int|float|string $orderNumber max. lenght is 15 and can contain only numbers without 0 on first position
+     *
+     * @throws InvalidArgumentException
+     */
+    private function setOrderNumber($orderNumber)
+    {
+        $this->isNumeric($orderNumber, 15, 'ORDERNUMBER');
+        
+        $this->orderNumber = $orderNumber;
+    }
+    
+    /**
+     * @param int|float $amount
+     * @param bool      $converToPennies
+     *
+     * @return IOperation
+     * @throws InvalidArgumentException
+     */
+    private function setAmount($amount, bool $converToPennies = true): IOperation
+    {
+        if (!\is_int($amount) && !\is_float($amount)) {
+            throw new InvalidArgumentException(sprintf('AMOUNT must by type of INT or FLOAT ! "%s" given', \gettype($amount)));
+        }
+        // prevod na halere/centy
+        if ($converToPennies) {
+            $amount *= 100;
+        }
+        $this->amount = (int)$amount;
+        
+        return $this;
+    }
+    
+    /**
+     * @param int $currency max lenght is 3.
+     *
+     * @throws InvalidArgumentException
+     */
+    private function setCurrency(int $currency)
+    {
+        $strlen = \strlen($currency);
+        if ($strlen > 3) {
+            throw new InvalidArgumentException(sprintf('CURRENCY code max. length is 3! "%s" given', $strlen));
+        }
+        
+        $this->currency = $currency;
+    }
+    
+    /**
+     * @param int|float|string $value
+     *
+     * @param int              $length
+     * @param string           $name
+     *
+     * @throws InvalidArgumentException
+     */
+    private function isNumeric($value, int $length, string $name): void
+    {
+        $strlen = \strlen((string)$value);
+        if ($strlen > $length) {
+            throw new InvalidArgumentException(sprintf('%s max. length is %s! "%s" given', $name, $length, $strlen));
+        }
+        
+        if (!preg_match('^\d$', $value)) {
+            throw new InvalidArgumentException(sprintf('%s must be number "%s" given', $name, $value));
+        }
+    }
+    
 }

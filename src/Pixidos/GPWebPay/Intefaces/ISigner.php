@@ -18,7 +18,6 @@ use Pixidos\GPWebPay\Exceptions\SignerException;
 
 interface ISigner
 {
-
 	/**
 	 * @param array $params
 	 * @return mixed
@@ -27,9 +26,8 @@ interface ISigner
 
 	/**
 	 * @param array $params
-	 * @param $digest
+	 * @param string $digest
 	 * @return int
-	 * @throws SignerException
 	 */
-	public function verify($params, $digest);
+    public function verify(array $params, string $digest): int;
 }

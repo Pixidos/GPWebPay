@@ -11,65 +11,68 @@ namespace Pixidos\GPWebPay\Intefaces;
 
 interface IResponse
 {
-	/**
-	 * @return array
-	 */
-	public function getParams();
-
-	/**
-	 * @return string
-	 */
-	public function getDigest();
-
-	/**
-	 * @return bool
-	 */
-	public function hasError();
-
-	/**
-	 * @return string
-	 */
-	public function getDigest1();
-
-	/**
-	 * @return string | null
-	 */
-	public function getMerOrderNumber();
-
-	/**
-	 * @return string| null
-	 */
-	public function getMd();
-
-	/**
-	 * @return mixed
-	 */
-	public function getGatewayKey();
-
-	/**
-	 * @return string
-	 */
-	public function getOrderNumber();
-
-	/**
-	 * @return int
-	 */
-	public function getSrcode();
-
-	/**
-	 * @return int
-	 */
-	public function getPrcode();
-
-	/**
-	 * @return string|null
-	 */
-	public function getResultText();
-
-	/**
-	 * @return string | null
-	 */
-	public function getUserParam1();
-
-	public function setUserParam1($userParam1);
+    /**
+     * @return array
+     */
+    public function getParams(): array;
+    
+    /**
+     * @return string
+     */
+    public function getDigest(): string;
+    
+    /**
+     * @return bool
+     */
+    public function hasError(): bool;
+    
+    /**
+     * @return string
+     */
+    public function getDigest1(): string;
+    
+    /**
+     * @return string|null
+     */
+    public function getMerOrderNumber(): ?string;
+    
+    /**
+     * @return string|null
+     */
+    public function getMd(): ?string;
+    
+    /**
+     * @return string
+     */
+    public function getGatewayKey(): string;
+    
+    /**
+     * @return string
+     */
+    public function getOrderNumber(): string;
+    
+    /**
+     * @return int
+     */
+    public function getSrcode(): int ;
+    
+    /**
+     * @return int
+     */
+    public function getPrcode(): int;
+    
+    /**
+     * @return string|null
+     */
+    public function getResultText(): ?string;
+    
+    /**
+     * @return string|null
+     */
+    public function getUserParam1(): ?string;
+    
+    /**
+     * @param string $userParam1
+     */
+    public function setUserParam1(string $userParam1);
 }

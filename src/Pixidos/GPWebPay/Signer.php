@@ -33,14 +33,18 @@ class Signer implements ISigner
 
 	/** @var resource */
 	private $publicKeyResource;
-
-	/**
-	 * @param $privateKey
-	 * @param $privateKeyPassword
-	 * @param $publicKey
-	 * @throws SignerException
-	 */
-	public function __construct($privateKey, $privateKeyPassword, $publicKey)
+    
+    
+    /**
+     * Signer constructor.
+     *
+     * @param string $privateKey
+     * @param string $privateKeyPassword
+     * @param string $publicKey
+     *
+     * @throws SignerException
+     */
+	public function __construct(string $privateKey, string $privateKeyPassword, string $publicKey)
 	{
 
 		if (!file_exists($privateKey)) {
@@ -74,13 +78,15 @@ class Signer implements ISigner
 		}
 		return $this->privateKeyResource;
 	}
-
-	/**
-	 * @param array $params
-	 * @return string
-	 */
-	public function sign($params)
-	{
+    
+    /**
+     * @param array $params
+     *
+     * @return string
+     * @throws SignerException
+     */
+	public function sign($params): string
+    {
 		$digestText = implode('|', $params);
 		openssl_sign($digestText, $digest, $this->getPrivateKeyResource());
 		$digest = base64_encode($digest);
@@ -89,12 +95,12 @@ class Signer implements ISigner
 
 	/**
 	 * @param array $params
-	 * @param $digest
+	 * @param string $digest
 	 * @return int
 	 * @throws SignerException
 	 */
-	public function verify($params, $digest)
-	{
+	public function verify(array $params, string $digest): int
+    {
 		$data = implode('|', $params);
 		$digest = base64_decode($digest);
 		$ok = openssl_verify($data, $digest, $this->getPublicKeyResource());
@@ -113,7 +119,9 @@ class Signer implements ISigner
 		if ($this->publicKeyResource) {
 			return $this->publicKeyResource;
 		}
-		$fp = fopen($this->publicKey, "r");
+        if (!$fp = fopen($this->publicKey, "rb")) {
+            throw new SignerException(sprintf('Failed open file with public key "%s"', $this->publicKey));
+        };
 		$key = fread($fp, filesize($this->publicKey));
 		fclose($fp);
 		if (!($this->publicKeyResource = openssl_pkey_get_public($key))) {
