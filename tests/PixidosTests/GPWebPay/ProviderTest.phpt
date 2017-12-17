@@ -13,6 +13,7 @@
 
 namespace PixidosTests\GPWebPay;
 
+use Pixidos\GPWebPay\Intefaces\ISignerFactory;
 use Pixidos\GPWebPay\Provider;
 use Pixidos\GPWebPay\Request;
 use Pixidos\GPWebPay\Settings;
@@ -24,6 +25,7 @@ require_once __DIR__ . '/../bootstrap.php';
  * Class ProviderTest
  * @package PixidosTests\GPWebPay
  * @author Ondra Votava <ondra.votava@pixidos.com>
+ * @testCase
  */
 class ProviderTest extends GPWebPayTestCase
 {
@@ -37,9 +39,10 @@ class ProviderTest extends GPWebPayTestCase
 
 		/** @var Settings $setting */
 		$setting = $this->getContainer()->getByType(Settings::class);
+        $signerFactory = $this->getContainer()->getByType(ISignerFactory::class);
 		Assert::type(Settings::class, $setting);
 
-		$this->provider = new Provider($setting);
+		$this->provider = new Provider($setting, $signerFactory);
 	}
 
 
@@ -53,7 +56,7 @@ class ProviderTest extends GPWebPayTestCase
 		$params = $request->getParams();
 
 		Assert::same(203, $params['CURRENCY']);
-		Assert::same(123456, $params['ORDERNUMBER']);
+		Assert::same('123456', $params['ORDERNUMBER']);
 	}
 
 

@@ -17,14 +17,15 @@ use Pixidos\GPWebPay\Operation;
  */
 class TestHelpers
 {
-
-
-	/**
-	 * @return Operation
-	 */
+    
+    
+    /**
+     * @return Operation
+     * @throws \Pixidos\GPWebPay\Exceptions\InvalidArgumentException
+     */
 	public static function createOperation()
 	{
-		return new Operation(123456, 1000, Operation::CZK, 'czk', 'http://test.com');
+		return new Operation('123456', 1000, Operation::CZK, 'czk', 'http://test.com');
 	}
 
 	public static function getTestParams()
