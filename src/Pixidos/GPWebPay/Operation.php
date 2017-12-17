@@ -48,28 +48,25 @@ class Operation implements IOperation
      */
     private $description;
     /**
-     * @var string $md
+     * @var string|null $md
      */
     private $md;
     /**
-     * @var int $merordernum
+     * @var string $merordernum
      */
     private $merordernum;
     /**
-     * @var null $responseUrl
+     * @var string|null $responseUrl
      */
     private $responseUrl;
-    
     /**
-     * @var string $gatewayKey
+     * @var string|null $gatewayKey
      */
     private $gatewayKey;
-    
     /**
      * @var string $lang
      */
     private $lang;
-    
     /**
      * @var string $userParam1
      */
@@ -96,7 +93,7 @@ class Operation implements IOperation
     private $referenceNumber;
     
     /**
-     * @var int fastPayId
+     * @var int|float|string fastPayId
      */
     private $fastPayId;
     
@@ -105,7 +102,7 @@ class Operation implements IOperation
      * Operation constructor.
      *
      * @param string      $orderNumber max. length is 15
-     * @param int         $amount
+     * @param int|float   $amount
      * @param int         $currency max. length is 3
      * @param null|string $gatewayKey
      * @param null|string $responseUrl
@@ -115,7 +112,7 @@ class Operation implements IOperation
      */
     public function __construct(
         string $orderNumber,
-        int $amount,
+        $amount,
         int $currency,
         ?string $gatewayKey = null,
         ?string $responseUrl = null,
@@ -164,7 +161,7 @@ class Operation implements IOperation
      */
     public function getResponseUrl(): ?string
     {
-        return $this->responseUrl ?: null;
+        return $this->responseUrl ?? null;
     }
     
     /**
@@ -203,10 +200,10 @@ class Operation implements IOperation
      * @return IOperation
      * @throws InvalidArgumentException
      */
-    public function setMd($md): IOperation
+    public function setMd(string $md): IOperation
     {
         $strlen = \strlen($md);
-        if ((\strlen((string)$this->md) + $strlen) > 250) {
+        if ((\strlen($this->md) + $strlen) > 250) {
             throw new InvalidArgumentException(sprintf('MD max. length is 250! "%s" given', $strlen));
         }
         
@@ -242,9 +239,9 @@ class Operation implements IOperation
     }
     
     /**
-     * @return int|null
+     * @return null|string
      */
-    public function getMerOrderNum(): ?int
+    public function getMerOrderNum(): ?string
     {
         return $this->merordernum ?? null;
     }
@@ -326,9 +323,9 @@ class Operation implements IOperation
     }
     
     /**
-     * @return string
+     * @return null|string
      */
-    public function getPayMethod(): string
+    public function getPayMethod(): ?string
     {
         return $this->payMethod;
     }
@@ -350,7 +347,7 @@ class Operation implements IOperation
         $payMethodUpper = strtoupper($payMethod);
         if (!\in_array($payMethodUpper, self::$payMethodSupportedVal, true)) {
             throw new InvalidArgumentException(
-                sprintf('PAYMETHOD supported values: "%s" given: %s', implode(', ', self::$payMethodSupportedVal), $payMethodUpper)
+                sprintf('PAYMETHOD supported values: "%s" given: "%s"', implode(', ', self::$payMethodSupportedVal), $payMethodUpper)
             );
         }
         
@@ -360,9 +357,9 @@ class Operation implements IOperation
     }
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDisablePayMethod(): string
+    public function getDisablePayMethod(): ?string
     {
         return $this->disablePayMethod;
     }
@@ -379,10 +376,10 @@ class Operation implements IOperation
      * @return IOperation
      * @throws InvalidArgumentException
      */
-    public function setDisablePayMethod($disablePayMethod): IOperation
+    public function setDisablePayMethod(string $disablePayMethod): IOperation
     {
         
-        $strlen = strlen((string)$disablePayMethod);
+        $strlen = \strlen($disablePayMethod);
         if ($strlen > 255) {
             throw new InvalidArgumentException(sprintf('DISABLEPAYMETHOD max. length is 255! "%s" given', $strlen));
         }
@@ -401,9 +398,9 @@ class Operation implements IOperation
     }
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPayMethods(): string
+    public function getPayMethods(): ?string
     {
         return $this->payMethods;
     }
@@ -454,9 +451,9 @@ class Operation implements IOperation
     }
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -503,9 +500,9 @@ class Operation implements IOperation
     }
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getReferenceNumber(): string
+    public function getReferenceNumber(): ?string
     {
         return $this->referenceNumber;
     }
@@ -528,7 +525,7 @@ class Operation implements IOperation
     }
     
     /**
-     * @return int|float
+     * @return int|float|string
      */
     public function getFastPayId()
     {
@@ -551,11 +548,11 @@ class Operation implements IOperation
     }
     
     /**
-     * @param int|float|string $orderNumber max. lenght is 15 and can contain only numbers without 0 on first position
+     * @param string $orderNumber max. lenght is 15 and can contain only numbers without 0 on first position
      *
      * @throws InvalidArgumentException
      */
-    private function setOrderNumber($orderNumber)
+    private function setOrderNumber(string $orderNumber)
     {
         $this->isNumeric($orderNumber, 15, 'ORDERNUMBER');
         
@@ -572,7 +569,7 @@ class Operation implements IOperation
     private function setAmount($amount, bool $converToPennies = true): IOperation
     {
         if (!\is_int($amount) && !\is_float($amount)) {
-            throw new InvalidArgumentException(sprintf('AMOUNT must by type of INT or FLOAT ! "%s" given', \gettype($amount)));
+            throw new InvalidArgumentException(sprintf('AMOUNT must be type of INT or FLOAT ! "%s" given', \gettype($amount)));
         }
         // prevod na halere/centy
         if ($converToPennies) {
@@ -590,7 +587,7 @@ class Operation implements IOperation
      */
     private function setCurrency(int $currency)
     {
-        $strlen = \strlen($currency);
+        $strlen = \strlen((string)$currency);
         if ($strlen > 3) {
             throw new InvalidArgumentException(sprintf('CURRENCY code max. length is 3! "%s" given', $strlen));
         }
@@ -613,7 +610,7 @@ class Operation implements IOperation
             throw new InvalidArgumentException(sprintf('%s max. length is %s! "%s" given', $name, $length, $strlen));
         }
         
-        if (!preg_match('^\d$', $value)) {
+        if (!preg_match('#^[1-9]\d*$#', (string)$value)) {
             throw new InvalidArgumentException(sprintf('%s must be number "%s" given', $name, $value));
         }
     }

@@ -25,17 +25,16 @@ interface IProvider
     
     
     /**
-     *
      * @return string
      */
     public function getRequestUrl(): string;
     
     /**
-     * @param $params
+     * @param array $params
      *
      * @return IResponse
      */
-    public function createResponse($params): IResponse;
+    public function createResponse(array $params): IResponse;
     
     /**
      * @param IResponse $response

@@ -52,7 +52,7 @@ interface IOperation
      *
      * @return IOperation
      */
-    public function setMd($md): IOperation;
+    public function setMd(string $md): IOperation;
     
     
     /**
@@ -68,9 +68,9 @@ interface IOperation
     public function setDescription(string $description): IOperation;
     
     /**
-     * @return int|null
+     * @return null|string
      */
-    public function getMerOrderNum(): ?int;
+    public function getMerOrderNum(): ?string;
     
     /**
      * @param string $merordernum max. length is 30
@@ -112,9 +112,9 @@ interface IOperation
     public function setUserParam1(string $userParam1): IOperation;
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPayMethod(): string;
+    public function getPayMethod(): ?string;
     
     /**
      * @param string $payMethod supported val: CRD – payment card | MCM – MasterCard Mobile | MPS – MasterPass | BTNCS - PLATBA 24
@@ -124,9 +124,9 @@ interface IOperation
     public function setPayMethod(string $payMethod): IOperation;
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDisablePayMethod(): string;
+    public function getDisablePayMethod(): ?string;
     
     /**
      * Supported Values:
@@ -139,12 +139,12 @@ interface IOperation
      *
      * @return IOperation
      */
-    public function setDisablePayMethod($disablePayMethod): IOperation;
+    public function setDisablePayMethod(string $disablePayMethod): IOperation;
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPayMethods(): string;
+    public function getPayMethods(): ?string;
     
     /**
      * List of allowed payment methods.
@@ -161,9 +161,9 @@ interface IOperation
     public function setPayMethods($payMethods): IOperation;
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getEmail(): string;
+    public function getEmail(): ?string;
     
     /**
      * @param string $value
@@ -180,9 +180,9 @@ interface IOperation
     public function setEmail(string $email): IOperation;
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getReferenceNumber(): string;
+    public function getReferenceNumber(): ?string;
     
     /**
      * @param string $referenceNumber max. lenght is 20

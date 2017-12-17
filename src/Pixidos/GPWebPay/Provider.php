@@ -27,7 +27,7 @@ class Provider implements IProvider
 {
     
     /**
-     * @var ISigner signerFactory
+     * @var ISignerFactory signerFactory
      */
     private $signerFactory;
     
@@ -99,21 +99,21 @@ class Provider implements IProvider
     }
     
     /**
-     * @param $params
+     * @param array $params
      *
      * @return IResponse
      */
-    public function createResponse($params): IResponse
+    public function createResponse(array $params): IResponse
     {
-        $operation = $params ['OPERATION'] ?: '';
-        $ordernumber = $params ['ORDERNUMBER'] ?: '';
-        $merordernum = $params ['MERORDERNUM'] ?: null;
-        $md = $params ['MD'] ?: null;
-        $prcode = $params ['PRCODE'] ?: '';
-        $srcode = $params ['SRCODE'] ?: '';
-        $resulttext = $params ['RESULTTEXT'] ?: null;
-        $digest = $params ['DIGEST'] ?: '';
-        $digest1 = $params ['DIGEST1'] ?: '';
+        $operation = $params['OPERATION'] ?: '';
+        $ordernumber = $params['ORDERNUMBER'] ?: '';
+        $merordernum = $params['MERORDERNUM'] ?: null;
+        $md = $params['MD'] ?: null;
+        $prcode = $params['PRCODE'] ?: '';
+        $srcode = $params['SRCODE'] ?: '';
+        $resulttext = $params['RESULTTEXT'] ?: null;
+        $digest = $params['DIGEST'] ?: '';
+        $digest1 = $params['DIGEST1'] ?: '';
         
         $key = explode('|', $md, 2);
         

@@ -21,12 +21,12 @@ class Settings
      */
     private $privateKeys;
     /**
-     * @var string
+     * @var array
      * */
     private $privateKeyPassword;
     
     /**
-     * @var array
+     * @var string
      */
     private $publicKey;
     /**
@@ -34,7 +34,7 @@ class Settings
      */
     private $url;
     /**
-     * @var  string $merchantNumber
+     * @var  array $merchantNumber
      */
     private $merchantNumber;
     /**
@@ -49,7 +49,7 @@ class Settings
     /**
      * Settings constructor.
      *
-     * @param array  $privateKeys
+     * @param array  $privateKey
      * @param array  $privateKeyPassword
      * @param string $publicKey
      * @param string $url
@@ -58,7 +58,7 @@ class Settings
      * @param string $gatewayKey
      */
     public function __construct(
-        array $privateKeys,
+        array $privateKey,
         array $privateKeyPassword,
         string $publicKey,
         string $url,
@@ -67,7 +67,7 @@ class Settings
         string $gatewayKey
     ) {
         
-        $this->privateKeys = $privateKeys;
+        $this->privateKeys = $privateKey;
         $this->privateKeyPassword = $privateKeyPassword;
         
         $this->publicKey = $publicKey;
@@ -96,7 +96,7 @@ class Settings
     {
         $gatewayKey = $this->getGatewayKey($gatewayKey);
         
-        return $this->merchantNumber[$gatewayKey];
+        return (string)$this->merchantNumber[$gatewayKey];
     }
     
     /**
@@ -108,7 +108,7 @@ class Settings
     {
         $gatewayKey = $this->getGatewayKey($gatewayKey);
         
-        return $this->privateKeys[$gatewayKey];
+        return (string)$this->privateKeys[$gatewayKey];
     }
     
     /**
@@ -128,7 +128,7 @@ class Settings
     {
         $gatewayKey = $this->getGatewayKey($gatewayKey);
         
-        return $this->privateKeyPassword[$gatewayKey];
+        return (string)$this->privateKeyPassword[$gatewayKey];
     }
     
     /**
