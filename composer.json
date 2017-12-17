@@ -20,7 +20,7 @@
     "issues": "https://github.com/Pixidos/GPWebPay/issues"
   },
   "require": {
-    "php": ">=5.6.0",
+    "php": ">=7.1.0",
     "ext-openssl": "*",
     "nette/di": "^2.3",
     "nette/application": "^2.3",
