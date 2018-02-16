@@ -109,8 +109,8 @@ class Provider implements IProvider
         $ordernumber = $params['ORDERNUMBER'] ?: '';
         $merordernum = $params['MERORDERNUM'] ?: null;
         $md = $params['MD'] ?: null;
-        $prcode = $params['PRCODE'] ?: '';
-        $srcode = $params['SRCODE'] ?: '';
+        $prcode = (int) $params['PRCODE'] ?: 0;
+        $srcode = (int) $params['SRCODE'] ?: 0;
         $resulttext = $params['RESULTTEXT'] ?: null;
         $digest = $params['DIGEST'] ?: '';
         $digest1 = $params['DIGEST1'] ?: '';
