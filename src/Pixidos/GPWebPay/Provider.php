@@ -105,15 +105,15 @@ class Provider implements IProvider
      */
     public function createResponse(array $params): IResponse
     {
-        $operation = $params['OPERATION'] ?: '';
-        $ordernumber = $params['ORDERNUMBER'] ?: '';
-        $merordernum = $params['MERORDERNUM'] ?: null;
-        $md = $params['MD'] ?: null;
-        $prcode = (int) $params['PRCODE'] ?: 1000;
-        $srcode = (int) $params['SRCODE'] ?: 0;
-        $resulttext = $params['RESULTTEXT'] ?: null;
-        $digest = $params['DIGEST'] ?: '';
-        $digest1 = $params['DIGEST1'] ?: '';
+        $operation = $params['OPERATION'] ?? '';
+        $ordernumber = $params['ORDERNUMBER'] ?? '';
+        $merordernum = $params['MERORDERNUM'] ?? null;
+        $md = $params['MD'] ?? null;
+        $prcode = $params['PRCODE'] ?? 1000;
+        $srcode = $params['SRCODE'] ?? 0;
+        $resulttext = $params['RESULTTEXT'] ?? null;
+        $digest = $params['DIGEST'] ?? '';
+        $digest1 = $params['DIGEST1'] ?? '';
         
         $key = explode('|', $md, 2);
         
@@ -123,8 +123,8 @@ class Provider implements IProvider
             $ordernumber,
             $merordernum,
             $md,
-            $prcode,
-            $srcode,
+            (int) $prcode,
+            (int) $srcode,
             $resulttext,
             $digest,
             $digest1,
