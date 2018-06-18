@@ -12,6 +12,7 @@ use Nette\Application\UI;
 use Nette\Bridges\ApplicationLatte\Template;
 use Nette\ComponentModel\IContainer;
 use Pixidos\GPWebPay\Exceptions\GPWebPayException;
+use Pixidos\GPWebPay\Exceptions\GPWebPayResultException;
 use Pixidos\GPWebPay\Intefaces\IOperation;
 use Pixidos\GPWebPay\Intefaces\IProvider;
 use Pixidos\GPWebPay\Intefaces\IRequest;
@@ -116,7 +117,11 @@ class GPWebPayControl extends UI\Control
             $this->provider->verifyPaymentResponse($response);
         } catch (GPWebPayException $e) {
             $this->errorHandler($e);
-            
+
+            return;
+        } catch (GPWebPayResultException $e) {
+            $this->errorHandler(new GPWebPayException($e->getMessage()));
+
             return;
         }
         
