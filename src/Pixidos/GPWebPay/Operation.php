@@ -20,12 +20,14 @@ class Operation implements IOperation
     public const PAYMENT_MASTERCARD_MOBILE = 'MCM';
     public const PAYMENT_MASTERPASS = 'MPS';
     public const PAYMENT_PLATBA24 = 'BTNCS';
+	public const PAYMENT_GOOGLE_PAY = 'GPAY';
     
     private static $payMethodSupportedVal = [
         self::PAYMENT_CARD,
         self::PAYMENT_MASTERCARD_MOBILE,
         self::PAYMENT_MASTERPASS,
         self::PAYMENT_PLATBA24,
+		self::PAYMENT_GOOGLE_PAY,
     ];
     
     /**
@@ -370,6 +372,7 @@ class Operation implements IOperation
      * MCM – MasterCard Mobile
      * MPS – MasterPass
      * BTNCS - PLATBA 24
+	 * GPAY - Google Pay
      *
      * @param string $disablePayMethod supported val: Operation::PAYMENT_xxx
      *
@@ -412,8 +415,9 @@ class Operation implements IOperation
      * MCM – MasterCard Mobile
      * MPS – MasterPass
      * BTNCS - PLATBA 24
+	 * GPAY - Google Pay
      *
-     * @param array|string $payMethods supported val: [CRD, MCM, MPS, BTNCS]
+     * @param array|string $payMethods supported val: [CRD, MCM, MPS, BTNCS, GPAY]
      *
      * @return IOperation
      * @throws InvalidArgumentException

@@ -220,7 +220,7 @@ class OperationTest extends GPWebPayTestCase
     }
     
     /**
-     * Supported payMathods 'CRD','MCM','MPS','BTNCS'
+     * Supported payMathods 'CRD','MCM','MPS','BTNCS', 'GPAY'
      */
     public function testPayMethod()
     {
@@ -244,13 +244,13 @@ class OperationTest extends GPWebPayTestCase
         Assert::exception(
             function () use ($operation, $payMethod) {
                 $operation->setPayMethod($payMethod);
-            }, InvalidArgumentException::class, 'PAYMETHOD supported values: "CRD, MCM, MPS, BTNCS" given: "' . strtoupper($payMethod) . '"'
+            }, InvalidArgumentException::class, 'PAYMETHOD supported values: "CRD, MCM, MPS, BTNCS, GPAY" given: "' . strtoupper($payMethod) . '"'
         );
         
     }
     
     /**
-     * Supported payMathods 'CRD','MCM','MPS','BTNCS'
+     * Supported payMathods 'CRD','MCM','MPS','BTNCS','GPAY'
      */
     public function testDisablePayMethod()
     {
@@ -274,13 +274,13 @@ class OperationTest extends GPWebPayTestCase
         Assert::exception(
             function () use ($operation, $disablePayMethod) {
                 $operation->setDisablePayMethod($disablePayMethod);
-            }, InvalidArgumentException::class, 'DISABLEPAYMETHOD supported values: "CRD, MCM, MPS, BTNCS" given: "' . strtoupper($disablePayMethod) . '"'
+            }, InvalidArgumentException::class, 'DISABLEPAYMETHOD supported values: "CRD, MCM, MPS, BTNCS, GPAY" given: "' . strtoupper($disablePayMethod) . '"'
         );
         
     }
     
     /**
-     * Supported payMathods 'CRD','MCM','MPS','BTNCS'
+     * Supported payMathods 'CRD','MCM','MPS','BTNCS','GPAY'
      */
     public function testPayMethods()
     {
@@ -304,7 +304,7 @@ class OperationTest extends GPWebPayTestCase
         Assert::exception(
             function () use ($operation, $payMethods) {
                 $operation->setPayMethods($payMethods);
-            }, InvalidArgumentException::class, 'PAYMETHODS supported values: "CRD, MCM, MPS, BTNCS" given: "ABC"'
+            }, InvalidArgumentException::class, 'PAYMETHODS supported values: "CRD, MCM, MPS, BTNCS, GPAY" given: "ABC"'
         );
         
     }

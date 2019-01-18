@@ -117,7 +117,7 @@ interface IOperation
     public function getPayMethod(): ?string;
     
     /**
-     * @param string $payMethod supported val: CRD – payment card | MCM – MasterCard Mobile | MPS – MasterPass | BTNCS - PLATBA 24
+     * @param string $payMethod supported val: CRD – payment card | MCM – MasterCard Mobile | MPS – MasterPass | BTNCS - PLATBA 24 | GPAY - Google Pay
      *
      * @return IOperation
      */
@@ -134,8 +134,9 @@ interface IOperation
      * MCM – MasterCard Mobile
      * MPS – MasterPass
      * BTNCS - PLATBA 24
+	 * GPAY - Google Pay
      *
-     * @param string $disablePayMethod supported val: CRD, MCM, MPS, BTNCS
+     * @param string $disablePayMethod supported val: CRD, MCM, MPS, BTNCS, GPAY
      *
      * @return IOperation
      */
@@ -153,8 +154,9 @@ interface IOperation
      * MCM – MasterCard Mobile
      * MPS – MasterPass
      * BTNCS - PLATBA 24
+	 * GPAY - Google Pay
      *
-     * @param array $payMethods supported val: [CRD, MCM, MPS, BTNCS]
+     * @param array $payMethods supported val: [CRD, MCM, MPS, BTNCS, GPAY]
      *
      * @return IOperation
      */
