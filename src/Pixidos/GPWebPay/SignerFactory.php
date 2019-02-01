@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Pixidos\GPWebPay;
 
+use Pixidos\GPWebPay\Exceptions\SignerException;
 use Pixidos\GPWebPay\Intefaces\ISigner;
 use Pixidos\GPWebPay\Intefaces\ISignerFactory;
 
@@ -30,7 +31,7 @@ class SignerFactory implements ISignerFactory
      * @param  null|string $gatewayKey
      *
      * @return ISigner
-     * @throws \Pixidos\GPWebPay\Exceptions\SignerException
+     * @throws SignerException
      */
     public function create(?string $gatewayKey = null): ISigner
     {

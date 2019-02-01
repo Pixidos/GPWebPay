@@ -54,7 +54,7 @@ interface IResponse
     /**
      * @return int
      */
-    public function getSrcode(): int ;
+    public function getSrcode(): int;
     
     /**
      * @return int

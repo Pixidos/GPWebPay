@@ -10,6 +10,7 @@ namespace Pixidos\GPWebPay;
 
 use Pixidos\GPWebPay\Exceptions\GPWebPayException;
 use Pixidos\GPWebPay\Exceptions\GPWebPayResultException;
+use Pixidos\GPWebPay\Exceptions\InvalidArgumentException;
 use Pixidos\GPWebPay\Exceptions\SignerException;
 use Pixidos\GPWebPay\Intefaces\IOperation;
 use Pixidos\GPWebPay\Intefaces\IProvider;
@@ -62,10 +63,10 @@ class Provider implements IProvider
      * @param IOperation $operation
      *
      * @return $this
-     * @throws \Pixidos\GPWebPay\Exceptions\SignerException
-     * @throws \Pixidos\GPWebPay\Exceptions\InvalidArgumentException
+     * @throws SignerException
+     * @throws InvalidArgumentException
      */
-    public function createRequest(IOperation $operation)
+    public function createRequest(IOperation $operation): IProvider
     {
         $this->request = new Request(
             $operation,
@@ -123,8 +124,8 @@ class Provider implements IProvider
             $ordernumber,
             $merordernum,
             $md,
-            (int) $prcode,
-            (int) $srcode,
+            (int)$prcode,
+            (int)$srcode,
             $resulttext,
             $digest,
             $digest1,

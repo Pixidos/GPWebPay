@@ -95,14 +95,13 @@ class GPWebPayControl extends UI\Control
             return;
         }
         
-        
     }
     
     
     /**
      * @throws GPWebPayException
      */
-    public function handleSuccess()
+    public function handleSuccess(): void
     {
         if (null === $presenter = $this->getPresenter()) {
             throw new GPWebPayException('Component need attach presenter');
@@ -126,7 +125,7 @@ class GPWebPayControl extends UI\Control
     /**
      * @param string $templateFile
      */
-    public function setTemplateFile($templateFile)
+    public function setTemplateFile(string $templateFile)
     {
         $this->templateFile = $templateFile;
     }
@@ -137,7 +136,7 @@ class GPWebPayControl extends UI\Control
      *
      * @throws UI\InvalidLinkException
      */
-    public function render(array $attrs = [], string $text = "Pay")
+    public function render(array $attrs = [], string $text = 'Pay')
     {
         /** @var Template $template */
         $template = $this->getTemplate();
@@ -169,7 +168,7 @@ class GPWebPayControl extends UI\Control
      *
      * @throws GPWebPayException
      */
-    protected function errorHandler(GPWebPayException $exception)
+    protected function errorHandler(GPWebPayException $exception): void
     {
         if (!$this->onError) {
             throw $exception;

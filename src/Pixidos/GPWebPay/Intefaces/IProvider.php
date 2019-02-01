@@ -9,14 +9,17 @@
 namespace Pixidos\GPWebPay\Intefaces;
 
 
+use Pixidos\GPWebPay\Exceptions\GPWebPayException;
+use Pixidos\GPWebPay\Exceptions\GPWebPayResultException;
+
 interface IProvider
 {
     /**
      * @param IOperation $operation
      *
-     * @return $this
+     * @return IProvider
      */
-    public function createRequest(IOperation $operation);
+    public function createRequest(IOperation $operation): IProvider;
     
     /**
      * @return IRequest
@@ -40,6 +43,8 @@ interface IProvider
      * @param IResponse $response
      *
      * @return bool
+     * @throws GPWebPayException
+     * @throws GPWebPayResultException
      */
     public function verifyPaymentResponse(IResponse $response): bool;
 }
