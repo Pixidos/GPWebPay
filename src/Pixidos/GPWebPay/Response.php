@@ -27,7 +27,10 @@ class Response implements IResponse
 	private $digest;
 	/** @var  string */
 	private $digest1;
-
+    
+    /**
+     * @var string gatewayKey
+     */
 	private $gatewayKey;
 
 	/**
@@ -40,7 +43,7 @@ class Response implements IResponse
 	 * @param string $resulttext
 	 * @param string $digest
 	 * @param string $digest1
-	 * @param $gatewayKey
+	 * @param string $gatewayKey
 	 */
 	public function __construct(
 		$operation,
@@ -69,7 +72,7 @@ class Response implements IResponse
 		}
 		$this->digest = $digest;
 		$this->digest1 = $digest1;
-		$this->gatewayKey = $gatewayKey;
+		$this->gatewayKey = (string)$gatewayKey;
 	}
 
 
@@ -124,7 +127,7 @@ class Response implements IResponse
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
 	public function getGatewayKey()
 	{

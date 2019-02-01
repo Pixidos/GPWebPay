@@ -11,17 +11,17 @@ namespace Pixidos\GPWebPay\Intefaces;
 
 interface IRequest
 {
-
-	/**
-	 * Return all parameters
-	 * @return array
-	 */
-	public function getParams();
-
-	/**
-	 * Return only parameters what are included in digest
-	 * @return array
-	 */
-	public function getDigestParams();
-
+    
+    /**
+     * Return all parameters
+     * @return array
+     */
+    public function getParams();
+    
+    /**
+     * Return only parameters what are included in digest
+     * @return array
+     */
+    public function getDigestParams();
+    
 }

@@ -39,7 +39,7 @@ interface IOperation
 
 	/**
 	 * @param string $url max. lenght is 300
-	 * @return $this
+	 * @return IOperation
 	 */
 	public function setResponseUrl($url);
 
@@ -51,7 +51,7 @@ interface IOperation
 
 	/**
 	 * @param string $md max. length is 255!
-	 * @return $this
+	 * @return IOperation
 	 * @throws InvalidArgumentException
 	 */
 	public function setMd($md);
@@ -64,7 +64,7 @@ interface IOperation
 
 	/**
 	 * @param string $description max. length is 255
-	 * @return $this
+	 * @return IOperation
 	 * @throws InvalidArgumentException
 	 */
 	public function setDescription($description);
@@ -76,7 +76,7 @@ interface IOperation
 
 	/**
 	 * @param string $merordernum max. length is 30
-	 * @return $this
+	 * @return IOperation
 	 */
 	public function setMerOrderNum($merordernum);
 
@@ -88,7 +88,7 @@ interface IOperation
 	/**
 	 *
 	 * @param string $lang max. length is 2
-	 * @return \Pixidos\GPWebPay\Intefaces\IOperation
+	 * @return IOperation
 	 */
 	public function setLang($lang);
 
@@ -117,7 +117,14 @@ interface IOperation
 	public function getPayMethod();
 
 	/**
-	 * @param string $payMethod supported val: CRD – payment card | MCM – MasterCard Mobile | MPS – MasterPass | BTNCS - PLATBA 24
+     * Supported Values:
+     * CRD – payment card
+     * MCM – MasterCard Mobile
+     * MPS – MasterPass
+     * BTNCS - PLATBA 24
+     * GPAY - Google pay
+     *
+	 * @param string $payMethod supported val: CRD, MCM, MPS, BTNCS, GPAY
 	 * @return IOperation
 	 * @throws InvalidArgumentException
 	 */
@@ -134,13 +141,16 @@ interface IOperation
 	 * MCM – MasterCard Mobile
 	 * MPS – MasterPass
 	 * BTNCS - PLATBA 24
-	 * @param string $disablePayMethod supported val: CRD, MCM, MPS, BTNCS
+     * GPAY - Google pay
+     *
+	 * @param string $disablePayMethod supported val: CRD, MCM, MPS, BTNCS, GPAY
 	 * @return IOperation
 	 * @throws InvalidArgumentException
 	 */
 	public function setDisablePayMethod($disablePayMethod);
+	
 	/**
-	 * @return mixed
+	 * @return array
 	 */
 	public function getPayMethods();
 
@@ -151,18 +161,21 @@ interface IOperation
 	 * MCM – MasterCard Mobile
 	 * MPS – MasterPass
 	 * BTNCS - PLATBA 24
-	 * @param array $payMethods supported val: [CRD, MCM, MPS, BTNCS]
-	 * @return $this
+     * GPAY - Google pay
+     *
+	 * @param array $payMethods supported val: [CRD, MCM, MPS, BTNCS, GPAY]
+	 * @return IOperation
 	 * @throws InvalidArgumentException
 	 */
-	public function setPayMethods($payMethods);
+	public function setPayMethods(array $payMethods);
 
 	/**
 	 * @return string
 	 */
 	public function getEmail();
+	
 	/**
-	 * @param $value
+	 * @param string $value
 	 * @return bool
 	 */
 	public function isEmail($value);

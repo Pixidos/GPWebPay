@@ -42,7 +42,7 @@ interface IResponse
 	public function getMd();
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
 	public function getGatewayKey();
 

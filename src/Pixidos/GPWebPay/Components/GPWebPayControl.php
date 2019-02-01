@@ -67,11 +67,12 @@ class GPWebPayControl extends UI\Control
 		$this->operation = $operation;
 		$this->provider = $provider;
 	}
-
-	/**
-	 * @throws GPWebPayException
-	 * @throws \Nette\Application\AbortException
-	 */
+    
+    /**
+     * @throws GPWebPayException
+     * @throws UI\InvalidLinkException
+     * @throws \Nette\Application\AbortException
+     */
 	public function handleCheckout()
 	{
 		try {
@@ -133,11 +134,13 @@ class GPWebPayControl extends UI\Control
 	{
 		$this->templateFile = $templateFile;
 	}
-
-	/**
-	 * @param array $attrs
-	 * @param string $text
-	 */
+    
+    /**
+     * @param array  $attrs
+     * @param string $text
+     *
+     * @throws UI\InvalidLinkException
+     */
 	public function render($attrs = array(), $text = "Pay")
 	{
 		/** @var Template $template */
@@ -154,9 +157,7 @@ class GPWebPayControl extends UI\Control
 	 */
 	public function getTemplateFilePath()
 	{
-		return ($this->templateFile)
-			? $this->templateFile
-			: $this->getDefaultTemplateFilePath();
+		return $this->templateFile ?: $this->getDefaultTemplateFilePath();
 	}
 
 	/**
