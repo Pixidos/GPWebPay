@@ -1,10 +1,11 @@
 {
   "name": "pixidos/gpwebpay",
+  "license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
   "type": "library",
   "description": "GP WepPay integration for Nette Framework",
   "keywords": ["nette", "gp", "gp webpay","webpay", "pay", "checkout", "payment"],
   "homepage": "https://github.com/pixidos",
-  "license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+
   "authors": [
     {
       "name": "PIXDOS LTD",

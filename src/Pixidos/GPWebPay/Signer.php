@@ -47,7 +47,7 @@ class Signer implements ISigner
     public function __construct(string $privateKey, string $privateKeyPassword, string $publicKey)
     {
         
-        if (!file_exists($privateKey || !is_readable($privateKey))) {
+        if (!file_exists($privateKey) || !is_readable($privateKey)) {
             throw new SignerException(sprintf('Private key (%s) not exists or not readable!', $privateKey));
         }
         
