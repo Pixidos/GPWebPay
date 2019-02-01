@@ -9,7 +9,7 @@ GPWebPay is a Nette Add-On for [GPWebPay service](http://www.gpwebpay.cz/ )
 Requirements
 ------------
 
-Pixidos/GPWebPay 3.0 requires PHP 7.1 or higher. For PHP 5.6 use version 2.2.0
+Pixidos/GPWebPay 3.x requires PHP 7.1 or higher. For PHP 5.6 use version 2.x
 
 
 - [nette/di](https://github.com/nette/di)
