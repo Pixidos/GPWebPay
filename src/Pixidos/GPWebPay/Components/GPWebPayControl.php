@@ -62,8 +62,6 @@ class GPWebPayControl extends UI\Control
      */
     public function __construct(IOperation $operation, IProvider $provider, IContainer $control = null, $name = null)
     {
-        parent::__construct($control, $name);
-        
         $this->operation = $operation;
         $this->provider = $provider;
     }
