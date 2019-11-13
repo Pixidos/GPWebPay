@@ -23,9 +23,9 @@
   "require": {
     "php": ">=7.1.0",
     "ext-openssl": "*",
-    "nette/di": "^2.3",
-    "nette/application": "^2.3",
-    "nette/utils": "^2.3"
+    "nette/di": "^3.0",
+    "nette/application": "^3.0",
+    "nette/utils": "^3.0"
   },
   "require-dev": {
 
