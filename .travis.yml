@@ -9,9 +9,10 @@ env:
     - LOWEST="update --prefer-lowest --prefer-stable -n"
     - LOWEST="update"
 
-exclude:
-    - php: 7.4
-      env: LOWEST="update --prefer-lowest --prefer-stable -n"
+matrix:
+    exclude:
+        - php: 7.4
+          env: LOWEST="update --prefer-lowest --prefer-stable -n"
 
 before_script:
     - travis_retry composer self-update
@@ -24,4 +25,3 @@ script:
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
-    ￿
