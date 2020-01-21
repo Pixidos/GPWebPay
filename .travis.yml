@@ -8,10 +8,10 @@ php:
 env:
     - LOWEST="update --prefer-lowest --prefer-stable -n"
     - LOWEST="update"
-jobs:
-    exclude:
-        - php: 7.4
-          env: LOWEST="update --prefer-lowest --prefer-stable -n"
+    -
+exclude:
+    - php: 7.4
+      env: LOWEST="update --prefer-lowest --prefer-stable -n"
 
 before_script:
     - travis_retry composer self-update
