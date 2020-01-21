@@ -7,11 +7,15 @@ php:
     - 7.4
 env:
     - LOWEST="update --prefer-lowest --prefer-stable -n"
-    - LOWEST="install"
+    - LOWEST="update"
+jobs:
+    exclude:
+        - php: 7.4
+          env: LOWEST="update --prefer-lowest --prefer-stable -n"
 
 before_script:
     - travis_retry composer self-update
-    - travis_retry composer ${LOWEST-install} --no-interaction --prefer-source
+    - travis_retry composer ${LOWEST} --no-interaction --prefer-source
 
 script:
     - vendor/bin/phpcs -p
@@ -20,3 +24,4 @@ script:
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
+￿
