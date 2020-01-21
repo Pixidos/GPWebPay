@@ -7,7 +7,7 @@ php:
     - 7.4
 env:
     - LOWEST="update --prefer-lowest --prefer-stable -n"
-    - LOWEST=""
+    - LOWEST="install"
 
 before_script:
     - travis_retry composer self-update
