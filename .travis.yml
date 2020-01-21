@@ -8,7 +8,7 @@ php:
 env:
     - LOWEST="update --prefer-lowest --prefer-stable -n"
     - LOWEST="update"
-    -
+
 exclude:
     - php: 7.4
       env: LOWEST="update --prefer-lowest --prefer-stable -n"
@@ -24,4 +24,4 @@ script:
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
-￿
+    ￿
