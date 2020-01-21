@@ -44,8 +44,11 @@ class GPWebPayExtension extends Nette\DI\CompilerExtension
     public function loadConfiguration(): void
     {
         $config = $this->getConfig();
-
+        if (is_object($config)) {
+            $config = (array)$config;
+        }
         $defaults = array_diff_key($this->defaults, $config);
+
         foreach ($defaults as $key => $val) {
             $config[$key] = $this->defaults[$key];
         }
@@ -125,4 +128,5 @@ class GPWebPayExtension extends Nette\DI\CompilerExtension
 
         return [$gatewayKey => $config[$key]];
     }
+
 }

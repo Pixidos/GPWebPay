@@ -13,6 +13,11 @@ parameters:
         - tests
     level: max
     inferPrivatePropertyTypeFromConstructor: true
+    reportUnmatchedIgnoredErrors: false
 
     ignoreErrors:
         - '#Constant TEMP_DIR not found\.#'
+        - '#Pixidos\\GPWebPay\\Components\\GPWebPayControl::__construct\(\) does not call parent constructor from Nette\\ComponentModel\\Component\.#'
+        -
+            message: '#Call to function is_object\(\) with array will always evaluate to false\.#'
+            path: src/DI/GPWebPayExtension.php

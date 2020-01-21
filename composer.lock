@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "16693b342944ada51bd45d516de89b2d",
+    "content-hash": "0bf64119d7442e324d72ff01762cf5cf",
     "packages": [
         {
             "name": "grifart/enum",

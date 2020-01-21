@@ -12,7 +12,6 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
 Tester\Environment::setup();
 date_default_timezone_set('Europe/Prague');
 
-
 // create temporary directory
 define('TEMP_DIR', __DIR__ . '/../tmp/test' . getmypid());
 if (@!mkdir($concurrentDirectory = dirname(TEMP_DIR)) && !is_dir($concurrentDirectory)) {

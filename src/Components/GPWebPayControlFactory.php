@@ -31,13 +31,11 @@ class GPWebPayControlFactory
 
     /**
      * @param IOperation $operation
-     * @param IContainer|null $control
-     * @param null $name
      * @return GPWebPayControl
      */
-    public function create(IOperation $operation, IContainer $control = null, $name = null): GPWebPayControl
+    public function create(IOperation $operation): GPWebPayControl
     {
-        return new GPWebPayControl($operation, $this->provider, $control, $name);
+        return new GPWebPayControl($operation, $this->provider);
     }
 
 }

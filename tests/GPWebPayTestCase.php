@@ -97,7 +97,7 @@ abstract class GPWebPayTestCase extends TestCase
             );
         }
         $request = new Request(
-            $this->presenter->getName(),
+            (string)$this->presenter->getName(),
             $method,
             ['action' => $action] + $params,
             $post
