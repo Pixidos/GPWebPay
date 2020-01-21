@@ -1,4 +1,7 @@
-
-tests/tmp/
+tmp/
 vendor/
 .idea/
+/.phpcs-cache
+/coverage.xml
+composer.lock
+**/output
