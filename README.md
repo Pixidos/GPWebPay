@@ -7,6 +7,8 @@
 
 GPWebPay is a Nette Add-On for [GPWebPay service](http://www.gpwebpay.cz/ )
 
+If you does not use Nette you can use [GPWebPay-core](https://github.com/Pixidos/gpwebpay-core) lib. 
+
 
 Requirements
 ------------
