@@ -3,7 +3,6 @@
 namespace Pixidos\GPWebPay\Components;
 
 use Closure;
-use http\Exception\RuntimeException;
 use Nette\Application\AbortException;
 use Nette\Application\UI;
 use Nette\Application\UI\InvalidLinkException;
@@ -56,6 +55,8 @@ class GPWebPayControl extends UI\Control
     /**
      * @param IOperation $operation
      * @param IProvider  $provider
+     * @noinspection PhpMissingParentConstructorInspection
+     * @noinspection MagicMethodsValidityInspection
      */
     public function __construct(IOperation $operation, IProvider $provider)
     {
