@@ -1,9 +1,9 @@
 # GPWebPay
 [![Build Status](https://travis-ci.org/Pixidos/GPWebPay.svg?branch=master)](https://travis-ci.org/Pixidos/GPWebPay)
-[![Donwload this Month](https://img.shields.io/packagist/dm/pixidos/gpwebpay.svg)](https://packagist.org/packages/pixidos/gpwebpay)
+[![Donwloads](https://poser.pugx.org/pixidos/gpwebpay/downloads)](https://packagist.org/packages/pixidos/gpwebpay)
 [![Latest stable](https://img.shields.io/packagist/v/pixidos/gpwebpay.svg)](https://packagist.org/packages/pixidos/gpwebpay)
 ![](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)
-[![Code coverage](https://codecov.io/gh/Pixidos/GPWebPay/branch/master/graph/badge.svg)](https://codecov.io/gh/Pixidos/gpwebpay-core)
+[![Code coverage](https://codecov.io/gh/Pixidos/GPWebPay/branch/master/graph/badge.svg)](https://codecov.io/gh/Pixidos/gpwebpay)
 
 GPWebPay is a Nette Add-On for [GPWebPay service](http://www.gpwebpay.cz/ )
 
