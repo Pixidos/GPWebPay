@@ -13,12 +13,19 @@ If you does not use Nette you can use [GPWebPay-core](https://github.com/Pixidos
 Requirements
 ------------
 
-Pixidos/GPWebPay 3.x requires PHP 7.1 or higher. For PHP 5.6 use version 2.x
+| Version | PHP  | Nette support | Maintained | Note                   |
+|---------|------|---------------|------------|------------------------|
+| 3.2.x   | ^7.1 | ^2.4 \| ^3.0   | Yes        | use GPWebPay-core ^2.0 |
+| 3.1.x   | ^7.1 | ^2.4 \| ^3.0   | No         | use GPWebPay-core ^1.0 |
+| 3.0.x   | ^7.1 | ^2.3          | No         |                        |
+| 2.x     | ^5.6 | ^2.3          | No         |                        |
 
 
 - [nette/di](https://github.com/nette/di)
 - [nette/application](https://github.com/nette/application)
 - [nette/utils](https://github.com/nette/utils)
+- [latte/latte](https://github.com/nette/latte)
+- [pixidos/gpwebpay-core](https://github.com/pixidos/gpwebpay-core)
 
 
 Installation
