@@ -7,10 +7,18 @@
 
 namespace GPWebPay\Tests\DI;
 
+use Nette\Http\RequestFactory;
 use Pixidos\GPWebPay\Components\GPWebPayControlFactory;
-use Pixidos\GPWebPay\Provider;
-use Pixidos\GPWebPay\Settings\Settings;
+use Pixidos\GPWebPay\Config\Config;
+use Pixidos\GPWebPay\Config\PaymentConfigProvider;
+use Pixidos\GPWebPay\Config\SignerConfigProvider;
+use Pixidos\GPWebPay\Factory\ResponseFactory;
+use Pixidos\GPWebPay\ResponseProvider;
+use Pixidos\GPWebPay\ResponseProviderInterface;
 use GPWebPay\Tests\GPWebPayTestCase;
+use Pixidos\GPWebPay\Signer\SignerFactoryInterface;
+use Pixidos\GPWebPay\Signer\SignerProvider;
+use Pixidos\GPWebPay\Signer\SignerProviderInterface;
 use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
@@ -20,41 +28,44 @@ class GPWebPayExtensionTest extends GPWebPayTestCase
 
     public function testSettingCreated(): void
     {
-        $this->prepareContainer(sprintf(__DIR__ . '/../config/webpay.config.neon'));
+        $this->prepareContainer(__DIR__ . '/../config/webpay.config.neon');
         $container = $this->getContainer();
-        $gpWebPaySettings = $container->getByType(Settings::class);
 
-        Assert::type(Settings::class, $gpWebPaySettings);
+        Assert::type(Config::class, $container->getByType(Config::class));
+        Assert::type(PaymentConfigProvider::class, $container->getByType(PaymentConfigProvider::class));
+        Assert::type(SignerConfigProvider::class, $container->getByType(SignerConfigProvider::class));
+
+        Assert::type(ResponseProvider::class, $container->getByType(ResponseProviderInterface::class));
+        Assert::type(ResponseFactory::class, $container->getByType(ResponseFactory::class));
+        Assert::type(RequestFactory::class, $container->getByType(RequestFactory::class));
+        Assert::type(SignerProvider::class, $container->getByType(SignerProviderInterface::class));
+        Assert::type(SignerFactoryInterface::class, $container->getByType(SignerFactoryInterface::class));
+        Assert::type(GPWebPayControlFactory::class, $container->getByType(GPWebPayControlFactory::class));
+
     }
 
 
     public function testMultipleSettingCreated(): void
     {
-        $this->prepareContainer(sprintf(__DIR__ . '/../config/webpay.multiple.config.neon'));
+        $this->prepareContainer(__DIR__ . '/../config/webpay.multiple.config.neon');
         $container = $this->getContainer();
-        /** @var Settings $gpWebPaySettings */
-        $gpWebPaySettings = $container->getByType(Settings::class);
 
-        Assert::type(Settings::class, $gpWebPaySettings);
-        Assert::same('123456789', (string)$gpWebPaySettings->getMerchantNumber($gpWebPaySettings->getDefaultGatewayKey()));
-        Assert::same('123456789', (string)$gpWebPaySettings->getMerchantNumber('czk'));
-        Assert::same('123456780', (string)$gpWebPaySettings->getMerchantNumber('eur'));
-    }
+        Assert::type(Config::class, $container->getByType(Config::class));
+        Assert::type(PaymentConfigProvider::class, $container->getByType(PaymentConfigProvider::class));
+        Assert::type(SignerConfigProvider::class, $container->getByType(SignerConfigProvider::class));
 
-    public function testProviderCreated(): void
-    {
-        $this->prepareContainer(sprintf(__DIR__ . '/../config/webpay.config.neon'));
-        $container = $this->getContainer();
-        $gpWebPayProvider = $container->getByType(Provider::class);
-        Assert::type(Provider::class, $gpWebPayProvider);
-    }
+        Assert::type(ResponseProvider::class, $container->getByType(ResponseProviderInterface::class));
+        Assert::type(ResponseFactory::class, $container->getByType(ResponseFactory::class));
+        Assert::type(RequestFactory::class, $container->getByType(RequestFactory::class));
+        Assert::type(SignerProvider::class, $container->getByType(SignerProviderInterface::class));
+        Assert::type(SignerFactoryInterface::class, $container->getByType(SignerFactoryInterface::class));
+        Assert::type(GPWebPayControlFactory::class, $container->getByType(GPWebPayControlFactory::class));
 
-    public function testGPWebPayControlFactoryCreated(): void
-    {
-        $this->prepareContainer(sprintf(__DIR__ . '/../config/webpay.config.neon'));
-        $container = $this->getContainer();
-        $gPWebPayControlFactory = $container->getByType(GPWebPayControlFactory::class);
-        Assert::type(GPWebPayControlFactory::class, $gPWebPayControlFactory);
+        /** @var PaymentConfigProvider $paymentConfig */
+        $paymentConfig = $container->getByType(PaymentConfigProvider::class);
+        Assert::same('123456789', (string)$paymentConfig->getMerchantNumber($paymentConfig->getDefaultGateway()));
+        Assert::same('123456789', (string)$paymentConfig->getMerchantNumber('czk'));
+        Assert::same('123456780', (string)$paymentConfig->getMerchantNumber('eur'));
     }
 
 }

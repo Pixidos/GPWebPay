@@ -11,7 +11,7 @@ use GPWebPay\Tests\GPWebPayTestCase;
 use Nette\Application\AbortException;
 use Nette\Application\UI\ITemplateFactory;
 use Pixidos\GPWebPay\Components\GPWebPayControl;
-use Pixidos\GPWebPay\Data\IRequest;
+use Pixidos\GPWebPay\Data\RequestInterface;
 use Tester\Assert;
 
 /**
@@ -58,7 +58,7 @@ class GPWebPayControlTest extends GPWebPayTestCase
     {
         $control = $this->createControl();
         $called = false;
-        $control->onCheckout[] = static function (GPWebPayControl $control, IRequest $request) use (&$called) {
+        $control->onCheckout[] = static function (GPWebPayControl $control, RequestInterface $request) use (&$called) {
             $called = true;
         };
 

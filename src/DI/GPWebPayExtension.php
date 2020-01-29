@@ -5,17 +5,24 @@ namespace Pixidos\GPWebPay\DI;
 use Nette;
 use Nette\Configurator;
 use Nette\DI\Compiler;
-use Nette\Utils\Validators;
 use Pixidos\GPWebPay\Components\GPWebPayControlFactory;
+use Pixidos\GPWebPay\Config\Config;
+use Pixidos\GPWebPay\Config\Factory\ConfigFactory;
+use Pixidos\GPWebPay\Config\Factory\PaymentConfigFactory;
+use Pixidos\GPWebPay\Config\PaymentConfigProvider;
+use Pixidos\GPWebPay\Config\SignerConfigProvider;
 use Pixidos\GPWebPay\Factory\RequestFactory;
 use Pixidos\GPWebPay\Factory\ResponseFactory;
 use Pixidos\GPWebPay\Provider;
+use Pixidos\GPWebPay\ResponseProvider;
+use Pixidos\GPWebPay\ResponseProviderInterface;
 use Pixidos\GPWebPay\Settings\Settings;
 use Pixidos\GPWebPay\Settings\SettingsFactory;
 use Pixidos\GPWebPay\Signer\ISignerFactory;
 use Pixidos\GPWebPay\Signer\SignerFactory;
-
-use function is_array;
+use Pixidos\GPWebPay\Signer\SignerFactoryInterface;
+use Pixidos\GPWebPay\Signer\SignerProvider;
+use Pixidos\GPWebPay\Signer\SignerProviderInterface;
 
 /**
  * Class GPWebPayExtension
@@ -25,81 +32,70 @@ use function is_array;
 class GPWebPayExtension extends Nette\DI\CompilerExtension
 {
 
-    private const PRIVATE_KEY = 'privateKey';
-    private const PRIVATE_KEY_PASSWORD = 'privateKeyPassword';
-    private const PUBLIC_KEY = 'publicKey';
-    private const URL = 'url';
-    private const MERCHANT_NUMBER = 'merchantNumber';
-    private const DEPOSIT_FLAG = 'depositFlag';
-    private const GATEWAY_KEY = 'gatewayKey';
+    private const GATEWAY_KEY = 'defaultGateway';
 
-    public $defaults = [
-        self::DEPOSIT_FLAG => 1,
-        self::GATEWAY_KEY => 'czk',
-    ];
-
-    /**
-     * @throws Nette\Utils\AssertionException
-     */
     public function loadConfiguration(): void
     {
         $config = $this->getConfig();
         if (is_object($config)) {
             $config = (array)$config;
         }
-        $defaults = array_diff_key($this->defaults, $config);
-
-        foreach ($defaults as $key => $val) {
-            $config[$key] = $this->defaults[$key];
-        }
-
-        Validators::assertField($config, self::PRIVATE_KEY);
-        Validators::assertField($config, self::PRIVATE_KEY_PASSWORD);
-        Validators::assertField($config, self::PUBLIC_KEY);
-        Validators::assertField($config, self::URL);
-        Validators::assertField($config, self::MERCHANT_NUMBER);
-        Validators::assertField($config, self::DEPOSIT_FLAG);
-        Validators::assertField($config, self::GATEWAY_KEY);
 
         $builder = $this->getContainerBuilder();
 
-        $gatewayKey = $config[self::GATEWAY_KEY];
-        $builder->addDefinition($this->prefix('settings'))
-            ->setType(Settings::class)
+        $defaultGateway = 'czk';
+        if (array_key_exists(self::GATEWAY_KEY, $config)) {
+            $defaultGateway = $config[self::GATEWAY_KEY];
+            unset($config[self::GATEWAY_KEY]);
+        }
+
+        $builder->addDefinition($this->prefix('paymentConfigFactory'))
+            ->setType(PaymentConfigFactory::class);
+
+        $builder->addDefinition($this->prefix('configFactory'))
+            ->setType(ConfigFactory::class);
+        $builder->addDefinition($this->prefix('config'))
+            ->setType(Config::class)
             ->setFactory(
-                [SettingsFactory::class, 'create'],
-                [
-                    $this->getArray(self::PRIVATE_KEY, $config, $gatewayKey),
-                    $this->getArray(self::PRIVATE_KEY_PASSWORD, $config, $gatewayKey),
-                    $config[self::PUBLIC_KEY],
-                    $config[self::URL],
-                    $this->getArray(self::MERCHANT_NUMBER, $config, $gatewayKey),
-                    $config[self::DEPOSIT_FLAG],
-                    $gatewayKey,
-                ]
+                [$this->prefix('@configFactory'), 'create'],
+                [$config, $defaultGateway]
             );
+
+        $builder->addDefinition($this->prefix('paymentConfigProvider'))
+            ->setType(PaymentConfigProvider::class)
+            ->setFactory(
+                [$this->prefix('@config'), 'getPaymentConfigProvider']
+            );
+
+        $builder->addDefinition($this->prefix('signerConfigProvider'))
+            ->setType(SignerConfigProvider::class)
+            ->setFactory(
+                [$this->prefix('@config'), 'getSignerConfigProvider']
+            );
+
+
+        $builder->addDefinition($this->prefix('signerProvider'))
+            ->setType(SignerProviderInterface::class)
+            ->setFactory(SignerProvider::class);
+
+        $builder->addDefinition($this->prefix('signerFactory'))
+            ->setType(SignerFactoryInterface::class)
+            ->setFactory(SignerFactory::class);
+
         $builder->addDefinition($this->prefix('requestFactory'))
             ->setType(RequestFactory::class);
 
         $builder->addDefinition($this->prefix('responseFactory'))
             ->setType(ResponseFactory::class);
 
-        $builder->addDefinition($this->prefix('signerFactory'))
-            ->setType(ISignerFactory::class)
-            ->setFactory(SignerFactory::class, [$this->prefix('@settings')]);
-
-        $builder->addDefinition($this->prefix('provider'))
-            ->setType(Provider::class)
+        $builder->addDefinition($this->prefix('responseProvider'))
+            ->setType(ResponseProviderInterface::class)
             ->setFactory(
-                Provider::class,
-                [
-                    $this->prefix('@settings'),
-                    $this->prefix('@signerFactory'),
-                ]
+                ResponseProvider::class
             );
 
         $builder->addDefinition($this->prefix('controlFactory'))
-            ->setFactory(GPWebPayControlFactory::class, [$this->prefix('@provider')]);
+            ->setFactory(GPWebPayControlFactory::class, [$this->prefix('@requestFactory')]);
     }
 
     /**
@@ -111,22 +107,4 @@ class GPWebPayExtension extends Nette\DI\CompilerExtension
             $compiler->addExtension('gpwebpay', new GPWebPayExtension());
         };
     }
-
-
-    /**
-     * @param string $key
-     * @param array  $config
-     * @param string $gatewayKey
-     *
-     * @return array
-     */
-    private function getArray(string $key, array $config, string $gatewayKey): array
-    {
-        if (is_array($config[$key])) {
-            return $config[$key];
-        }
-
-        return [$gatewayKey => $config[$key]];
-    }
-
 }

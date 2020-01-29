@@ -94,22 +94,6 @@ class MyPresenter extends Nette\Application\UI\Presenter
 
         }
 
-
-        # On success response
-        $control->onSuccess[] = function(GPWebPayControl $control, Response $response) {
-
-            //....
-
-        };
-
-        # On Error
-        $control->onError[] = function(GPWebPayControl $control, GPWebPayException $exception)
-        {
-
-            //...
-
-        };
-
         return $control;
 
     }

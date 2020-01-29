@@ -2,40 +2,38 @@
 
 namespace Pixidos\GPWebPay\Components;
 
-use Nette\ComponentModel\IContainer;
-use Pixidos\GPWebPay\Data\IOperation;
-use Pixidos\GPWebPay\IProvider;
+use Pixidos\GPWebPay\Data\OperationInterface;
+use Pixidos\GPWebPay\Factory\RequestFactory;
 
 /**
  * Class GPWebPayControlFactory
  * @package Pixidos\GPWebPay\Componets
- * @author Ondra Votava <ondra@votava.dev>
+ * @author  Ondra Votava <ondra@votava.dev>
  */
-
 class GPWebPayControlFactory
 {
 
     /**
-     * @var  IProvider $provider
+     * @var RequestFactory
      */
-    private $provider;
+    private $requestFactory;
 
     /**
      * GPWebPayControlFactory constructor.
-     * @param IProvider $provider
+     * @param RequestFactory $requestFactory
      */
-    public function __construct(IProvider $provider)
+    public function __construct(RequestFactory $requestFactory)
     {
-        $this->provider = $provider;
+        $this->requestFactory = $requestFactory;
     }
 
     /**
-     * @param IOperation $operation
+     * @param OperationInterface $operation
      * @return GPWebPayControl
      */
-    public function create(IOperation $operation): GPWebPayControl
+    public function create(OperationInterface $operation): GPWebPayControl
     {
-        return new GPWebPayControl($operation, $this->provider);
+        return new GPWebPayControl($operation, $this->requestFactory);
     }
 
 }

@@ -1,12 +1,14 @@
 gpwebpay:
-	privateKey:
-	     czk: %appDir%/config/test.pem
-	     eur: %appDir%/config/test.pem
-	privateKeyPassword:
-	    czk: '1234567'
-	    eur: '1234567'
-	publicKey: %appDir%/config/test-pub.pem
-	url: https://test.3dsecure.gpwebpay.com/unicredit/order.do
-	merchantNumber:
-	    czk: '123456789'
-	    eur: '123456780'
+    czk:
+        privateKey: %appDir%/config/test.pem
+        privateKeyPassword: '1234567'
+        publicKey: %appDir%/config/test-pub.pem
+        url: https://test.3dsecure.gpwebpay.com/unicredit/order.do
+        merchantNumber: '123456789'
+    eur:
+        privateKey: %appDir%/config/test.pem
+        privateKeyPassword: '1234567'
+        publicKey: %appDir%/config/test-pub.pem
+        url: https://test.3dsecure.gpwebpay.com/unicredit/order.do
+        merchantNumber: '123456780'
+    defaultGateway: czk
