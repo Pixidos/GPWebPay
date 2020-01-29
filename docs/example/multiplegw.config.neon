@@ -1,0 +1,20 @@
+
+extensions:
+    gpwebpay: Pixidos\GPWebPay\DI\GPWebPayExtension
+
+gpwebpay:
+    czk:
+        privateKey: < your private certificate path >
+        privateKeyPassword: < private certificate password >
+        publicKey: < gateway public certificate path (you will probably get this by email) > //gpe.signing_prod.pem
+        url: <url of gpwabpay system gateway > #example: https://test.3dsecure.gpwebpay.com/unicredit/order.do
+        merchantNumber: <your merechant number >
+        responseUrl: <on this url client get redirect back after payment will done> #optional you can set in Control
+        depositFlag: 1 #optional you can set in Operation. Can set 1 or 0. Default is 1
+    eur:
+        privateKey: < your private certificate path >
+        privateKeyPassword: < private certificate password >
+        publicKey: < gateway public certificate path (you will probably get this by email) > //gpe.signing_prod.pem
+        url: <url of gpwabpay system gateway > #example: https://test.3dsecure.gpwebpay.com/unicredit/order.do
+        merchantNumber: <your merechant number >
+    defaultGateway: czk #eur

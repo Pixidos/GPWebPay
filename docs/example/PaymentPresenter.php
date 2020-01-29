@@ -1,60 +1,3 @@
-# Quickstart
-
-This extension is here to provide [GP WebPay](http://www.gpwebpay.cz) system for Nette Framework.
-
-
-## Installation
-
-The best way to install Pixidos/GPWebPay is using  [Composer](http://getcomposer.org/):
-
-```sh
-$ composer require pixidos/gpwebpay
-```
-
-and you can enable the extension using your neon config
-
-```yml
-extensions:
-    gpwebpay: Pixidos\GPWebPay\DI\GPWebPayExtension
-```
-
-and setting
-
-```yml
-gpwebpay:
-    privateKey: < your private certificate path >
-    privateKeyPassword: < private certificate password >
-    publicKey: < gateway public certificate path (you will probably get this by email) > //gpe.signing_prod.pem
-    url: <url of gpwabpay system gateway > //example: https://test.3dsecure.gpwebpay.com/unicredit/order.do
-    merchantNumber: <your merechant number >
-    responseUrl: <on this url client get redirect back after payment will done> #optional you can set in Control
-    depositFlag: 1 #optional you can set in Operation. Can set 1 or 0. Default is 1
-```
-
-or if you need more then one gateway
-```yml
-gpwebpay:
-    czk:
-        privateKey: < your private certificate path >
-        privateKeyPassword: < private certificate password >
-        publicKey: < gateway public certificate path (you will probably get this by email) > //gpe.signing_prod.pem
-        url: <url of gpwabpay system gateway > //example: https://test.3dsecure.gpwebpay.com/unicredit/order.do
-        merchantNumber: <your merechant number >
-        responseUrl: <on this url client get redirect back after payment will done> #optional you can set in Control
-        depositFlag: 1 #optional you can set in Operation. Can set 1 or 0. Default is 1
-    eur:
-        privateKey: < your private certificate path >
-        privateKeyPassword: < private certificate password >
-        publicKey: < gateway public certificate path (you will probably get this by email) > //gpe.signing_prod.pem
-        url: <url of gpwabpay system gateway > //example: https://test.3dsecure.gpwebpay.com/unicredit/order.do
-        merchantNumber: <your merechant number >
-    defaultGateway: czk #eur
-```
-
-## Usage
-
-
-```php
 <?php
 
 declare(strict_types=1);
@@ -75,7 +18,7 @@ use Pixidos\GPWebPay\Param\Currency;
 use Pixidos\GPWebPay\Param\OrderNumber;
 use Pixidos\GPWebPay\Param\ResponseUrl;
 use Pixidos\GPWebPay\ResponseProviderInterface;
-
+use Tracy\Debugger;
 
 
 final class PaymentPresenter extends Nette\Application\UI\Presenter
@@ -104,6 +47,7 @@ final class PaymentPresenter extends Nette\Application\UI\Presenter
 
     /**
      * @return GPWebPayControl
+     * @throws Nette\Application\UI\InvalidLinkException
      */
     protected function createComponentWebPayButton(): GPWebPayControl
     {
@@ -132,25 +76,17 @@ final class PaymentPresenter extends Nette\Application\UI\Presenter
         $response = $this->responseFactory->create($this->getParameters());
         $this->responseProvider->addOnSuccess(
             static function (ResponseInterface $response) {
-                //.. process success response
+                Debugger::barDump($response);
             }
         );
 
         $this->responseProvider->addOnError(
             static function (GPWebPayException $exception, ResponseInterface $response) {
-                //.. process error response
+                Debugger::barDump($exception);
+                Debugger::barDump($response);
             }
         );
 
         $this->responseProvider->provide($response);
     }
 }
-
-```
-
-## Templates
-
-```smarty
-{var $attrs = array(class => 'btn btn-primary')}
-{control webPayButton $attrs, 'text on button'}
-```
