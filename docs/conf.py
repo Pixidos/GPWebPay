@@ -44,7 +44,7 @@ lexers['php-annotations'] = PhpLexer(startinline=True)
 
 # -- Project information -----------------------------------------------------
 
-project = u'Pixidos\GPWebPay'
+project = u'GPWebPay'
 copyright = u'2020, Ondra Votava'
 author = u'Ondra Votava'
 epub_author = u'Ondra Votava'
