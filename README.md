@@ -4,6 +4,7 @@
 [![Latest stable](https://img.shields.io/packagist/v/pixidos/gpwebpay.svg)](https://packagist.org/packages/pixidos/gpwebpay)
 ![](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)
 [![Code coverage](https://codecov.io/gh/Pixidos/GPWebPay/branch/master/graph/badge.svg)](https://codecov.io/gh/Pixidos/gpwebpay)
+[![Documentation Status](https://readthedocs.org/projects/gpwebpay/badge/?version=latest)](https://gpwebpay.readthedocs.io/en/latest/?badge=latest)
 
 GPWebPay is a Nette Add-On for [GPWebPay HTTP API](http://www.gpwebpay.cz/ )
 
