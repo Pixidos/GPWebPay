@@ -41,5 +41,5 @@ $ composer require pixidos/gpwebpay
 Documentation
 ------------
 
-Learn more in the [documentation](docs/index.md).
+Learn more in the [documentation](olddoc/index.md).
 

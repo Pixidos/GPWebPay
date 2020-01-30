@@ -22,7 +22,7 @@
     "nette/application": "^2.4.10 || ^3.0",
     "nette/utils": "^2.5 || ^3.0",
     "latte/latte": "^2.4",
-    "pixidos/gpwebpay-core": "dev-master"
+    "pixidos/gpwebpay-core": "~2.0"
   },
   "require-dev": {
     "nette/http": "^2.4.10 || ^3.0",

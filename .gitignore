@@ -5,3 +5,4 @@ vendor/
 /coverage.xml
 composer.lock
 **/output
+docs/_build

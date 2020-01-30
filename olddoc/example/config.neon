@@ -4,7 +4,7 @@ extensions:
 
 gpwebpay:
     privateKey: < your private certificate path >
-    privateKeyPassword: < private certificate password >
+    privateKeyPassphrase: < private certificate Passphrase >
     publicKey: < gateway public certificate path> # (you will probably get this by email) gpe.signing_prod.pem
     url: <url of gpwabpay system gateway > #example: https://test.3dsecure.gpwebpay.com/unicredit/order.do
     merchantNumber: <your merechant number >

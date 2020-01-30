@@ -1,6 +1,6 @@
 # Quickstart
 
-This extension is here to provide [GP WebPay](http://www.gpwebpay.cz) system for Nette Framework.
+This extension is here to provide [GP WebPay](http://www.gpwebpay.cz) service for Nette Framework.
 
 
 ## Installation
