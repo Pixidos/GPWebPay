@@ -24,7 +24,6 @@ Example:
 	use Pixidos\GPWebPay\ResponseProviderInterface;
 
 
-
 	final class PaymentPresenter extends Nette\Application\UI\Presenter
 	{
 
@@ -51,7 +50,7 @@ Example:
 
 		/**
 		 * @return GPWebPayControl
-		 */
+		*/
 		protected function createComponentWebPayButton(): GPWebPayControl
 		{
 			$operation = new Operation(
