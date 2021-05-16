@@ -60,7 +60,7 @@ class GPWebPayControlTest extends GPWebPayTestCase
     {
         $control = $this->createControl();
         $called = false;
-        $control->onCheckout[] = static function (GPWebPayControl $control, RequestInterface $request) use (&$called) {
+        $control->onCheckout[] = static function (GPWebPayControl $control, RequestInterface $request) use (&$called): void {
             $called = true;
         };
 
@@ -78,7 +78,6 @@ class GPWebPayControlTest extends GPWebPayTestCase
         parent::setUp();
         $this->prepareContainer(sprintf(__DIR__ . '/../config/webpay.config.neon'));
         $this->usePresenter('Test');
-        $this->presenter['payControl'];
     }
 
     private function createControl(): GPWebPayControl
