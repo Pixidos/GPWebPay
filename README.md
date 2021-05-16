@@ -14,12 +14,13 @@ If you does not use Nette you can use [GPWebPay-core](https://github.com/Pixidos
 Requirements
 ------------
 
-| Version | PHP  | Nette support | Maintained | Note                   |
-|---------|------|---------------|------------|------------------------|
-| 3.2.x   | ^7.1 | ^2.4 \| ^3.0   | Yes        | use GPWebPay-core ^2.0, BC breaks |
-| 3.1.x   | ^7.1 | ^2.4 \| ^3.0   | No         | use GPWebPay-core ^1.0 |
-| 3.0.x   | ^7.1 | ^2.3          | No         |                        |
-| 2.x     | ^5.6 | ^2.3          | No         |                        |
+| Version | PHP            | Nette support | Maintained | Note                   |
+|---------|----------------|---------------|------------|------------------------|
+| 3.3.x   | ^7.2 \| ^8.0.0 | ^2.4 \| ^3.0   | Yes        | use GPWebPay-core ^2.0, BC breaks |
+| 3.2.x   | ^7.1           | ^2.4 \| ^3.0   | No         | use GPWebPay-core ^2.0, BC breaks |
+| 3.1.x   | ^7.1           | ^2.4 \| ^3.0   | No         | use GPWebPay-core ^1.0 |
+| 3.0.x   | ^7.1           | ^2.3           | No         |                        |
+| 2.x     | ^5.6           | ^2.3           | No         |                        |
 
 
 - [nette/di](https://github.com/nette/di)
