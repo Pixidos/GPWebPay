@@ -1,12 +1,14 @@
-<?php declare(strict_types=1);
-
-namespace GPWebPay\Tests;
+<?php
 
 /**
  * Class GPWebPayTestCase
  * @package GPWebPay\Tests
  * @author  Ondra Votava <ondra@votava.dev>
  */
+
+declare(strict_types=1);
+
+namespace GPWebPay\Tests;
 
 use LogicException;
 use Nette;
@@ -36,7 +38,7 @@ abstract class GPWebPayTestCase extends TestCase
      */
     public function getContainer(): Container
     {
-        if ($this->container === null) {
+        if (null === $this->container) {
             throw new LogicException(
                 'First need run ' . static::class . '::prepareContainer() to initialize the container.'
             );
@@ -47,6 +49,7 @@ abstract class GPWebPayTestCase extends TestCase
 
     /**
      * @param string $configNeon
+     *
      * @return Container
      */
     protected function prepareContainer(string $configNeon): Container
@@ -81,8 +84,9 @@ abstract class GPWebPayTestCase extends TestCase
     /**
      * @param string $action
      * @param string $method
-     * @param array  $params
-     * @param array  $post
+     * @param mixed[]  $params
+     * @param mixed[]  $post
+     *
      * @return IResponse
      */
     protected function runPresenterAction(
@@ -91,7 +95,7 @@ abstract class GPWebPayTestCase extends TestCase
         array $params = [],
         array $post = []
     ): IResponse {
-        if ($this->presenter === null) {
+        if (null === $this->presenter) {
             throw new LogicException(
                 'Call first ' . static::class . '::usePresenter($name) to initialize the presenter.'
             );

@@ -8,5 +8,5 @@
     <arg name="cache" value=".phpcs-cache"/>
     <arg name="extensions" value="php,phpt"/>
 
-    <rule ref="vendor/pixidos/coding-standards/phpcs.xml"/>
+    <rule ref="vendor/pixidos/coding-standards/src/phpcs.xml"/>
 </ruleset>

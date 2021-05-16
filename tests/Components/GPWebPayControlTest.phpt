@@ -1,9 +1,11 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * Test:  Pixidos\GPWebPay\Components\GPWebPayControl
  * @testCase GPWebPay\Tests\Components\GPWebPayControlTest
  */
+
+declare(strict_types=1);
 
 namespace GPWebPay\Tests\Components;
 
@@ -89,7 +91,6 @@ class GPWebPayControlTest extends GPWebPayTestCase
 
         return $control;
     }
-
 }
 
 (new GPWebPayControlTest())->run();

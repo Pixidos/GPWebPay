@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace GPWebPay\Tests;
 
@@ -53,6 +55,7 @@ class TestPresenter extends Presenter
     protected function createComponentPayControl(): GPWebPayControl
     {
         $control = $this->gpWebPayControlFactory->create(self::createOperation());
+
         return $control;
     }
     /**
