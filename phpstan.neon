@@ -1,11 +1,9 @@
 includes:
-    - vendor/pixidos/coding-standards/phpstan.neon
+    - vendor/pixidos/coding-standards/src/phpstan.neon
     - vendor/phpstan/phpstan-nette/extension.neon
     - vendor/phpstan/phpstan-nette/rules.neon
 
 parameters:
-    autoload_files:
-        - vendor/autoload.php
     excludes_analyse:
         - tests/bootstrap.php
     paths:

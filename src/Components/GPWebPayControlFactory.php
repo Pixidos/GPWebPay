@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Pixidos\GPWebPay\Components;
 
@@ -35,5 +37,4 @@ class GPWebPayControlFactory
     {
         return new GPWebPayControl($operation, $this->requestFactory);
     }
-
 }

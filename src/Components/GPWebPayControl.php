@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Pixidos\GPWebPay\Components;
 
@@ -7,7 +9,7 @@ use Nette\Application\AbortException;
 use Nette\Application\UI;
 use Nette\Application\UI\InvalidLinkException;
 use Nette\Application\UI\Presenter;
-use Nette\Bridges\ApplicationLatte\Template;
+use Nette\Bridges\ApplicationLatte\DefaultTemplate;
 use Pixidos\GPWebPay\Data\OperationInterface;
 use Pixidos\GPWebPay\Data\RequestInterface;
 use Pixidos\GPWebPay\Exceptions\GPWebPayException;
@@ -77,14 +79,14 @@ class GPWebPayControl extends UI\Control
     }
 
     /**
-     * @param array  $attrs
-     * @param string $text
+     * @param mixed[] $attrs
+     * @param string  $text
      *
      * @throws InvalidLinkException
      */
     public function render(array $attrs = [], string $text = 'Pay'): void
     {
-        /** @var Template $template */
+        /** @var DefaultTemplate $template */
         $template = $this->getTemplate();
         $template->setFile($this->getTemplateFilePath());
         $template->add('checkoutLink', $this->link('//checkout!'));
@@ -98,7 +100,7 @@ class GPWebPayControl extends UI\Control
      */
     public function getTemplateFilePath(): string
     {
-        return $this->templateFile ?: $this->getDefaultTemplateFilePath();
+        return $this->templateFile ?? $this->getDefaultTemplateFilePath();
     }
 
     /**
