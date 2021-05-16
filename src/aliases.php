@@ -3,14 +3,7 @@
 declare(strict_types=1);
 
 // phpcs:disable
-namespace Nette\Bridges\ApplicationLatte;
-
-if (!class_exists('Nette\Bridges\ApplicationLatte\DefaultTemplate')) {
-
-    class  DefaultTemplate extends Template
-    {
-
-    }
+if (!class_exists('\Nette\Bridges\ApplicationLatte\DefaultTemplate')) {
+    class_alias('\Nette\Bridges\ApplicationLatte\Template', '\Nette\Bridges\ApplicationLatte\DefaultTemplate');
 }
-
 // phpcs:enable
