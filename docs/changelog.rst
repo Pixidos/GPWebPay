@@ -4,6 +4,14 @@
 Changelog
 =========
 
+Verison 3.4.0
+#############
+
+    - updated dependency to Pixidos/gpwebpay-core ^2.2
+    - remove support for PHP 7.x
+    - remove support for Nette <= 2.4
+    - add support for PHP ^8.1
+
 Version 3.2.0
 #############
 
@@ -18,7 +26,7 @@ New Features
 ------------
 
 	- add ResponseProvider see [documentation]()
-	- updated dependency to Pixidos/gpwebpay-core ^2.0
+	- updated dependency to Pixidos/gpwebpay-core ^2.2
 
 Verison 3.1.0
 #############
@@ -28,3 +36,4 @@ Verison 3.1.0
 	- static analyse by phpStan
 	- add Nette 3.x support
 	- add php 7.4 to testing metrix
+

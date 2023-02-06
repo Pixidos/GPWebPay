@@ -9,7 +9,7 @@ Installing
 Requirements
 ############
 
-GPWebPay |version| requires PHP 7.1 using the latest version of PHP is highly
+GPWebPay |version| requires PHP ^8.0 using the latest version of PHP is highly
 recommended.
 
 GPWebPay requires:
