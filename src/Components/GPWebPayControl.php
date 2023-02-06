@@ -27,16 +27,13 @@ class GPWebPayControl extends UI\Control
     /**
      * @var Closure[], signature: function(GPWebPayControl $control)
      */
-    public $onCheckout = [];
+    public array $onCheckout = [];
 
     /**
      * @var OperationInterface $operation
      */
-    private $operation;
-    /**
-     * @var  string $templateFile
-     */
-    private $templateFile;
+    private OperationInterface $operation;
+    private ?string $templateFile;
     /**
      * @var RequestFactory
      */
@@ -46,8 +43,6 @@ class GPWebPayControl extends UI\Control
      * @param OperationInterface $operation
      * @param RequestFactory     $requestFactory
      *
-     * @noinspection PhpMissingParentConstructorInspection
-     * @noinspection MagicMethodsValidityInspection
      */
     public function __construct(OperationInterface $operation, RequestFactory $requestFactory)
     {

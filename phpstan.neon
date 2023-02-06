@@ -4,7 +4,7 @@ includes:
     - vendor/phpstan/phpstan-nette/rules.neon
 
 parameters:
-    excludes_analyse:
+    excludePaths:
         - tests/bootstrap.php
     paths:
         - src

@@ -13,8 +13,8 @@ namespace GPWebPay\Tests;
 use LogicException;
 use Nette;
 use Nette\Application\IPresenterFactory;
-use Nette\Application\IResponse;
 use Nette\Application\Request;
+use Nette\Application\Response;
 use Nette\Application\UI\Presenter;
 use Nette\ComponentModel\Component;
 use Nette\DI\Container;
@@ -24,14 +24,9 @@ use Tester\TestCase;
 
 abstract class GPWebPayTestCase extends TestCase
 {
-    /**
-     * @var Presenter
-     */
-    protected $presenter;
-    /**
-     * @var Container
-     */
-    private $container;
+    protected ?Presenter $presenter;
+
+    private ?Container $container;
 
     /**
      * @return Container
@@ -54,9 +49,9 @@ abstract class GPWebPayTestCase extends TestCase
      */
     protected function prepareContainer(string $configNeon): Container
     {
-        $config = new Nette\Configurator();
+        $config = new Nette\Bootstrap\Configurator();
         $config->setTempDirectory(TEMP_DIR);
-        $config->addParameters(['container' => ['class' => 'SystemContainer_' . md5(TEMP_DIR)]]);
+        $config->addStaticParameters(['container' => ['class' => 'SystemContainer_' . md5(TEMP_DIR)]]);
         $config->addConfig(sprintf(__DIR__ . '/config/nette-reset.neon'));
         GPWebPayExtension::register($config);
         $config->addConfig($configNeon);
@@ -84,17 +79,18 @@ abstract class GPWebPayTestCase extends TestCase
     /**
      * @param string $action
      * @param string $method
-     * @param mixed[]  $params
-     * @param mixed[]  $post
+     * @param mixed[] $params
+     * @param mixed[] $post
      *
-     * @return IResponse
+     * @return Response
      */
     protected function runPresenterAction(
         string $action,
         string $method = 'GET',
-        array $params = [],
-        array $post = []
-    ): IResponse {
+        array  $params = [],
+        array  $post = []
+    ): Response {
+
         if (null === $this->presenter) {
             throw new LogicException(
                 'Call first ' . static::class . '::usePresenter($name) to initialize the presenter.'

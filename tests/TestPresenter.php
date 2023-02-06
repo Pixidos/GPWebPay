@@ -25,7 +25,6 @@ use UnexpectedValueException;
  */
 class TestPresenter extends Presenter
 {
-
     public const ORDER_NUMBER = '123456';
     public const GATEWAY = 'czk';
     public const RESPONSE_URL = 'http://test.com';

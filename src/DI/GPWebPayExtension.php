@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Pixidos\GPWebPay\DI;
 
 use Nette;
-use Nette\Configurator;
+use Nette\Bootstrap\Configurator;
 use Nette\DI\Compiler;
 use Pixidos\GPWebPay\Components\GPWebPayControlFactory;
 use Pixidos\GPWebPay\Config\Config;
@@ -29,7 +29,6 @@ use Pixidos\GPWebPay\Signer\SignerProviderInterface;
  */
 class GPWebPayExtension extends Nette\DI\CompilerExtension
 {
-
     private const GATEWAY_KEY = 'defaultGateway';
 
     public function loadConfiguration(): void
@@ -101,6 +100,9 @@ class GPWebPayExtension extends Nette\DI\CompilerExtension
      */
     public static function register(Configurator $configurator): void
     {
+        /**
+         * @phpstan-ignore-next-line
+         */
         $configurator->onCompile[] = static function ($config, Compiler $compiler): void {
             $compiler->addExtension('gpwebpay', new GPWebPayExtension());
         };

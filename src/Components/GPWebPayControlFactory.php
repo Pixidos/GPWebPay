@@ -14,7 +14,6 @@ use Pixidos\GPWebPay\Factory\RequestFactory;
  */
 class GPWebPayControlFactory
 {
-
     /**
      * @var RequestFactory
      */

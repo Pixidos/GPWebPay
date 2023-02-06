@@ -26,7 +26,6 @@ require_once __DIR__ . '/../bootstrap.php';
 
 class GPWebPayControlTest extends GPWebPayTestCase
 {
-
     public function testControlRender(): void
     {
         $control = $this->createControl();
@@ -82,6 +81,9 @@ class GPWebPayControlTest extends GPWebPayTestCase
 
     private function createControl(): GPWebPayControl
     {
+        if (null === $this->presenter) {
+            throw new \RuntimeException('');
+        }
         /** @var GPWebPayControl $control */
         $control = $this->presenter['payControl'];
         /** @var ITemplateFactory $templateFactory */

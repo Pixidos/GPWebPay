@@ -29,7 +29,6 @@ require_once __DIR__ . '/../bootstrap.php';
 
 class GPWebPayExtensionTest extends GPWebPayTestCase
 {
-
     public function testSettingCreated(): void
     {
         $this->prepareContainer(__DIR__ . '/../config/webpay.config.neon');
