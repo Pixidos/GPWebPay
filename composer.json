@@ -27,7 +27,7 @@
     "ext-json": "*",
     "nette/di": "^3.0",
     "nette/application": "^v3.0.6",
-    "nette/utils": "^4.0",
+    "nette/utils": "^3.2",
     "latte/latte": "^v3.0.0",
     "pixidos/gpwebpay-core": "~2.2",
     "nette/bootstrap": "^3.1"
@@ -35,7 +35,7 @@
   "require-dev": {
     "nette/http": "^3.0",
     "nette/caching": "^3.0",
-    "nette/finder": "^3.0",
+    "nette/finder": "^2.5 || ^3.0",
     "nette/tester": "^2.4",
     "pixidos/coding-standards": "^1.2.0",
     "phpstan/phpstan-nette": "^1.2.3",
