@@ -11,7 +11,7 @@ namespace GPWebPay\Tests\Components;
 
 use GPWebPay\Tests\GPWebPayTestCase;
 use Nette\Application\AbortException;
-use Nette\Application\UI\TemplateFactory;
+use Nette\Bridges\ApplicationLatte\TemplateFactory;
 use Pixidos\GPWebPay\Components\GPWebPayControl;
 use Pixidos\GPWebPay\Data\RequestInterface;
 use Tester\Assert;
@@ -75,7 +75,7 @@ class GPWebPayControlTest extends GPWebPayTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->prepareContainer(sprintf(__DIR__ . '/../config/webpay.config.neon'));
+        $this->prepareContainer(__DIR__ . '/../config/webpay.config.neon');
         $this->usePresenter('Test');
     }
 
