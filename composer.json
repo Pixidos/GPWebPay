@@ -28,7 +28,7 @@
     "nette/di": "^3.0",
     "nette/application": "^v3.0.6",
     "nette/utils": "^3.2",
-    "latte/latte": "^v3.0.0",
+    "latte/latte": "^2.4 || ^v3.0",
     "pixidos/gpwebpay-core": "~2.2",
     "nette/bootstrap": "^3.1"
   },
