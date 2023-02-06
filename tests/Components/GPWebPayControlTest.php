@@ -11,7 +11,7 @@ namespace GPWebPay\Tests\Components;
 
 use GPWebPay\Tests\GPWebPayTestCase;
 use Nette\Application\AbortException;
-use Nette\Application\UI\ITemplateFactory;
+use Nette\Application\UI\TemplateFactory;
 use Pixidos\GPWebPay\Components\GPWebPayControl;
 use Pixidos\GPWebPay\Data\RequestInterface;
 use Tester\Assert;
@@ -86,8 +86,7 @@ class GPWebPayControlTest extends GPWebPayTestCase
         }
         /** @var GPWebPayControl $control */
         $control = $this->presenter['payControl'];
-        /** @var ITemplateFactory $templateFactory */
-        $templateFactory = $this->getContainer()->getByType(ITemplateFactory::class);
+        $templateFactory = $this->getContainer()->getByType(TemplateFactory::class);
         $control->setTemplateFactory($templateFactory);
 
         return $control;
