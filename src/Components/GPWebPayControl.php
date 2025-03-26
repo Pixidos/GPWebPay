@@ -25,25 +25,14 @@ use Pixidos\GPWebPay\Factory\RequestFactory;
 class GPWebPayControl extends UI\Control
 {
     /**
-     * @var Closure[], signature: function(GPWebPayControl $control)
+     * @var array<Closure(GPWebPayControl $control): void>
      */
     public array $onCheckout = [];
-
-    /**
-     * @var OperationInterface $operation
-     */
     private OperationInterface $operation;
-    private ?string $templateFile;
-    /**
-     * @var RequestFactory
-     */
-    private $requestFactory;
+    private string|null $templateFile = null;
+    private RequestFactory $requestFactory;
 
-    /**
-     * @param OperationInterface $operation
-     * @param RequestFactory     $requestFactory
-     *
-     */
+
     public function __construct(OperationInterface $operation, RequestFactory $requestFactory)
     {
         $this->operation = $operation;
@@ -65,9 +54,7 @@ class GPWebPayControl extends UI\Control
         $presenter->redirectUrl($url);
     }
 
-    /**
-     * @param string $templateFile
-     */
+
     public function setTemplateFile(string $templateFile): void
     {
         $this->templateFile = $templateFile;

@@ -20,13 +20,7 @@ if (@!mkdir($concurrentDirectory = dirname(TEMP_DIR)) && !is_dir($concurrentDire
 Helpers::purge(TEMP_DIR);
 
 
-$_SERVER = array_intersect_key($_SERVER, array_flip([
-    'PHP_SELF', 'SCRIPT_NAME', 'SERVER_ADDR', 'SERVER_SOFTWARE', 'HTTP_HOST', 'DOCUMENT_ROOT', 'OS', 'argc', 'argv']));
-$_SERVER['REQUEST_TIME'] = 1234567890;
-$_ENV = $_GET = $_POST = [];
-
-
 function run(Tester\TestCase $testCase): void
 {
-    $testCase->run(isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : null);
+    $testCase->run();
 }

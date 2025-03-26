@@ -24,9 +24,9 @@ use Tester\TestCase;
 
 abstract class GPWebPayTestCase extends TestCase
 {
-    protected ?Presenter $presenter;
+    protected ?Presenter $presenter = null;
 
-    private ?Container $container;
+    private ?Container $container = null;
 
     /**
      * @return Container
@@ -50,7 +50,7 @@ abstract class GPWebPayTestCase extends TestCase
     protected function prepareContainer(string $configNeon): Container
     {
         $config = new Nette\Bootstrap\Configurator();
-        $config->setTempDirectory(TEMP_DIR);
+        $config->setTempDirectory(TEMP_DIR); //phpstan-ignore-line
         $config->addStaticParameters(['container' => ['class' => 'SystemContainer_' . md5(TEMP_DIR)]]);
         $config->addConfig(sprintf(__DIR__ . '/config/nette-reset.neon'));
         GPWebPayExtension::register($config);
