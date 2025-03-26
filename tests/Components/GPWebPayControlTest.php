@@ -22,7 +22,9 @@ use Tester\Assert;
  * @author  Ondra Votava <ondra@votava.dev>
  */
 
+// phpcs:disable
 require_once __DIR__ . '/../bootstrap.php';
+// phpcs:enable
 
 class GPWebPayControlTest extends GPWebPayTestCase
 {
@@ -93,4 +95,6 @@ class GPWebPayControlTest extends GPWebPayTestCase
     }
 }
 
+// phpcs:disable
 (new GPWebPayControlTest())->run();
+// phpcs:enable

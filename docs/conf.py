@@ -27,7 +27,7 @@ def get_version():
     if os.environ.get('READTHEDOCS') == 'True':
         return os.environ.get('READTHEDOCS_VERSION')
 
-    pipe = Popen('git branch | grep \*', stdout=PIPE, shell=True, universal_newlines=True)
+    pipe = Popen(r'git branch | grep \*', stdout=PIPE, shell=True, universal_newlines=True)
     version = pipe.stdout.read()
 
     if version:
@@ -45,7 +45,7 @@ lexers['php-annotations'] = PhpLexer(startinline=True)
 # -- Project information -----------------------------------------------------
 
 project = u'GPWebPay'
-copyright = u'2020, Ondra Votava'
+copyright = '%Y, Ondra Votava'
 author = u'Ondra Votava'
 epub_author = u'Ondra Votava'
 
@@ -65,7 +65,9 @@ release = version
 # ones.
 extensions = [
     'sphinx_rtd_theme',
+    'sphinx_design',
 ]
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -84,7 +86,7 @@ master_doc = 'index'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -100,7 +102,7 @@ pygments_style = 'default'
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
-html_title = "Pixidos\GPWebPay %s Manual" % get_version()
+html_title = "Pixidos\\GPWebPay %s Manual" % get_version()
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -110,16 +112,11 @@ html_title = "Pixidos\GPWebPay %s Manual" % get_version()
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 if not on_rtd:
     import sphinx_rtd_theme
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 html_theme_options = {
-    'analytics_id': 'UA-157707836-2',  # Provided by Google in your dashboard
     'logo_only': False,
-    'display_version': True,
     'prev_next_buttons_location': 'bottom',
     'style_external_links': False,
-    #'style_nav_header_background': 'red',
-    # Toc options
     'collapse_navigation': False,
     'sticky_navigation': True,
     'navigation_depth': 4,
@@ -232,5 +229,5 @@ numfig_format = {
 
 
 def setup(app):
-    app.add_stylesheet('css/custom.css')
-    app.add_stylesheet('css/highlight.css')
+    app.add_css_file('css/custom.css')
+    app.add_css_file('css/highlight.css')

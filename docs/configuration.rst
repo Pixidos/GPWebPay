@@ -114,7 +114,7 @@ Single gateway
 		url: <url of gpwabpay system gateway > #example: https://test.3dsecure.gpwebpay.com/unicredit/order.do
 		merchantNumber: <your merechant number >
 		responseUrl: <on this url client get redirect back after payment will done> #optional you can set in Control
-		depositFlag: 1 #optional you can set in Operation. Can set 1 or 0. Default is 1
+		depositFlag: 1 #Can set 1 or 0. Default is 1 and you can rewrite in Operation
 
 
 .. _configuration.example.multiple_gateways:

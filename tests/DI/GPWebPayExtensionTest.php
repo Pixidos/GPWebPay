@@ -65,7 +65,8 @@ class GPWebPayExtensionTest extends GPWebPayTestCase
 
         /** @var PaymentConfigProvider $paymentConfig */
         $paymentConfig = $container->getByType(PaymentConfigProvider::class);
-        Assert::same('123456789', (string)$paymentConfig->getMerchantNumber($paymentConfig->getDefaultGateway()));
+        Assert::same('czk', $paymentConfig->getDefaultGateway());
+        Assert::same('123456789', (string)$paymentConfig->getMerchantNumber());
         Assert::same('123456789', (string)$paymentConfig->getMerchantNumber('czk'));
         Assert::same('123456780', (string)$paymentConfig->getMerchantNumber('eur'));
     }

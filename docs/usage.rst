@@ -17,7 +17,7 @@ Example:
 	use Pixidos\GPWebPay\Enum\Currency as CurrencyEnum;
 	use Pixidos\GPWebPay\Exceptions\GPWebPayException;
 	use Pixidos\GPWebPay\Factory\ResponseFactory;
-	use Pixidos\GPWebPay\Param\Amount;
+	use Pixidos\GPWebPay\Param\AmountInPennies;
 	use Pixidos\GPWebPay\Param\Currency;
 	use Pixidos\GPWebPay\Param\OrderNumber;
 	use Pixidos\GPWebPay\Param\ResponseUrl;
@@ -55,7 +55,7 @@ Example:
 		{
 			$operation = new Operation(
 				new OrderNumber(time()),
-				new Amount(1000),
+				new AmountInPennies(100000),
 				new Currency(CurrencyEnum::CZK()),
 				'czk', // leave empty or null for default key
 			new ResponseUrl($this->link('//Payment:processResponse')) // you can setup by config responseUrl:
