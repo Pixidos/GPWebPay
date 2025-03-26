@@ -24,7 +24,7 @@ jobs:
                 uses: "ramsey/composer-install@v3"
 
             -   name: Run Tests
-                run: php vendor/bin/phpunit --coverage-clover=coverage.xml
+                run: vendor/bin/tester -p phpdbg tests -s -C --coverage ./coverage.xml --coverage-src ./src
 
             -   name: Upload Codecov
                 uses: "codecov/codecov-action@v5"
