@@ -1,7 +1,7 @@
 # GPWebPay
 ![](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)
-[![Code Analyse Actions Status](https://github.com/Pixidos/gpwebpay/workflows/Code%20Analyse/badge.svg?branch=master)](https://github.com/Pixidos/gpwebpay/actions)
-[![UnitTests Actions Status](https://github.com/Pixidos/gpwebpay/workflows/Unit%20Tests/badge.svg?branch=master)](https://github.com/Pixidos/gpwebpay/actions)
+[![Code Analyse](https://github.com/Pixidos/GPWebPay/actions/workflows/code_analyse.yml/badge.svg)](https://github.com/Pixidos/GPWebPay/actions/workflows/code_analyse.yml)
+[![Unit Tests](https://github.com/Pixidos/GPWebPay/actions/workflows/unit_tests.yml/badge.svg)](https://github.com/Pixidos/GPWebPay/actions/workflows/unit_tests.yml)
 [![Donwloads](https://poser.pugx.org/pixidos/gpwebpay/downloads)](https://packagist.org/packages/pixidos/gpwebpay)
 [![Latest stable](https://img.shields.io/packagist/v/pixidos/gpwebpay.svg)](https://packagist.org/packages/pixidos/gpwebpay)
 [![Code coverage](https://codecov.io/gh/Pixidos/GPWebPay/branch/master/graph/badge.svg)](https://codecov.io/gh/Pixidos/gpwebpay)
