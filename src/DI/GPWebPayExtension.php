@@ -38,9 +38,30 @@ class GPWebPayExtension extends Nette\DI\CompilerExtension
             $config = (array)$config;
         }
 
+
+        if (array_key_exists('privateKey', $config)) {
+            // single config
+            if (!array_key_exists('depositFlag', $config)) {
+                $config['depositFlag'] = 1;
+            }
+        } else {
+            foreach ($config as $key => $value) {
+                if (!is_array($value)) {
+                    continue;
+                }
+                if (!array_key_exists('privateKey', $value)) {
+                    continue;
+                }
+                if (!array_key_exists('depositFlag', $value)) {
+                    $value['depositFlag'] = 1;
+                    $config[$key] = $value ;
+                }
+            }
+        }
+
         $builder = $this->getContainerBuilder();
 
-        $defaultGateway = 'czk';
+        $defaultGateway = 'default';
         if (array_key_exists(self::GATEWAY_KEY, $config)) {
             $defaultGateway = $config[self::GATEWAY_KEY];
             unset($config[self::GATEWAY_KEY]);

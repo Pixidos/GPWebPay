@@ -13,6 +13,7 @@ use Pixidos\GPWebPay\Data\Operation;
 use Pixidos\GPWebPay\Enum\Currency as CurrencyEnum;
 use Pixidos\GPWebPay\Exceptions\InvalidArgumentException;
 use Pixidos\GPWebPay\Param\Amount;
+use Pixidos\GPWebPay\Param\AmountInPennies;
 use Pixidos\GPWebPay\Param\Currency;
 use Pixidos\GPWebPay\Param\OrderNumber;
 use Pixidos\GPWebPay\Param\ResponseUrl;
@@ -26,11 +27,11 @@ use UnexpectedValueException;
 class TestPresenter extends Presenter
 {
     public const ORDER_NUMBER = '123456';
-    public const GATEWAY = 'czk';
+
     public const RESPONSE_URL = 'http://test.com';
 
 
-    private $gpWebPayControlFactory;
+    private GPWebPayControlFactory $gpWebPayControlFactory;
 
     public function __construct(GPWebPayControlFactory $controlFactory)
     {
@@ -48,9 +49,6 @@ class TestPresenter extends Presenter
         $this->sendResponse($response);
     }
 
-    /**
-     * @return GPWebPayControl
-     */
     protected function createComponentPayControl(): GPWebPayControl
     {
         $control = $this->gpWebPayControlFactory->create(self::createOperation());
@@ -65,11 +63,10 @@ class TestPresenter extends Presenter
     public static function createOperation(): Operation
     {
         return new Operation(
-            new OrderNumber(self::ORDER_NUMBER),
-            new Amount(1000),
-            new Currency(CurrencyEnum::CZK()),
-            self::GATEWAY,
-            new ResponseUrl(self::RESPONSE_URL)
+            orderNumber: new OrderNumber(self::ORDER_NUMBER),
+            amount: new AmountInPennies(100000),
+            currency: new Currency(CurrencyEnum::CZK()),
+            responseUrl: new ResponseUrl(self::RESPONSE_URL)
         );
     }
 }

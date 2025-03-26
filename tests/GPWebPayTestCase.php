@@ -66,7 +66,7 @@ abstract class GPWebPayTestCase extends TestCase
         $presenterFactory = $container->getByType(IPresenterFactory::class);
         $presenter = $presenterFactory->createPresenter($name);
         if ($presenter instanceof Presenter) {
-            $presenter->invalidLinkMode = $presenter::INVALID_LINK_EXCEPTION;
+            $presenter->invalidLinkMode = $presenter::InvalidLinkException;
             $presenter->autoCanonicalize = false;
             // force the name to the presenter
             $refl = new ReflectionProperty(Component::class, 'name');
