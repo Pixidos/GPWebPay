@@ -8,8 +8,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                # composer.json supports PHP ^8.1, but roave/security-advisories conflicts with every PHP 8.1 release
-                # (end of life), so dependencies resolve only on PHP releases with security fixes.
+                # every PHP version supported by composer.json (^8.2), with stable Nette 3
                 php-versions: [ '8.2', '8.3', '8.4', '8.5' ]
         steps:
             -   name: Checkout

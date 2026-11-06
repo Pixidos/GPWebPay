@@ -16,6 +16,8 @@ use Nette\DI\Container;
 use Pixidos\GPWebPay\Components\GPWebPayControl;
 use Pixidos\GPWebPay\Components\GPWebPayControlFactory;
 use Pixidos\GPWebPay\Config\Config;
+use Pixidos\GPWebPay\Config\Factory\ConfigFactory;
+use Pixidos\GPWebPay\Config\Factory\PaymentConfigFactory;
 use Pixidos\GPWebPay\Config\PaymentConfigProvider;
 use Pixidos\GPWebPay\Config\SignerConfigProvider;
 use Pixidos\GPWebPay\Data\Operation;
@@ -28,6 +30,7 @@ use Pixidos\GPWebPay\Param\Currency;
 use Pixidos\GPWebPay\Param\OrderNumber;
 use Pixidos\GPWebPay\ResponseProvider;
 use Pixidos\GPWebPay\ResponseProviderInterface;
+use Pixidos\GPWebPay\Signer\SignerFactory;
 use Pixidos\GPWebPay\Signer\SignerFactoryInterface;
 use Pixidos\GPWebPay\Signer\SignerProvider;
 use Pixidos\GPWebPay\Signer\SignerProviderInterface;
@@ -65,6 +68,30 @@ class GPWebPayExtensionTest extends GPWebPayTestCase
         Assert::true(self::verifySignature(implode('|', $request->getDigestParams()), $params['DIGEST']));
     }
 
+
+    public function testServicesAreRegisteredUnderTheirNames(): void
+    {
+        $container = $this->prepareContainer(__DIR__ . '/../config/webpay.config.neon');
+
+        // registered with add() by nette/di 4 and with addDefinition() by nette/di 3.2: name => [declared type, class]
+        $services = [
+            'paymentConfigFactory' => [PaymentConfigFactory::class, PaymentConfigFactory::class],
+            'configFactory' => [ConfigFactory::class, ConfigFactory::class],
+            'config' => [Config::class, Config::class],
+            'paymentConfigProvider' => [PaymentConfigProvider::class, PaymentConfigProvider::class],
+            'signerConfigProvider' => [SignerConfigProvider::class, SignerConfigProvider::class],
+            'signerProvider' => [SignerProviderInterface::class, SignerProvider::class],
+            'signerFactory' => [SignerFactoryInterface::class, SignerFactory::class],
+            'requestFactory' => [RequestFactory::class, RequestFactory::class],
+            'responseFactory' => [ResponseFactory::class, ResponseFactory::class],
+            'responseProvider' => [ResponseProviderInterface::class, ResponseProvider::class],
+            'controlFactory' => [GPWebPayControlFactory::class, GPWebPayControlFactory::class],
+        ];
+        foreach ($services as $name => [$type, $class]) {
+            Assert::same($type, $container->getServiceType('gpwebpay.' . $name), $name);
+            Assert::type($class, $container->getService('gpwebpay.' . $name), $name);
+        }
+    }
 
     public function testMultipleSettingCreated(): void
     {

@@ -1,0 +1,10 @@
+# PHPStan for the Nette 4 development graph (nette/application and nette/di 4.0.x-dev), see .github/workflows/nette4_dev.yml.
+# nette/bootstrap cannot be installed there: its development branch still requires nette/di ^3.2. GPWebPayExtension::register()
+# is typed with its Configurator, so the workflow downloads the real source of nette/bootstrap 4.0.x-dev to build/nette-bootstrap
+# without installing or autoloading it, and PHPStan only reads the class from there. The rules are the same as in phpstan.neon.
+includes:
+    - phpstan.neon
+
+parameters:
+    scanDirectories:
+        - build/nette-bootstrap/src

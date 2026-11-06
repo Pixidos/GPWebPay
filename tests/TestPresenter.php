@@ -46,7 +46,10 @@ class TestPresenter extends Presenter
         ResponseFactory $responseFactory,
         ResponseProviderInterface $responseProvider
     ) {
-        parent::__construct();
+        // nette/application 3.1 and 3.2 initialize the payload in the constructor, 4.0 has no constructor
+        if (method_exists(Presenter::class, '__construct')) {
+            parent::__construct();
+        }
         $this->gpWebPayControlFactory = $controlFactory;
         $this->responseFactory = $responseFactory;
         $this->responseProvider = $responseProvider;

@@ -85,6 +85,11 @@ from its ``Operation`` and redirects the customer to GP webpay.
 	Each time a new payment attempt is saved; the request sent to GP webpay belongs to the attempt created by the
 	click. Attempts that never receive a response stay ``pending``.
 
+.. note::
+	The examples call ``parent::__construct()`` for nette/application 3, whose versions 3.1 and 3.2 initialize the
+	presenter there. The development branch of nette/application 4.0 has no ``Presenter::__construct()``; leave the
+	call out there, see :ref:`installation.nette4`.
+
 Render the button in your template. You can render it more than once on the same page:
 
 .. code-block:: smarty

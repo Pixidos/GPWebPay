@@ -4,6 +4,31 @@
 Changelog
 =========
 
+Version 4.0.0
+#############
+
+Breaking changes:
+
+    - Requires PHP ^8.2. PHP 8.1 no longer receives security fixes. Upgrade PHP before installing this series; 3.5.0 remains a historical release without a continued maintenance commitment.
+    - Requires pixidos/gpwebpay-core ^3.0, which requires PHP ^8.2 and preserves the public API and payment behavior of 2.5.0.
+
+Changes:
+
+    - Accepts nette/di 4.0 (``^3.1 || ^4.0``); nette/application already accepted 4.0. nette/di 3.0 could not be installed
+      with nette/utils 4 before either. Nette 4 has not been released:
+      the development branches of nette/application and nette/di (4.0.x-dev) require PHP 8.4 and are installed only
+      when a project requires them, see :ref:`installation.nette4`. By default Composer installs stable Nette 3, as before.
+    - The API, the configuration and the processing of payments and responses are unchanged. ``GPWebPayExtension`` registers
+      the same services under the same names; with nette/di 4 it uses ``ContainerBuilder::add()``, with nette/di 3.2
+      ``addDefinition()``, and it sets their creators with ``setCreator()`` instead of ``setFactory()``, which nette/di 4 deprecates.
+    - Documentation: updated both the current requirements and historical release information. Describes verified
+      Application/DI/Bootstrap combinations, explicit development opt-in and presenter migration notes.
+    - Development: CI tests stable Nette 3 on PHP 8.2 to 8.5, and nette/application with nette/di 4.0.x-dev on PHP 8.4
+      and 8.5, including PHPCS and PHPStan. Without nette/bootstrap, whose development branch still requires nette/di 3,
+      the tests compile the container with ``Nette\DI\Compiler``, and PHPStan reads ``Nette\Bootstrap\Configurator`` from
+      the downloaded source of nette/bootstrap 4.0.x-dev, which is not installed. Two identifier-scoped PHPStan
+      exceptions document the DI version check and its legacy-only fallback; other rules stay active.
+
 Version 3.5.0
 #############
 
