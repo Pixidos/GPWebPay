@@ -25,8 +25,9 @@ Changes:
       ``addDefinition()``, and it sets their creators with ``setCreator()`` instead of ``setFactory()``, which nette/di 4 deprecates.
     - Documentation: requirements, Nette 4 development branches and their current limitations.
     - Development: CI tests stable Nette 3 on PHP 8.2 to 8.5, and nette/application with nette/di 4.0.x-dev on PHP 8.4
-      and 8.5. Without nette/bootstrap, whose development branch still requires nette/di 3, the tests compile the
-      container with ``Nette\DI\Compiler``.
+      and 8.5, including PHPCS and PHPStan. Without nette/bootstrap, whose development branch still requires nette/di 3,
+      the tests compile the container with ``Nette\DI\Compiler``, and PHPStan reads ``Nette\Bootstrap\Configurator`` from
+      the downloaded source of nette/bootstrap 4.0.x-dev, which is not installed.
 
 Version 3.5.0
 #############

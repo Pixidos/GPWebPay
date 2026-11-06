@@ -4,9 +4,15 @@
 # (dev-master, alias 4.0.x-dev), which require PHP 8.4 or newer. composer.json accepts them, but Composer installs
 # them only on request, so this workflow requests exactly these two packages; every other dependency stays stable.
 # nette/bootstrap is removed because its development branch still requires nette/di ^3.2; the tests then compile
-# the container without it. The branches change upstream at any time, so this workflow can fail without a change here.
+# the container without it, and PHPStan reads Nette\Bootstrap\Configurator from the downloaded source of
+# nette/bootstrap 4.0.x-dev, which is not installed (phpstan-nette4.neon).
+# The branches change upstream at any time, so this workflow can fail without a change here.
 name: Nette 4 development
 on: [ push, pull_request ]
+defaults:
+    run:
+        # bash -eo pipefail: a failing command fails the step, also inside a pipe
+        shell: bash
 jobs:
     nette4_dev:
         name: GPWebPay (PHP ${{ matrix.php-versions }}, Nette 4.0-dev)
@@ -38,9 +44,19 @@ jobs:
                         composer show --locked "$package" | grep -E '^source +: \['
                         composer show --locked "$package" | grep -E '^versions : .*4\.0\.x-dev'
                     done
+                    test ! -e vendor/nette/bootstrap
 
             -   name: Check dependencies for security advisories
                 run: composer audit
+
+            -   name: Download the source of nette/bootstrap 4.0.x-dev for PHPStan, without installing it
+                run: composer create-project --no-install --no-scripts --no-plugins --no-interaction --no-progress nette/bootstrap build/nette-bootstrap 4.0.x-dev
+
+            -   name: Run Codestyle check
+                run: php vendor/bin/phpcs -p
+
+            -   name: Run PHPStan
+                run: php vendor/bin/phpstan analyse -c phpstan-nette4.neon
 
             -   name: Run Tests
                 run: vendor/bin/tester tests -s -C
