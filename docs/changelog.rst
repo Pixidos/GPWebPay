@@ -4,15 +4,13 @@
 Changelog
 =========
 
-Unreleased
-##########
-
-Proposed as version 4.0.0, because PHP 8.1 is no longer supported.
+Version 4.0.0
+#############
 
 Breaking changes:
 
-    - Requires PHP ^8.2. PHP 8.1 no longer receives security fixes. Projects that still run on PHP 8.1 can stay on 3.5.x.
-    - Requires pixidos/gpwebpay-core ^3.0, which requires PHP ^8.2 and has the same API and behaviour as 2.5.
+    - Requires PHP ^8.2. PHP 8.1 no longer receives security fixes. Upgrade PHP before installing this series; 3.5.0 remains a historical release without a continued maintenance commitment.
+    - Requires pixidos/gpwebpay-core ^3.0, which requires PHP ^8.2 and preserves the public API and payment behavior of 2.5.0.
 
 Changes:
 
@@ -23,11 +21,13 @@ Changes:
     - The API, the configuration and the processing of payments and responses are unchanged. ``GPWebPayExtension`` registers
       the same services under the same names; with nette/di 4 it uses ``ContainerBuilder::add()``, with nette/di 3.2
       ``addDefinition()``, and it sets their creators with ``setCreator()`` instead of ``setFactory()``, which nette/di 4 deprecates.
-    - Documentation: requirements, Nette 4 development branches and their current limitations.
+    - Documentation: updated both the current requirements and historical release information. Describes verified
+      Application/DI/Bootstrap combinations, explicit development opt-in and presenter migration notes.
     - Development: CI tests stable Nette 3 on PHP 8.2 to 8.5, and nette/application with nette/di 4.0.x-dev on PHP 8.4
       and 8.5, including PHPCS and PHPStan. Without nette/bootstrap, whose development branch still requires nette/di 3,
       the tests compile the container with ``Nette\DI\Compiler``, and PHPStan reads ``Nette\Bootstrap\Configurator`` from
-      the downloaded source of nette/bootstrap 4.0.x-dev, which is not installed.
+      the downloaded source of nette/bootstrap 4.0.x-dev, which is not installed. Two identifier-scoped PHPStan
+      exceptions document the DI version check and its legacy-only fallback; other rules stay active.
 
 Version 3.5.0
 #############
