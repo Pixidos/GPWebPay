@@ -15,5 +15,8 @@ application:
 services:
     router: Nette\Application\Routers\SimpleRouter
 
+    # nette/application 3.3 creates only presenters registered as services
+    - GPWebPay\Tests\TestPresenter
+
     cacheStorage:
         class: Nette\Caching\Storages\MemoryStorage

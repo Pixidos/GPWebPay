@@ -1,0 +1,17 @@
+gpwebpay:
+    czk:
+        privateKey: %appDir%/config/test.pem
+        privateKeyPassphrase: '1234567'
+        publicKey: %appDir%/config/test-pub.pem
+        url: https://test.3dsecure.gpwebpay.com/pgw/order.do
+        merchantNumber: '123456789'
+        responseUrl: https://shop.example/payment/czk-response
+    eur:
+        privateKey: %appDir%/config/test.pem
+        privateKeyPassphrase: '1234567'
+        publicKey: %appDir%/config/test-pub.pem
+        url: https://test.3dsecure.gpwebpay.com/pgw/order.do
+        merchantNumber: '123456780'
+        responseUrl: https://shop.example/payment/eur-response
+        depositFlag: 0
+    defaultGateway: czk

@@ -61,6 +61,8 @@ class GPWebPayControl extends UI\Control
     }
 
     /**
+     * Can be called repeatedly, for example to show the payment button in several places of one page.
+     *
      * @param mixed[] $attrs
      * @param string  $text
      *
@@ -71,9 +73,12 @@ class GPWebPayControl extends UI\Control
         /** @var DefaultTemplate $template */
         $template = $this->getTemplate();
         $template->setFile($this->getTemplateFilePath());
-        $template->add('checkoutLink', $this->link('//checkout!'));
-        $template->add('text', $text);
-        $template->add('attrs', $attrs);
+        // the control keeps its template, so the variables of a previous render are replaced, not added again
+        $template->setParameters([
+            'checkoutLink' => $this->link('//checkout!'),
+            'text' => $text,
+            'attrs' => $attrs,
+        ]);
         $template->render();
     }
 
