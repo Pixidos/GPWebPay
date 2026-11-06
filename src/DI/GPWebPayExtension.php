@@ -116,16 +116,18 @@ class GPWebPayExtension extends Nette\DI\CompilerExtension
 
     /**
      * Registers an empty service definition under the prefix of the extension; the caller sets its type and creator.
-     * nette/di 4 registers definitions with add(). nette/di 3.2, the only version for PHP 8.2, has only
-     * addDefinition(), which nette/di 4 deprecates.
+     * Uses add() when available, otherwise the non-deprecated addDefinition() of nette/di 3.1 and 3.2.
+     * The legacy branch never runs on DI versions that deprecate addDefinition().
      */
     private function addService(string $name): ServiceDefinition
     {
         $builder = $this->getContainerBuilder();
         $definition = new ServiceDefinition();
+        // @phpstan-ignore function.alreadyNarrowedType (modern DI always has add(); legacy DI still needs the fallback)
         if (method_exists($builder, 'add')) {
             $builder->add($this->prefix($name), $definition);
         } else {
+            // @phpstan-ignore method.deprecated (runs only on legacy DI, where addDefinition() is not deprecated)
             $builder->addDefinition($this->prefix($name), $definition);
         }
 
