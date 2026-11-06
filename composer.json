@@ -35,7 +35,6 @@
     "nette/bootstrap": "^3.1",
     "nette/http": "^3.0",
     "nette/caching": "^3.0",
-    "nette/finder": "^3.0",
     "nette/tester": "^2.4",
     "pixidos/coding-standards": "^2.0.0",
     "phpstan/phpstan-nette": "^2.0.3",

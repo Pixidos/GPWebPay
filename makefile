@@ -17,6 +17,11 @@ testPhp:
 
 test: testPhpCs testPhpStan testPhp
 
+audit:
+	@printf "\e[103;30m******************************         Composer audit        ******************************\e[0m\n"
+	composer validate
+	composer audit
+
 
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
