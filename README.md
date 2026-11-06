@@ -17,19 +17,24 @@ Requirements
 
 | Version | PHP       | Nette support | Maintained | Note                              |
 |---------|-----------|---------------|------------|-----------------------------------|
-| 3.4.x   | ^8.0      | ^3.1          | Yes        | use GPWebPay-core ^2.2            |
+| master  | ^8.1      | ^3.1          | Yes        | use GPWebPay-core ^2.4.3          |
+| 3.4.x   | ^8.0 [1]  | ^3.1          | Yes        | use GPWebPay-core ~2.2 [1]        |
 | 3.3.x   | ^7.2, 8.0 | ^2.4, ^3.0    | No         | use GPWebPay-core ^2.0, BC breaks |
 | 3.2.x   | ^7.1      | ^2.4, ^3.0    | No         | use GPWebPay-core ^2.0, BC breaks |
 | 3.1.x   | ^7.1      | ^2.4, ^3.0    | No         | use GPWebPay-core ^1.0            |
 | 3.0.x   | ^7.1      | ^2.3          | No         |                                   |
 | 2.x     | ^5.6      | ^2.3          | No         |                                   |
 
+[1] 3.4.1 requires GPWebPay-core ~2.4, which requires PHP ^8.1.
 
-- [nette/di](https://github.com/nette/di)
-- [nette/application](https://github.com/nette/application)
-- [nette/utils](https://github.com/nette/utils)
-- [latte/latte](https://github.com/nette/latte)
-- [pixidos/gpwebpay-core](https://github.com/pixidos/gpwebpay-core)
+
+- [nette/di](https://github.com/nette/di) ^3.0
+- [nette/application](https://github.com/nette/application) ^3.1
+- [nette/utils](https://github.com/nette/utils) ^4.0
+- [latte/latte](https://github.com/nette/latte) ^3.0
+- [pixidos/gpwebpay-core](https://github.com/pixidos/gpwebpay-core) ^2.4.3
+
+The exact requirements of a release are in its `composer.json`.
 
 
 Installation
