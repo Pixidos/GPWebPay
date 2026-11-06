@@ -187,10 +187,14 @@ The library does not store payments. ``PaymentRepository`` in the example must:
   merchant number of that gateway, so ``provide()`` rejects a response signed for another merchant;
 * take the amount and currency from the attempt. The response does not repeat them; they were signed in the request
   with this ORDERNUMBER;
-* change the state atomically and only once, in one transaction with the order, for example
-  ``UPDATE payment_attempt SET status = 'paid' WHERE id = ? AND status = 'pending'``, and fulfil the order only when
-  this statement changed a row. The same signed response can arrive again (page refresh, back button, replay) and must
-  not fulfil the order twice. ``markFailed()`` must likewise change only a ``pending`` attempt;
+* record each successful attempt atomically, for example
+  ``UPDATE payment_attempt SET status = 'paid' WHERE id = ? AND status = 'pending'``. This prevents reprocessing
+  the same attempt when its signed response arrives again (page refresh, back button or replay).
+  ``markFailed()`` must likewise change only a ``pending`` attempt;
+* guard fulfillment separately at the order level inside ``markPaid()``. Two different attempts for the same order
+  can both succeed. In the same transaction, atomically change the order from unpaid to paid and fulfill it only if
+  that transition succeeds, or create a fulfillment record with a unique constraint on the order ID. Record additional
+  successful attempts for reconciliation without fulfilling the order again;
 * not depend on the customer's session: a ``POST`` from GP webpay is a cross-site request, so browsers do not send
   cookies with ``SameSite=Lax``, including the Nette session cookie;
 * not rely on the browser returning at all. If no response arrives, ask GP webpay for the payment state through its
