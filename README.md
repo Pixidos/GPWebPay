@@ -15,24 +15,29 @@ For applications without Nette, use [GPWebPay Core](https://github.com/Pixidos/g
 Requirements
 ------------
 
-| Version | PHP       | Nette support | Maintained | Note                              |
-|---------|-----------|---------------|------------|-----------------------------------|
-| 3.5.x   | ^8.1      | ^3.1          | Yes        | requires GPWebPay Core ^2.5.0     |
-| 3.4.x   | ^8.0 [1]  | ^3.1          | Yes        | use GPWebPay-core ~2.2 [1]        |
-| 3.3.x   | ^7.2, 8.0 | ^2.4, ^3.0    | No         | use GPWebPay-core ^2.0, BC breaks |
-| 3.2.x   | ^7.1      | ^2.4, ^3.0    | No         | use GPWebPay-core ^2.0, BC breaks |
-| 3.1.x   | ^7.1      | ^2.4, ^3.0    | No         | use GPWebPay-core ^1.0            |
-| 3.0.x   | ^7.1      | ^2.3          | No         |                                   |
-| 2.x     | ^5.6      | ^2.3          | No         |                                   |
+| Version | PHP       | Nette support     | Maintained | Note                              |
+|---------|-----------|-------------------|------------|-----------------------------------|
+| 4.0.x   | ^8.2      | ^3.1, 4.0-dev [2] | Yes        | requires GPWebPay Core ^3.0       |
+| 3.5.x   | ^8.1      | ^3.1              | Yes        | requires GPWebPay Core ^2.5.0     |
+| 3.4.x   | ^8.0 [1]  | ^3.1              | Yes        | use GPWebPay-core ~2.2 [1]        |
+| 3.3.x   | ^7.2, 8.0 | ^2.4, ^3.0        | No         | use GPWebPay-core ^2.0, BC breaks |
+| 3.2.x   | ^7.1      | ^2.4, ^3.0        | No         | use GPWebPay-core ^2.0, BC breaks |
+| 3.1.x   | ^7.1      | ^2.4, ^3.0        | No         | use GPWebPay-core ^1.0            |
+| 3.0.x   | ^7.1      | ^2.3              | No         |                                   |
+| 2.x     | ^5.6      | ^2.3              | No         |                                   |
 
 [1] 3.4.1 requires GPWebPay-core ~2.4, which requires PHP ^8.1.
 
+[2] Nette 4 has not been released. The development branches of nette/application and nette/di (4.0.x-dev)
+require PHP 8.4 or newer and are installed only when your project requires them; see
+[Nette 4 (development)](https://gpwebpay.readthedocs.io/en/latest/installation.html#nette-4-development).
 
-- [nette/di](https://github.com/nette/di) ^3.0
-- [nette/application](https://github.com/nette/application) ^3.1
+
+- [nette/di](https://github.com/nette/di) ^3.0 || ^4.0
+- [nette/application](https://github.com/nette/application) ^3.1 || ^4.0
 - [nette/utils](https://github.com/nette/utils) ^4.0
 - [latte/latte](https://github.com/nette/latte) ^3.0
-- [pixidos/gpwebpay-core](https://github.com/pixidos/gpwebpay-core) ^2.5.0
+- [pixidos/gpwebpay-core](https://github.com/pixidos/gpwebpay-core) ^3.0
 
 The exact requirements of a release are in its `composer.json`.
 

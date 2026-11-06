@@ -4,6 +4,27 @@
 Changelog
 =========
 
+Unreleased
+##########
+
+Proposed as version 4.0.0, because PHP 8.1 is no longer supported.
+
+Breaking changes:
+
+    - Requires PHP ^8.2. PHP 8.1 no longer receives security fixes. Projects that still run on PHP 8.1 can stay on 3.5.x.
+    - Requires pixidos/gpwebpay-core ^3.0, which requires PHP ^8.2 and has the same API and behaviour as 2.5.
+
+Changes:
+
+    - Accepts nette/di 4.0 (``^3.0 || ^4.0``); nette/application already accepted 4.0. Nette 4 has not been released:
+      the development branches of nette/application and nette/di (4.0.x-dev) require PHP 8.4 and are installed only
+      when a project requires them, see :ref:`installation.nette4`. By default Composer installs stable Nette 3, as before.
+    - The API, the configuration and the processing of payments and responses are unchanged.
+    - Documentation: requirements, Nette 4 development branches and their current limitations.
+    - Development: CI tests stable Nette 3 on PHP 8.2 to 8.5, and nette/application with nette/di 4.0.x-dev on PHP 8.4
+      and 8.5. Without nette/bootstrap, whose development branch still requires nette/di 3, the tests compile the
+      container with ``Nette\DI\Compiler``.
+
 Version 3.5.0
 #############
 

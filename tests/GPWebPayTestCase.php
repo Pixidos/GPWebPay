@@ -16,8 +16,16 @@ use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
 use Nette\Application\Response;
 use Nette\Application\UI\Presenter;
+use Nette\Bridges\ApplicationDI\ApplicationExtension;
+use Nette\Bridges\ApplicationDI\LatteExtension;
+use Nette\Bridges\ApplicationDI\RoutingExtension;
+use Nette\Bridges\CacheDI\CacheExtension;
+use Nette\Bridges\HttpDI\HttpExtension;
+use Nette\Bridges\HttpDI\SessionExtension;
 use Nette\ComponentModel\Component;
 use Nette\DI\Container;
+use Nette\DI\Extensions\ExtensionsExtension;
+use Nette\DI\Extensions\InjectExtension;
 use Nette\Http\UrlScript;
 use Pixidos\GPWebPay\DI\GPWebPayExtension;
 use ReflectionProperty;
@@ -57,6 +65,10 @@ abstract class GPWebPayTestCase extends TestCase
      */
     protected function prepareContainer(string $configNeon, array $dynamicParameters = []): Container
     {
+        if (!class_exists(Nette\Bootstrap\Configurator::class)) {
+            return $this->container = self::createContainerWithoutBootstrap($configNeon, $dynamicParameters);
+        }
+
         $config = new Nette\Bootstrap\Configurator();
         $config->setTempDirectory(TEMP_DIR); //phpstan-ignore-line
         $config->addStaticParameters(['container' => ['class' => 'SystemContainer_' . md5(TEMP_DIR)]]);
@@ -66,6 +78,50 @@ abstract class GPWebPayTestCase extends TestCase
         $config->addDynamicParameters($dynamicParameters);
 
         return $this->container = $config->createContainer();
+    }
+
+    /**
+     * Compiles the container without nette/bootstrap, as an application does when it has no Configurator.
+     * The development branch of nette/bootstrap (4.0-dev) still requires nette/di ^3.2, so it cannot be
+     * installed together with nette/di 4.0-dev. The extension is registered in the extensions section,
+     * as described in docs/configuration.rst.
+     *
+     * @param array<string, mixed> $dynamicParameters
+     */
+    private static function createContainerWithoutBootstrap(string $configNeon, array $dynamicParameters): Container
+    {
+        $tempDir = TEMP_DIR; //phpstan-ignore-line
+        $loader = new Nette\DI\ContainerLoader($tempDir . '/cache/nette.di', true);
+        $class = $loader->load(
+            static function (Nette\DI\Compiler $compiler) use ($tempDir, $configNeon, $dynamicParameters): void {
+                $compiler->addExtension('application', new ApplicationExtension(false, null, $tempDir . '/cache/nette.application'));
+                $compiler->addExtension('cache', new CacheExtension($tempDir . '/cache'));
+                $compiler->addExtension('extensions', new ExtensionsExtension());
+                $compiler->addExtension('http', new HttpExtension(true));
+                $compiler->addExtension('inject', new InjectExtension());
+                $compiler->addExtension('latte', new LatteExtension($tempDir . '/cache/latte'));
+                $compiler->addExtension('routing', new RoutingExtension());
+                $compiler->addExtension('session', new SessionExtension(false, true));
+                $compiler->addConfig(['parameters' => [
+                    'appDir' => __DIR__,
+                    'tempDir' => $tempDir,
+                    'debugMode' => false,
+                    'productionMode' => true,
+                    'consoleMode' => true,
+                ]]);
+                $compiler->loadConfig(__DIR__ . '/config/nette-reset.neon');
+                $compiler->addConfig(['extensions' => ['gpwebpay' => GPWebPayExtension::class]]);
+                $compiler->loadConfig($configNeon);
+                $compiler->setDynamicParameterNames(array_keys($dynamicParameters));
+            },
+            [$configNeon, array_keys($dynamicParameters)]
+        );
+
+        /** @var Container $container */
+        $container = new $class($dynamicParameters);
+        $container->initialize();
+
+        return $container;
     }
 
     /**

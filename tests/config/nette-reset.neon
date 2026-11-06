@@ -1,5 +1,4 @@
-php:
-    date.timezone: Europe/Prague
+# tests/bootstrap.php sets the time zone; the php section would need nette/bootstrap
 
 http:
     frames: null

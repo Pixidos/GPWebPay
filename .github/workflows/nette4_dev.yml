@@ -1,0 +1,46 @@
+# GitHub Action see https://github.com/shivammathur/setup-php
+#
+# Nette 4 has not been released: nette/application and nette/di 4.0 exist only as development branches
+# (dev-master, alias 4.0.x-dev), which require PHP 8.4 or newer. composer.json accepts them, but Composer installs
+# them only on request, so this workflow requests exactly these two packages; every other dependency stays stable.
+# nette/bootstrap is removed because its development branch still requires nette/di ^3.2; the tests then compile
+# the container without it. The branches change upstream at any time, so this workflow can fail without a change here.
+name: Nette 4 development
+on: [ push, pull_request ]
+jobs:
+    nette4_dev:
+        name: GPWebPay (PHP ${{ matrix.php-versions }}, Nette 4.0-dev)
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                php-versions: [ '8.4', '8.5' ]
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+            -   name: Setup PHP, with composer and extensions
+                uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+                with:
+                    php-version: ${{ matrix.php-versions }}
+                    extensions: openssl, mbstring, json, intl, iconv, xml, tokenizer
+                    coverage: none
+                    tools: composer:v2
+
+            -   name: Composer dependencies with nette/application and nette/di 4.0.x-dev
+                run: |
+                    composer remove --dev --no-update nette/bootstrap
+                    composer update --no-interaction --no-progress --with nette/application:4.0.x-dev --with nette/di:4.0.x-dev
+
+            -   name: Check that nette/application and nette/di are 4.0.x-dev and show the commits
+                run: |
+                    composer show --locked | grep -E '^(nette|latte)/'
+                    for package in nette/application nette/di; do
+                        composer show --locked "$package" | grep -E '^source +: \['
+                        composer show --locked "$package" | grep -E '^versions : .*4\.0\.x-dev'
+                    done
+
+            -   name: Check dependencies for security advisories
+                run: composer audit
+
+            -   name: Run Tests
+                run: vendor/bin/tester tests -s -C
