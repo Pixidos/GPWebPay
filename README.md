@@ -86,7 +86,7 @@ Older releases and their tags are unchanged; use their tagged `composer.json` fo
 | 3.5.0 | `^8.1` | Stable Nette 3; Nette 4 was untested | `^2.5.0` |
 | 3.4.1 | Effective minimum 8.1 through Core | Nette `^3.1` | `~2.4` |
 | 3.4.0 | `^8.0`, subject to the selected Core version | Nette `^3.1` | `~2.2` |
-| 3.3.x | `^7.2`, 8.0 | Nette `^2.4`, `^3.0` | `^2.0` |
+| 3.3.x | `^7.2`, 8.0 | Nette `^2.4`, `^3.0` | `~2.1` |
 | 3.2.x | `^7.1` | Nette `^2.4`, `^3.0` | `^2.0` |
 | 3.1.x | `^7.1` | Nette `^2.4`, `^3.0` | `^1.0` |
 | 3.0.x | `^7.1` | Nette `^2.3` | See the tagged release |
