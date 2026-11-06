@@ -25,7 +25,7 @@
     "php": "^8.2",
     "ext-openssl": "*",
     "ext-json": "*",
-    "nette/di": "^3.0 || ^4.0",
+    "nette/di": "^3.1 || ^4.0",
     "nette/application": "^v3.1 || ^v4.0",
     "nette/utils": "^4.0",
     "latte/latte": "^v3.0",

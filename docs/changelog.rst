@@ -16,10 +16,13 @@ Breaking changes:
 
 Changes:
 
-    - Accepts nette/di 4.0 (``^3.0 || ^4.0``); nette/application already accepted 4.0. Nette 4 has not been released:
+    - Accepts nette/di 4.0 (``^3.1 || ^4.0``); nette/application already accepted 4.0. nette/di 3.0 could not be installed
+      with nette/utils 4 before either. Nette 4 has not been released:
       the development branches of nette/application and nette/di (4.0.x-dev) require PHP 8.4 and are installed only
       when a project requires them, see :ref:`installation.nette4`. By default Composer installs stable Nette 3, as before.
-    - The API, the configuration and the processing of payments and responses are unchanged.
+    - The API, the configuration and the processing of payments and responses are unchanged. ``GPWebPayExtension`` registers
+      the same services under the same names; with nette/di 4 it uses ``ContainerBuilder::add()``, with nette/di 3.2
+      ``addDefinition()``, and it sets their creators with ``setCreator()`` instead of ``setFactory()``, which nette/di 4 deprecates.
     - Documentation: requirements, Nette 4 development branches and their current limitations.
     - Development: CI tests stable Nette 3 on PHP 8.2 to 8.5, and nette/application with nette/di 4.0.x-dev on PHP 8.4
       and 8.5. Without nette/bootstrap, whose development branch still requires nette/di 3, the tests compile the

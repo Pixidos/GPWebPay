@@ -15,7 +15,7 @@ Use a PHP version that still receives security support.
 GPWebPay requires:
 	- the `ext-openssl <http://php.net/manual/en/openssl.setup.php>`_ extension
 	- `pixidos/gpwebpay-core <https://github.com/pixidos/gpwebpay-core>`_ ``^3.0``
-	- `nette/di <https://github.com/nette/di>`_ ``^3.0 || ^4.0``
+	- `nette/di <https://github.com/nette/di>`_ ``^3.1 || ^4.0``
 	- `nette/application <https://github.com/nette/application>`_ ``^3.1 || ^4.0``
 	- `nette/utils <https://github.com/nette/utils>`_ ``^4.0``
 	- `latte/latte <https://github.com/nette/latte>`_ ``^3.0``

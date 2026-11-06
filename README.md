@@ -33,7 +33,7 @@ require PHP 8.4 or newer and are installed only when your project requires them;
 [Nette 4 (development)](https://gpwebpay.readthedocs.io/en/latest/installation.html#nette-4-development).
 
 
-- [nette/di](https://github.com/nette/di) ^3.0 || ^4.0
+- [nette/di](https://github.com/nette/di) ^3.1 || ^4.0
 - [nette/application](https://github.com/nette/application) ^3.1 || ^4.0
 - [nette/utils](https://github.com/nette/utils) ^4.0
 - [latte/latte](https://github.com/nette/latte) ^3.0

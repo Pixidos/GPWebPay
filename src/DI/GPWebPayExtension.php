@@ -7,6 +7,7 @@ namespace Pixidos\GPWebPay\DI;
 use Nette;
 use Nette\Bootstrap\Configurator;
 use Nette\DI\Compiler;
+use Nette\DI\Definitions\ServiceDefinition;
 use Nette\DI\Definitions\Statement;
 use Nette\DI\InvalidConfigurationException;
 use Nette\Schema\Context;
@@ -54,55 +55,53 @@ class GPWebPayExtension extends Nette\DI\CompilerExtension
         $defaultGateway = $config[self::GATEWAY_KEY];
         unset($config[self::GATEWAY_KEY]);
 
-        $builder = $this->getContainerBuilder();
-
-        $builder->addDefinition($this->prefix('paymentConfigFactory'))
+        $this->addService('paymentConfigFactory')
             ->setType(PaymentConfigFactory::class);
 
-        $builder->addDefinition($this->prefix('configFactory'))
+        $this->addService('configFactory')
             ->setType(ConfigFactory::class);
-        $builder->addDefinition($this->prefix('config'))
+        $this->addService('config')
             ->setType(Config::class)
-            ->setFactory(
+            ->setCreator(
                 [$this->prefix('@configFactory'), 'create'],
                 [$config, $defaultGateway]
             );
 
-        $builder->addDefinition($this->prefix('paymentConfigProvider'))
+        $this->addService('paymentConfigProvider')
             ->setType(PaymentConfigProvider::class)
-            ->setFactory(
+            ->setCreator(
                 [$this->prefix('@config'), 'getPaymentConfigProvider']
             );
 
-        $builder->addDefinition($this->prefix('signerConfigProvider'))
+        $this->addService('signerConfigProvider')
             ->setType(SignerConfigProvider::class)
-            ->setFactory(
+            ->setCreator(
                 [$this->prefix('@config'), 'getSignerConfigProvider']
             );
 
 
-        $builder->addDefinition($this->prefix('signerProvider'))
+        $this->addService('signerProvider')
             ->setType(SignerProviderInterface::class)
-            ->setFactory(SignerProvider::class);
+            ->setCreator(SignerProvider::class);
 
-        $builder->addDefinition($this->prefix('signerFactory'))
+        $this->addService('signerFactory')
             ->setType(SignerFactoryInterface::class)
-            ->setFactory(SignerFactory::class);
+            ->setCreator(SignerFactory::class);
 
-        $builder->addDefinition($this->prefix('requestFactory'))
+        $this->addService('requestFactory')
             ->setType(RequestFactory::class);
 
-        $builder->addDefinition($this->prefix('responseFactory'))
+        $this->addService('responseFactory')
             ->setType(ResponseFactory::class);
 
-        $builder->addDefinition($this->prefix('responseProvider'))
+        $this->addService('responseProvider')
             ->setType(ResponseProviderInterface::class)
-            ->setFactory(
+            ->setCreator(
                 ResponseProvider::class
             );
 
-        $builder->addDefinition($this->prefix('controlFactory'))
-            ->setFactory(GPWebPayControlFactory::class, [$this->prefix('@requestFactory')]);
+        $this->addService('controlFactory')
+            ->setCreator(GPWebPayControlFactory::class, [$this->prefix('@requestFactory')]);
     }
 
     /**
@@ -110,12 +109,27 @@ class GPWebPayExtension extends Nette\DI\CompilerExtension
      */
     public static function register(Configurator $configurator): void
     {
-        /**
-         * @phpstan-ignore-next-line
-         */
         $configurator->onCompile[] = static function ($config, Compiler $compiler): void {
             $compiler->addExtension('gpwebpay', new GPWebPayExtension());
         };
+    }
+
+    /**
+     * Registers an empty service definition under the prefix of the extension; the caller sets its type and creator.
+     * nette/di 4 registers definitions with add(). nette/di 3.2, the only version for PHP 8.2, has only
+     * addDefinition(), which nette/di 4 deprecates.
+     */
+    private function addService(string $name): ServiceDefinition
+    {
+        $builder = $this->getContainerBuilder();
+        $definition = new ServiceDefinition();
+        if (method_exists($builder, 'add')) {
+            $builder->add($this->prefix($name), $definition);
+        } else {
+            $builder->addDefinition($this->prefix($name), $definition);
+        }
+
+        return $definition;
     }
 
     /**
