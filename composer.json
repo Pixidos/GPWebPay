@@ -2,7 +2,7 @@
   "name": "pixidos/gpwebpay",
   "license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
   "type": "library",
-  "description": "GP WepPay integration for Nette Framework",
+  "description": "GP webpay integration for Nette Framework",
   "keywords": ["nette", "gp", "gp webpay","webpay", "pay", "checkout", "payment"],
   "homepage": "https://github.com/pixidos",
 
@@ -22,20 +22,19 @@
     }
   },
   "require": {
-    "php": "^8.0",
+    "php": "^8.1",
     "ext-openssl": "*",
     "ext-json": "*",
     "nette/di": "^3.0",
     "nette/application": "^v3.1 || ^v4.0",
     "nette/utils": "^4.0",
     "latte/latte": "^v3.0",
-    "pixidos/gpwebpay-core": "~2.4"
+    "pixidos/gpwebpay-core": "^2.5.0"
   },
   "require-dev": {
     "nette/bootstrap": "^3.1",
     "nette/http": "^3.0",
     "nette/caching": "^3.0",
-    "nette/finder": "^3.0",
     "nette/tester": "^2.4",
     "pixidos/coding-standards": "^2.0.0",
     "phpstan/phpstan-nette": "^2.0.3",

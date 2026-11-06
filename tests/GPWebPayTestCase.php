@@ -18,12 +18,19 @@ use Nette\Application\Response;
 use Nette\Application\UI\Presenter;
 use Nette\ComponentModel\Component;
 use Nette\DI\Container;
+use Nette\Http\UrlScript;
 use Pixidos\GPWebPay\DI\GPWebPayExtension;
 use ReflectionProperty;
+use RuntimeException;
 use Tester\TestCase;
 
 abstract class GPWebPayTestCase extends TestCase
 {
+    /**
+     * Private key of tests/config/test.pem; it plays the role of GP webpay when signing test responses.
+     */
+    private const TEST_PRIVATE_KEY_PASSPHRASE = '1234567';
+
     protected ?Presenter $presenter = null;
 
     private ?Container $container = null;
@@ -43,11 +50,12 @@ abstract class GPWebPayTestCase extends TestCase
     }
 
     /**
-     * @param string $configNeon
+     * @param string               $configNeon
+     * @param array<string, mixed> $dynamicParameters
      *
      * @return Container
      */
-    protected function prepareContainer(string $configNeon): Container
+    protected function prepareContainer(string $configNeon, array $dynamicParameters = []): Container
     {
         $config = new Nette\Bootstrap\Configurator();
         $config->setTempDirectory(TEMP_DIR); //phpstan-ignore-line
@@ -55,8 +63,64 @@ abstract class GPWebPayTestCase extends TestCase
         $config->addConfig(sprintf(__DIR__ . '/config/nette-reset.neon'));
         GPWebPayExtension::register($config);
         $config->addConfig($configNeon);
+        $config->addDynamicParameters($dynamicParameters);
 
         return $this->container = $config->createContainer();
+    }
+
+    /**
+     * Writes the NEON configuration of the gpwebpay section to a temporary file and creates the container.
+     * Paths may use %appDir%, which is the tests directory.
+     *
+     * @param array<string, mixed> $dynamicParameters
+     */
+    protected function prepareContainerFromNeon(string $neon, array $dynamicParameters = []): Container
+    {
+        $file = TEMP_DIR . '/config-' . md5($neon) . '.neon'; //phpstan-ignore-line
+        if (false === file_put_contents($file, $neon)) {
+            throw new RuntimeException(sprintf('Cannot write "%s".', $file));
+        }
+
+        return $this->prepareContainer($file, $dynamicParameters);
+    }
+
+    /**
+     * Replaces the HTTP request of the container. Call it before usePresenter().
+     *
+     * @param array<string, string> $query
+     * @param array<string, mixed>  $post
+     * @param array<string, string> $headers
+     * @param array<string, string> $cookies
+     */
+    protected function useHttpRequest(
+        string $method,
+        array $query = [],
+        array $post = [],
+        array $headers = [],
+        array $cookies = []
+    ): void {
+        $query = [] === $query ? '' : '?' . http_build_query($query);
+        $request = new Nette\Http\Request(
+            new UrlScript('https://shop.example/payment/response' . $query, '/'),
+            post: $post,
+            cookies: $cookies,
+            headers: $headers,
+            method: $method
+        );
+
+        $container = $this->getContainer();
+        $container->removeService('http.request');
+        $container->addService('http.request', $request);
+    }
+
+    /**
+     * A navigation from a page of the same site, as when the customer clicks the payment button.
+     */
+    protected function useSameOriginHttpRequest(): void
+    {
+        // nette/application 3.2+ accepts signals only from the same origin:
+        // Sec-Fetch-Site in current browsers, the strict cookie of nette/http otherwise
+        $this->useHttpRequest('GET', [], [], ['Sec-Fetch-Site' => 'same-origin'], ['_nss' => '1']);
     }
 
     protected function usePresenter(string $name): void
@@ -66,11 +130,13 @@ abstract class GPWebPayTestCase extends TestCase
         $presenterFactory = $container->getByType(IPresenterFactory::class);
         $presenter = $presenterFactory->createPresenter($name);
         if ($presenter instanceof Presenter) {
-            $presenter->invalidLinkMode = $presenter::InvalidLinkException;
+            // nette/application 3.1 names the constant INVALID_LINK_EXCEPTION
+            $presenter->invalidLinkMode = defined(Presenter::class . '::InvalidLinkException')
+                ? constant(Presenter::class . '::InvalidLinkException')
+                : constant(Presenter::class . '::INVALID_LINK_EXCEPTION');
             $presenter->autoCanonicalize = false;
             // force the name to the presenter
             $refl = new ReflectionProperty(Component::class, 'name');
-            $refl->setAccessible(true);
             $refl->setValue($presenter, $name);
             $this->presenter = $presenter;
         }
@@ -104,5 +170,44 @@ abstract class GPWebPayTestCase extends TestCase
         );
 
         return $this->presenter->run($request);
+    }
+
+    /**
+     * Adds DIGEST and DIGEST1 the way GP webpay signs a response: the fields in the order given,
+     * and for DIGEST1 the same fields followed by the merchant number.
+     *
+     * @param array<string, string> $fields response fields in the signing order of the HTTP API
+     *
+     * @return array<string, string>
+     */
+    protected static function signResponse(array $fields, string $merchantNumber): array
+    {
+        $fields['DIGEST'] = self::sign(implode('|', $fields));
+        $fields['DIGEST1'] = self::sign(implode('|', array_diff_key($fields, ['DIGEST' => true])) . '|' . $merchantNumber);
+
+        return $fields;
+    }
+
+    protected static function verifySignature(string $data, string $digest): bool
+    {
+        $key = openssl_pkey_get_public((string)file_get_contents(__DIR__ . '/config/test-pub.pem'));
+        if (false === $key) {
+            throw new RuntimeException('Cannot read the test public key.');
+        }
+
+        return 1 === openssl_verify($data, (string)base64_decode($digest, true), $key, OPENSSL_ALGO_SHA1);
+    }
+
+    private static function sign(string $data): string
+    {
+        $key = openssl_pkey_get_private(
+            (string)file_get_contents(__DIR__ . '/config/test.pem'),
+            self::TEST_PRIVATE_KEY_PASSPHRASE
+        );
+        if (false === $key || !openssl_sign($data, $signature, $key, OPENSSL_ALGO_SHA1)) {
+            throw new RuntimeException('Cannot sign with the test private key.');
+        }
+
+        return base64_encode($signature);
     }
 }

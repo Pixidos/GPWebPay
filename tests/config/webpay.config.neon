@@ -2,5 +2,5 @@ gpwebpay:
 	privateKey: %appDir%/config/test.pem
 	privateKeyPassphrase: '1234567'
 	publicKey: %appDir%/config/test-pub.pem
-	url: https://test.3dsecure.gpwebpay.com/unicredit/order.do
+	url: https://test.3dsecure.gpwebpay.com/pgw/order.do
 	merchantNumber: '123456789'

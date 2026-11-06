@@ -3,12 +3,14 @@ name: Code Analyse
 on: [push, pull_request]
 jobs:
     code_quality:
-        name: GPWebPay-core (PHP ${{ matrix.php-versions }})
+        name: GPWebPay (PHP ${{ matrix.php-versions }})
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
             matrix:
-                php-versions: [ '8.1', '8.2', '8.3', '8.4' ]
+                # composer.json supports PHP ^8.1, but roave/security-advisories conflicts with every PHP 8.1 release
+                # (end of life), so dependencies resolve only on PHP releases with security fixes.
+                php-versions: [ '8.2', '8.3', '8.4', '8.5' ]
         steps:
             -   name: Checkout
                 uses: actions/checkout@v4
@@ -21,6 +23,9 @@ jobs:
                     tools: composer:v2
             -   name: Composer dependencies
                 uses: "ramsey/composer-install@v3"
+
+            -   name: Check dependencies for security advisories
+                run: composer audit
 
             -   name: Run Codestyle chceck
                 run: php vendor/bin/phpcs -p

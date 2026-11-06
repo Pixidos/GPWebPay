@@ -4,36 +4,69 @@
 Changelog
 =========
 
-Verison 3.4.0
+Version 3.5.0
 #############
 
-    - updated dependency to Pixidos/gpwebpay-core ^2.2
-    - remove support for PHP 7.x
-    - remove support for Nette <= 2.4
-    - add support for PHP ^8.1
+Fixes:
+
+    - ``GPWebPayControl`` can be rendered more than once, for example to show the payment button in two places on a page.
+      Previously, the second ``render()`` threw "The variable 'checkoutLink' already exists".
+    - The usage example reads a GP webpay response from the form fields of a ``POST`` and from the query of a ``GET``;
+      presenter parameters do not contain the form fields, so ``POST`` responses failed. It handles errors with
+      ``GPWebPayException``, stops on invalid responses, processes a payment attempt only once and uses a stored unique
+      payment attempt instead of ``time()`` as ORDERNUMBER.
+    - Requires pixidos/gpwebpay-core ^2.5.0: requests use the selected gateway's response URL,
+      responses containing ACRC, RRN, PAR, TRACEID or an MD suffix pass signature verification, and gateway keys are case-insensitive.
+
+Changes:
+
+    - Configuration is validated when the container is compiled. Missing or unknown attributes, an empty configuration,
+      a ``depositFlag`` other than 0 or 1, or a non-string value for a string attribute cause
+      ``Nette\DI\InvalidConfigurationException`` with the attribute's path. Previously, these errors were ignored or
+      failed when a service was first used. Quote numeric ``merchantNumber`` and ``privateKeyPassphrase`` values.
+    - PHP ^8.1, as required by pixidos/gpwebpay-core 2.4.
+    - Documentation: requirements, GP webpay HTTP API 1.19 gateway addresses, configuration validation and gateway keys.
+    - Development: tests run with nette/application 3.3, CI tests PHP 8.2 to 8.5 and runs ``composer audit``,
+      the unused abandoned nette/finder was removed.
+
+Version 3.4.1
+#############
+
+    - Requires pixidos/gpwebpay-core ~2.4.
+    - ``depositFlag`` is optional with one or multiple gateways; the default is 1.
+    - When ``defaultGateway`` is omitted, the default gateway is ``default``.
+    - Moved nette/bootstrap to require-dev.
+
+Version 3.4.0
+#############
+
+    - Updated the dependency on pixidos/gpwebpay-core to ^2.2.
+    - Removed support for PHP 7.x.
+    - Removed support for Nette <= 2.4.
+    - Added support for PHP ^8.1.
 
 Version 3.2.0
 #############
 
-BC Breaks
-----------
-	- remove onSuccess and onError from GPWebPayControl
-	- remove handleSuccess from GPWebPayControl because GPWebPay drop support parameters in url
-	- change config signature for multiple gateway see documentation
-	- Interfaces renamed from ``I<name>`` to ``<name>Interface``
+Breaking changes
+----------------
+	- Removed ``onSuccess`` and ``onError`` from ``GPWebPayControl``.
+	- Removed ``handleSuccess`` because GP webpay no longer supported parameters in the response URL.
+	- Changed the configuration signature for multiple gateways; see :ref:`configuration`.
+	- Renamed interfaces from ``I<name>`` to ``<name>Interface``.
 
 New Features
 ------------
 
-	- add ResponseProvider see [documentation]()
-	- updated dependency to Pixidos/gpwebpay-core ^2.2
+	- Added ``ResponseProvider``; see :ref:`usage.response`.
+	- Updated the dependency on pixidos/gpwebpay-core to ^2.2.
 
-Verison 3.1.0
+Version 3.1.0
 #############
 
-	- Move core code to framework agnostic library `Pixidos/GPWebPay-Core <https://github.com/Pixidos/gpwebpay-core>`_
-	- add Pixidos/coding-standarts
-	- static analyse by phpStan
-	- add Nette 3.x support
-	- add php 7.4 to testing metrix
+	- Moved core code to the framework-independent `GPWebPay Core library <https://github.com/Pixidos/gpwebpay-core>`_.
+	- Added pixidos/coding-standards.
+	- Added static analysis with PHPStan.
+	- Added Nette 3.x support.
+	- Added PHP 7.4 to the test matrix.
 
