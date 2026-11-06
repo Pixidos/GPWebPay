@@ -2,14 +2,14 @@
 ![](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)
 [![Code Analyse](https://github.com/Pixidos/GPWebPay/actions/workflows/code_analyse.yml/badge.svg)](https://github.com/Pixidos/GPWebPay/actions/workflows/code_analyse.yml)
 [![Unit Tests](https://github.com/Pixidos/GPWebPay/actions/workflows/unit_tests.yml/badge.svg)](https://github.com/Pixidos/GPWebPay/actions/workflows/unit_tests.yml)
-[![Donwloads](https://poser.pugx.org/pixidos/gpwebpay/downloads)](https://packagist.org/packages/pixidos/gpwebpay)
+[![Downloads](https://poser.pugx.org/pixidos/gpwebpay/downloads)](https://packagist.org/packages/pixidos/gpwebpay)
 [![Latest stable](https://img.shields.io/packagist/v/pixidos/gpwebpay.svg)](https://packagist.org/packages/pixidos/gpwebpay)
 [![Code coverage](https://codecov.io/gh/Pixidos/GPWebPay/branch/master/graph/badge.svg)](https://codecov.io/gh/Pixidos/gpwebpay)
 [![Documentation Status](https://readthedocs.org/projects/gpwebpay/badge/?version=latest)](https://gpwebpay.readthedocs.io/en/latest/?badge=latest)
 
-GPWebPay is a Nette Add-On for [GPWebPay HTTP API](http://www.gpwebpay.cz/ )
+GPWebPay integrates the [GP webpay HTTP API](https://www.gpwebpay.cz/) with Nette Framework.
 
-If you does not use Nette you can use [GPWebPay-core](https://github.com/Pixidos/gpwebpay-core) lib. 
+For applications without Nette, use [GPWebPay Core](https://github.com/Pixidos/gpwebpay-core).
 
 
 Requirements
@@ -17,7 +17,7 @@ Requirements
 
 | Version | PHP       | Nette support | Maintained | Note                              |
 |---------|-----------|---------------|------------|-----------------------------------|
-| master  | ^8.1      | ^3.1          | Yes        | use GPWebPay-core ^2.4.3          |
+| 3.5.x   | ^8.1      | ^3.1          | Yes        | requires GPWebPay Core ^2.5.0     |
 | 3.4.x   | ^8.0 [1]  | ^3.1          | Yes        | use GPWebPay-core ~2.2 [1]        |
 | 3.3.x   | ^7.2, 8.0 | ^2.4, ^3.0    | No         | use GPWebPay-core ^2.0, BC breaks |
 | 3.2.x   | ^7.1      | ^2.4, ^3.0    | No         | use GPWebPay-core ^2.0, BC breaks |
@@ -32,7 +32,7 @@ Requirements
 - [nette/application](https://github.com/nette/application) ^3.1
 - [nette/utils](https://github.com/nette/utils) ^4.0
 - [latte/latte](https://github.com/nette/latte) ^3.0
-- [pixidos/gpwebpay-core](https://github.com/pixidos/gpwebpay-core) ^2.4.3
+- [pixidos/gpwebpay-core](https://github.com/pixidos/gpwebpay-core) ^2.5.0
 
 The exact requirements of a release are in its `composer.json`.
 
@@ -40,7 +40,7 @@ The exact requirements of a release are in its `composer.json`.
 Installation
 ------------
 
-The best way to install Pixidos/GPWebPay is using  [Composer](http://getcomposer.org/):
+Install GPWebPay with [Composer](https://getcomposer.org/):
 
 ```sh
 $ composer require pixidos/gpwebpay

@@ -4,7 +4,7 @@
 Usage
 ==========
 
-The examples use your own storage of orders and payment attempts, shown as ``PaymentRepository``.
+The examples use an application-specific ``PaymentRepository`` to store orders and payment attempts.
 The full description of operations, parameters and responses is in the
 `GPWebPay Core documentation <https://gpwebpay-core.readthedocs.io/en/latest/>`_.
 
@@ -85,7 +85,7 @@ from its ``Operation`` and redirects the customer to GP webpay.
 	Each time a new payment attempt is saved; the request sent to GP webpay belongs to the attempt created by the
 	click. Attempts that never receive a response stay ``pending``.
 
-And in the template; the button can be rendered more than once on a page:
+Render the button in your template. You can render it more than once on the same page:
 
 .. code-block:: smarty
 
@@ -168,7 +168,7 @@ the services it needs.
 	}
 
 The error callbacks receive ``GPWebPayException``, the common parent of ``SignerException`` (the response is not
-authentic) and ``GPWebPayResultException`` (an authentic response of a payment that did not succeed). A callback
+authentic) and ``GPWebPayResultException`` (an authentic response for an unsuccessful payment). A callback
 declared with a narrower type fails with a ``TypeError``. ``ResponseProviderInterface`` is one shared service, so
 register the callbacks and call ``provide()`` once per request.
 
@@ -177,7 +177,10 @@ register the callbacks and call ``provide()`` once per request.
 Processing the payment attempt
 ------------------------------
 
-The library does not store payments. ``PaymentRepository`` in the example has to:
+The examples assume a standard payment with ``depositFlag=1``. With ``depositFlag=0``, a successful response
+confirms authorization; arrange capture through your provider before treating it as a captured payment.
+
+The library does not store payments. ``PaymentRepository`` in the example must:
 
 * find the payment attempt by ORDERNUMBER (``$response->getOrderNumber()``) and check that it belongs to the gateway
   ``$response->getGatewayKey()``; return ``null`` for unknown attempts and change nothing. DIGEST1 contains the

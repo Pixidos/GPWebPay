@@ -14,7 +14,7 @@ Use a PHP version that still receives security support.
 
 GPWebPay requires:
 	- the `ext-openssl <http://php.net/manual/en/openssl.setup.php>`_ extension
-	- `pixidos/gpwebpay-core <https://github.com/pixidos/gpwebpay-core>`_ ``^2.4.3``
+	- `pixidos/gpwebpay-core <https://github.com/pixidos/gpwebpay-core>`_ ``^2.5.0``
 	- `nette/di <https://github.com/nette/di>`_ ``^3.0``
 	- `nette/application <https://github.com/nette/application>`_ ``^3.1``
 	- `nette/utils <https://github.com/nette/utils>`_ ``^4.0``
@@ -28,8 +28,7 @@ nette/application 3.2 and 3.3 and Latte 3.1.
 Composer
 ########
 
-| Simple add a dependency on ``pixidos/gpwebpay`` to your project's ``composer.json`` file.
-| If you use `Composer <https://getcomposer.org/>`_ to manage the dependencies of your project:
+Install the library with `Composer <https://getcomposer.org/>`_:
 
 .. code-block:: bash
 

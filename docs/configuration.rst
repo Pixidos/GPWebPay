@@ -4,7 +4,7 @@
 Configuration
 =============
 
-You are need create configuration for gateway. Library supporting single or multiple gateways,
+Configure each gateway before using the library. You can use one gateway or several gateways,
 for example one per currency, each with its own merchant number and keys.
 
 .. warning::
@@ -32,7 +32,7 @@ Absolute path to your private key ``pem`` file, generated in the GP webpay porta
 The `privateKeyPassphrase` attribute
 ------------------------------------
 
-Passphrase of your private key.
+The passphrase for your private key.
 
 :Type: ``string``
 
@@ -67,9 +67,9 @@ Absolute URL of the gateway. GP webpay HTTP API 1.19 lists:
 The `depositFlag` attribute
 ---------------------------
 
-| Specifies if the order has to be paid for automatically. Is optional with ``1`` as default.
-| ``0`` = instant payment not required
-| ``1`` = payment required
+| Specifies whether the payment should be captured automatically. Optional; defaults to ``1``.
+| ``0`` = authorize without immediate capture
+| ``1`` = request capture
 
 :Type: ``int``, ``0`` or ``1``
 
@@ -104,8 +104,8 @@ a ``ResponseUrl``. If neither is set, creating the request fails.
 Validation
 ##########
 
-The configuration is checked when the DI container is compiled. A missing or unknown attribute, a ``depositFlag``
-other than ``0`` or ``1`` and a value that is not a string are reported as ``Nette\DI\InvalidConfigurationException``
+The configuration is checked when the DI container is compiled. Missing or unknown attributes, a ``depositFlag``
+other than ``0`` or ``1``, or a non-string value for a string attribute cause ``Nette\DI\InvalidConfigurationException``
 with the path of the attribute, for example ``gpwebpay › eur › merchantNumber``.
 
 NEON reads unquoted digits as a number, so **write the merchant number and a numeric passphrase in quotes**:
@@ -115,8 +115,8 @@ NEON reads unquoted digits as a number, so **write the merchant number and a num
 	merchantNumber: '123456789'     # a string, correct
 	merchantNumber: 123456789       # a number, rejected
 
-Numbers are not converted to strings, because NEON could already have changed them: ``0123`` or ``1e5`` are not
-read as the digits you wrote. Values computed when the container runs, such as dynamic parameters or
+Numbers are not converted to strings because NEON may already have interpreted their notation, for example
+``1e5``, as a different sequence of digits. Values computed when the container runs, such as dynamic parameters or
 ``::getenv('NAME')``, are not checked when the container is compiled.
 
 .. _configuration.gateways:
